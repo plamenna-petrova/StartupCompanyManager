@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace StartupCompanyManager.Models
 {
-    public class Department : BaseEntity
+    public class Department : BaseModel
     {
-        public string Name { get; set; } = null!;
+        public string Name { get; set; }
 
         public int YearOfEstablishment { get; set; }
 
-        public HeadOfDepartment HeadOfDepartment { get; set; } = null!;
+        public HeadOfDepartment HeadOfDepartment { get; set; }
 
         public ICollection<Team> Teams { get; set; } = new HashSet<Team>();    
     }

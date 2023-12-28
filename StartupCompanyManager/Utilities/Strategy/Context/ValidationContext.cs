@@ -9,9 +9,14 @@ namespace StartupCompanyManager.Utilities.Strategy.Context
 {
     public class ValidationContext
     {
-        private IValidationStrategy validationStrategy;    
+        private IValidationStrategy validationStrategy;
 
-        public ValidationContext(IValidationStrategy validationStrategy)
+        public ValidationContext()
+        {
+            
+        }
+
+        public ValidationContext(IValidationStrategy validationStrategy) : this()
         {
             this.validationStrategy = validationStrategy;
         }

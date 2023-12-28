@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace StartupCompanyManager.Models.Interfaces
 {
-    public interface IBaseEntity<TKey>
+    public interface IBaseModel<TKey>
     {
         TKey Id { get; set; }
     }

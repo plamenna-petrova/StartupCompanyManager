@@ -12,6 +12,7 @@ namespace StartupCompanyManager.Models.Composite.Leafs
         public Officer(string firstName, string lastName, string position, int yearsOfWorkExperience, decimal salary)
             : base(firstName, lastName, position, yearsOfWorkExperience, salary)
         {
+
         }
 
         public override void Add(Employee employee)

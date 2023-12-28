@@ -7,17 +7,13 @@ using System.Threading.Tasks;
 
 namespace StartupCompanyManager.Models.Abstraction
 {
-    public class BaseEntity : IBaseEntity<string>, IAuditInfo
+    public class BaseModel : IBaseModel<string>
     {
-        public BaseEntity()
+        public BaseModel()
         {
             Id = Guid.NewGuid().ToString().Substring(0, 7);
         }
 
         public string Id { get; set; }
-
-        public DateTime CreatedOn { get; set; }
-
-        public DateTime? ModifiedOn { get; set; }
     }
 }

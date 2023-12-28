@@ -12,21 +12,22 @@ namespace StartupCompanyManager.Models.Composite.Leafs
         public Specialist(string firstName, string lastName, string position, int yearsOfWorkExperience, decimal salary)
             : base(firstName, lastName, position, yearsOfWorkExperience, salary)
         {
+
         }
 
         public override void Add(Employee employee)
         {
-            throw new NotImplementedException();
-        }
-
-        public override void GetHierarchicalLevel(int depthIndicator)
-        {
-            throw new NotImplementedException();
+            Console.WriteLine($"Cannot add to a {GetType().Name}");
         }
 
         public override void Remove(Employee employee)
         {
-            throw new NotImplementedException();
+            Console.WriteLine($"Cannot remove from a {GetType().Name}");
+        }
+
+        public override void GetHierarchicalLevel(int depthIndicator)
+        {
+            Console.WriteLine($"{new string('-', depthIndicator)} {FullName} [{Position}] [${Salary}]");
         }
     }
 }

@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace StartupCompanyManager.Models.Interfaces
 {
-    public interface IAuditInfo
+    public interface IStartupCompany
     {
-        public DateTime CreatedOn { get; set; }
 
-        public DateTime? ModifiedOn { get; set; }
     }
 }

@@ -7,11 +7,11 @@ using StartupCompanyManager.Utilities.Strategy.Interfaces;
 
 namespace StartupCompanyManager.Utilities.Strategy.ConcreteStrategies
 {
-    public class NumberRangeValidationStrategy : IValidationStrategy
+    public class MinimumStringLengthValidationStrategy : IValidationStrategy
     {
         public bool ValidateInput(object input, params object[] validationArguments)
         {
-            return (decimal)input >= (decimal)validationArguments[0] && (decimal)input <= (decimal)validationArguments[1];
+            return ((string)input).Length <= (int)validationArguments[0];
         }
     }
 }

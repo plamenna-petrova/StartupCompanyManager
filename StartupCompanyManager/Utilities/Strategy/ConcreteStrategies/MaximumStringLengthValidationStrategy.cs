@@ -7,7 +7,7 @@ using StartupCompanyManager.Utilities.Strategy.Interfaces;
 
 namespace StartupCompanyManager.Utilities.Strategy.ConcreteStrategies
 {
-    public class MaxStringLengthValidationStrategy : IValidationStrategy
+    public class MaximumStringLengthValidationStrategy : IValidationStrategy
     {
         public bool ValidateInput(object input, params object[] validationArguments)
         {

@@ -12,6 +12,7 @@ namespace StartupCompanyManager.Models.Composite.Composites
         public HeadOfDepartment(string firstName, string lastName, string position, int yearsOfWorkExperience, decimal salary) 
             : base(firstName, lastName, position, yearsOfWorkExperience, salary)
         {
+
         }
 
         public ICollection<Employee> Employees = new HashSet<Employee>();

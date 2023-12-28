@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace StartupCompanyManager.Models
 {
-    public class Project : BaseEntity
+    public class Project : BaseModel
     {
-        public string Name { get; set; } = null!;
+        public string Name { get; set; } 
 
         public DateTime AssignmentDate { get; set; }
 
         public DateTime Deadline { get; set; }
 
-        public Team Team { get; set; } = null!;
+        public Team Team { get; set; }
     }
 }

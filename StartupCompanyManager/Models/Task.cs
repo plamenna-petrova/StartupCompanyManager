@@ -5,9 +5,9 @@ using TaskStatus = StartupCompanyManager.Models.Enums.TaskStatus;
 
 namespace StartupCompanyManager.Models
 {
-    public class Task : BaseEntity
+    public class Task : BaseModel
     {
-        public string Name { get; set; } = null!;
+        public string Name { get; set; }
 
         public TaskPriority Priority { get; set; }
 
@@ -15,6 +15,6 @@ namespace StartupCompanyManager.Models
 
         public DateTime DueDate { get; set; }
 
-        public Employee Assignee { get; set; } = null!;
+        public Employee Assignee { get; set; }
     }
 }

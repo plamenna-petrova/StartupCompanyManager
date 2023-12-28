@@ -7,7 +7,7 @@ using StartupCompanyManager.Models.Abstraction;
 
 namespace StartupCompanyManager.Models.Composite.Component
 {
-    public abstract class Employee : BaseEntity
+    public abstract class Employee : BaseModel
     {
         public Employee(string firstName, string lastName, string position, int yearsOfWorkExperience, decimal salary)
         {
