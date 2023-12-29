@@ -1,4 +1,6 @@
-﻿using StartupCompanyManager.Models.Interfaces;
+﻿using StartupCompanyManager.Core.Facade;
+using StartupCompanyManager.Models.Interfaces;
+using StartupCompanyManager.Models.Singleton;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +11,18 @@ namespace StartupCompanyManager.Core.Command.Abstraction
 {
     public abstract class StartupCompanyManagerCommand
     {
-        public virtual string ArgumentsPattern { get; set; } = null;
+        public StartupCompanyManagerCommand(StartupCompany startupCompany, StartupCompanyManagerFacade startupCompanyManagerFacade)
+        {
+            StartupCompany = startupCompany;
+            StartupCompanyManagerFacade = startupCompanyManagerFacade;
+        }
 
-        public abstract string Execute(IStartupCompany startupCompany, params string[] commandExecutionOperationArguments);
+        public StartupCompany StartupCompany { get; set; }
 
-        public abstract string Undo(IStartupCompany startupCompany, params string[] commandUndoOperationArguments);
+        public StartupCompanyManagerFacade StartupCompanyManagerFacade { get; set; }
+
+        public virtual string ArgumentsPattern { get; set; } = null!;
+
+        public abstract string Execute(params string[] commandExecutionOperationArguments);
     }
 }

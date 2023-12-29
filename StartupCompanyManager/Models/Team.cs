@@ -10,12 +10,12 @@ namespace StartupCompanyManager.Models
 {
     public class Team : BaseModel
     {
-        public string Name { get; set; }
+        public string Name { get; set; } = null!;
 
-        public Project Project { get; set; }
+        public Project Project { get; set; } = null!;
 
-        public Department Department { get; set; }
+        public Department Department { get; set; } = null!;
 
-        public TeamLead TeamLead { get; set; }
+        public TeamLead TeamLead { get; set; } = null!;
     }
 }

@@ -18,27 +18,27 @@ namespace StartupCompanyManager.Models.Composite.Component
             Salary = salary;
         }
 
-        public string FirstName { get; set; }
+        public string FirstName { get; set; } = null!;
 
-        public string LastName { get; set; }
+        public string LastName { get; set; } = null!;
 
         public string FullName { get => $"{FirstName} {LastName}"; }
 
-        public string Position { get; set; }
+        public string Position { get; set; } = null!;
 
-        public decimal Salary { get; set; }
+        public decimal Salary { get; set; } = default;
 
-        public int YearsOfWorkExperience { get; set; }
+        public int YearsOfWorkExperience { get; set; } = default;
 
-        public string Address { get; set; }
+        public string Address { get; set; } = null!;
 
-        public string PhoneNumber { get; set; }
+        public string PhoneNumber { get; set; } = null!;
 
-        public DateTime BirthDate { get; set; }
+        public DateTime BirthDate { get; set; } = default;
 
-        public int Rating { get; set; }
+        public int Rating { get; set; } = default;
 
-        public Team Team { get; set; }
+        public Team Team { get; set; } = null!;
 
         public ICollection<Task> Tasks { get; set; } = new HashSet<Task>();
 

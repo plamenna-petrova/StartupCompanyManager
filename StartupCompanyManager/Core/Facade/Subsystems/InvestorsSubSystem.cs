@@ -1,5 +1,7 @@
 ﻿using StartupCompanyManager.Constants;
 using StartupCompanyManager.Infrastructure.Exceptions;
+using StartupCompanyManager.Infrastructure.Repositories.Contracts;
+using StartupCompanyManager.Infrastructure.Repositories.Implementation;
 using StartupCompanyManager.Models;
 using StartupCompanyManager.Models.Interfaces;
 using System;
@@ -12,16 +14,16 @@ namespace StartupCompanyManager.Core.Facade.SubSystems
 {
     public class InvestorsSubSystem
     {
-        private IStartupCompany startupCompany;
+        private readonly IInvestorRepository _investorRepository;
 
-        public InvestorsSubSystem(IStartupCompany startupCompany)
+        public InvestorsSubSystem(IInvestorRepository investorRepository)
         {
-            this.startupCompany = startupCompany;
+            _investorRepository = investorRepository;
         }
 
         public Investor AddInvestorToStartupCompany(string name, decimal funds)
         {
-            Investor foundInvestor = FindInvestor(name);
+            Investor foundInvestor = _investorRepository.GetAllByCondition(d => d.Name == name).FirstOrDefault()!;
 
             bool doesInvestorExist = foundInvestor != null;
 
@@ -36,16 +38,14 @@ namespace StartupCompanyManager.Core.Facade.SubSystems
 
             Investor investorToAdd = new Investor(name, funds);
 
-            startupCompany.Investors.Add(investorToAdd);
-
-            startupCompany.Capital += investorToAdd.Funds;
+            _investorRepository.Add(investorToAdd);
 
             return investorToAdd;
         }
 
         public void RemoveInvestor(string name)
         {
-            Investor investorToRemove = FindInvestor(name);
+            Investor investorToRemove = _investorRepository.GetAllByCondition(d => d.Name == name).FirstOrDefault()!;
 
             if (investorToRemove == null)
             {
@@ -56,9 +56,7 @@ namespace StartupCompanyManager.Core.Facade.SubSystems
                 throw new NonExistingStartupCompanyManagerEntityException(nonExistingInvestorExceptionMessage);
             }
 
-            startupCompany.Investors.Remove(investorToRemove);
+            _investorRepository.Remove(investorToRemove);
         }
-
-        private Investor FindInvestor(string name) => startupCompany.Investors.FirstOrDefault(i => i.Name == name);
     }
 }

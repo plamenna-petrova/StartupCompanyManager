@@ -1,5 +1,7 @@
 ﻿using StartupCompanyManager.Core.Command.Abstraction;
+using StartupCompanyManager.Core.Facade;
 using StartupCompanyManager.Models.Interfaces;
+using StartupCompanyManager.Models.Singleton;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +14,15 @@ namespace StartupCompanyManager.Core.Command.ConcreteCommands
 {
     public class OperationsInfoConcreteCommand : StartupCompanyManagerCommand
     {
-        public override string Execute(IStartupCompany startupCompany, params string[] commandExecutionOperationArguments)
+        private readonly IServiceProvider _serviceProvider;
+
+        public OperationsInfoConcreteCommand(StartupCompany startupCompany, StartupCompanyManagerFacade startupCompanyManagerFacade, IServiceProvider serviceProvider) 
+            : base(startupCompany, startupCompanyManagerFacade)
+        {
+            _serviceProvider = serviceProvider;    
+        }
+
+        public override string Execute(params string[] commandExecutionOperationArguments)
         {
             Assembly executingAssembly = Assembly.GetExecutingAssembly();
 
@@ -24,23 +34,27 @@ namespace StartupCompanyManager.Core.Command.ConcreteCommands
 
             foreach (Type startupCompanyManagerCommandType in startupCompanyManagerCommandTypes) 
             {
-                object startupCompanyManagerCommandInstance = Activator.CreateInstance(startupCompanyManagerCommandType);
+                ConstructorInfo? foundCommandTypeConstructor = startupCompanyManagerCommandType.GetConstructors().FirstOrDefault()!;
+
+                Type[]? foundCommandTypeConstructorParameterTypes = foundCommandTypeConstructor
+                    .GetParameters()
+                    .Select(p => p.ParameterType)
+                    .ToArray();
+
+                var injectedServices = foundCommandTypeConstructorParameterTypes.Select(cpt => _serviceProvider.GetService(cpt)).ToArray();
+
+                object startupCompanyManagerCommandInstance = Activator.CreateInstance(startupCompanyManagerCommandType, injectedServices)!;
 
                 operationsInfoStringBuilder.AppendLine(
                     $"{string.Concat(Enumerable.Repeat("=> ", 3))} " +
                     $"{GenerateCommandName(startupCompanyManagerCommandType.Name)} " +
-                    $"{startupCompanyManagerCommandType.GetProperty("ArgumentsPattern").GetValue(startupCompanyManagerCommandInstance, null)}"
+                    $"{startupCompanyManagerCommandType.GetProperty("ArgumentsPattern")!.GetValue(startupCompanyManagerCommandInstance, null)}"
                 );
             }
 
             operationsInfoStringBuilder.AppendLine($"{string.Concat(Enumerable.Repeat("=> ", 3))} END");
 
             return operationsInfoStringBuilder.ToString().Trim();
-        }
-
-        public override string Undo(IStartupCompany startupCompany, params string[] commandUndoOperationArguments)
-        {
-            throw new NotImplementedException();
         }
 
         private string GenerateCommandName(string commandTypeName)

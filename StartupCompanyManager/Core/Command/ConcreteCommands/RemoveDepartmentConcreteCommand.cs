@@ -1,7 +1,9 @@
 ﻿using StartupCompanyManager.Constants;
 using StartupCompanyManager.Core.Command.Abstraction;
 using StartupCompanyManager.Core.Command.Enums;
+using StartupCompanyManager.Core.Facade;
 using StartupCompanyManager.Models.Interfaces;
+using StartupCompanyManager.Models.Singleton;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,26 +14,27 @@ namespace StartupCompanyManager.Core.Command.ConcreteCommands
 {
     public class RemoveDepartmentConcreteCommand : StartupCompanyManagerCommand
     {
+        public RemoveDepartmentConcreteCommand(StartupCompany startupCompany, StartupCompanyManagerFacade startupCompanyManagerFacade) 
+            : base(startupCompany, startupCompanyManagerFacade) 
+        {
+            
+        }
+
         public override string ArgumentsPattern { get; set; } = "[Name]";
 
-        public override string Execute(IStartupCompany startupCompany, params string[] commandExecutionOperationArguments)
+        public override string Execute(params string[] commandExecutionOperationArguments)
         {
-            startupCompany.StartupCompanyManagerFacade.ExecuteDepartmentRelatedOperation(
+            StartupCompanyManagerFacade.ExecuteDepartmentRelatedOperation(
                StartupCompanyManagerCommandAction.Remove, commandExecutionOperationArguments
-           );
+            );
 
             string removeDepartmentConcreteCommandSuccessMessage = string.Format(
                 CommandsMessagesConstants.REMOVED_DEPARTMENT_FROM_STARTUP_COMPANY_SUCCESS_MESSAGE,
                 commandExecutionOperationArguments[0],
-                startupCompany.Name
+                null
             );
 
             return removeDepartmentConcreteCommandSuccessMessage;
-        }
-
-        public override string Undo(IStartupCompany startupCompany, params string[] commandUndoOperationArguments)
-        {
-            throw new NotImplementedException();
         }
     }
 }

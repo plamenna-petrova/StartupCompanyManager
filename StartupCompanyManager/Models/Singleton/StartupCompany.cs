@@ -1,4 +1,5 @@
 ﻿using StartupCompanyManager.Constants;
+using StartupCompanyManager.Core.Command.Enums;
 using StartupCompanyManager.Core.Facade;
 using StartupCompanyManager.Infrastructure.Exceptions;
 using StartupCompanyManager.Models.Abstraction;
@@ -8,12 +9,13 @@ using StartupCompanyManager.Utilities.Strategy.Context;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace StartupCompanyManager.Models.Singleton
 {
-    public class StartupCompany : BaseModel, IStartupCompany
+    public class StartupCompany : BaseModel
     {
         private const string STARTUP_COMPANY_PRESENTATION_MESSAGE = "Hereby the startup company \"{0}\" is presented...";
 
@@ -33,19 +35,15 @@ namespace StartupCompanyManager.Models.Singleton
 
         private const string STARTUP_COMPANY_EMAIL_ADDRESS_REGEX_PATTERN = @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$";
 
-        private const string STARTUP_COMPANY_WEBSITE_REGEX_PATTERN = @"^(http|https)\://|[a-zA-Z0-9\-\.]+\.[a-zA-Z](:[a-zA-Z0-9]*)?/?([a-zA-Z0-9\-\._\?\,\'/\\\+&amp;%\$#\=~])*[^\.\,\)\(\s]$";
+        private string name = null!;
 
-        private string name;
+        private decimal capital = default;
 
-        private decimal capital;
+        private string email = null!;
 
-        private string address;
+        private string address = null!;
 
-        private string phoneNumber;
-
-        private string email;
-
-        private string website;
+        private string phoneNumber = null!;
 
         private readonly ValidationContext validationContext = new();
 
@@ -56,23 +54,6 @@ namespace StartupCompanyManager.Models.Singleton
         private readonly NumberRangeConcreteValidationStrategy numberRangeValidationStrategy = new();
 
         private readonly RegexPatternConcreteValidationStrategy regexPatternValidationStrategy = new();
-
-        private readonly StartupCompanyManagerFacade startupCompanyManagerFacade;
-
-        private static StartupCompany? startupCompanyInstance;
-
-        private static readonly object lockObject = new();
-
-        public StartupCompany(string name, decimal capital, string address, string phoneNumber, string email, string website)
-        {
-            Name = name;
-            Capital = capital;
-            Address = address;
-            PhoneNumber = phoneNumber;  
-            Email = email;
-            Website = website;
-            startupCompanyManagerFacade = new StartupCompanyManagerFacade(this);
-        }
 
         public string Name
         {
@@ -105,7 +86,7 @@ namespace StartupCompanyManager.Models.Singleton
 
                 name = value;
 
-                validationContext.SetValidationStrategy(null);
+                validationContext.SetValidationStrategy(null!);
             }
         }
 
@@ -125,7 +106,25 @@ namespace StartupCompanyManager.Models.Singleton
 
                 capital = value;
 
-                validationContext.SetValidationStrategy(null);
+                validationContext.SetValidationStrategy(null!);
+            }
+        }
+
+        public string Email
+        {
+            get => email;
+            set
+            {
+                validationContext.SetValidationStrategy(regexPatternValidationStrategy);
+
+                if (!validationContext.ValidateInput(value, STARTUP_COMPANY_EMAIL_ADDRESS_REGEX_PATTERN))
+                {
+                    throw new ArgumentException(ValidationConstants.STARTUP_COMPANY_EMAIL_REGEX_PATTERN_ERROR_MESSAGE);
+                }
+
+                email = value;
+
+                validationContext.SetValidationStrategy(null!);
             }
         }
 
@@ -160,7 +159,7 @@ namespace StartupCompanyManager.Models.Singleton
 
                 address = value;
 
-                validationContext.SetValidationStrategy(null);
+                validationContext.SetValidationStrategy(null!);
             }
         }
 
@@ -178,42 +177,7 @@ namespace StartupCompanyManager.Models.Singleton
 
                 phoneNumber = value;
 
-                validationContext.SetValidationStrategy(null);
-            }
-        }
-
-        public string Email
-        {
-            get => email;
-            set
-            {
-                validationContext.SetValidationStrategy(regexPatternValidationStrategy);
-
-                if (!validationContext.ValidateInput(value, STARTUP_COMPANY_EMAIL_ADDRESS_REGEX_PATTERN))
-                {
-                    throw new ArgumentException(ValidationConstants.STARTUP_COMPANY_EMAIL_REGEX_PATTERN_ERROR_MESSAGE);
-                }
-
-                email = value;
-
-                validationContext.SetValidationStrategy(null);
-            }
-        }
-
-        public string Website {
-            get => website;
-            set
-            {
-                validationContext.SetValidationStrategy(regexPatternValidationStrategy);
-
-                if (!validationContext.ValidateInput(value, STARTUP_COMPANY_WEBSITE_REGEX_PATTERN))
-                {
-                    throw new ArgumentException(ValidationConstants.STARTUP_COMPANY_WEBSITE_REGEX_PATTERN_ERROR_MESSAGE);
-                }
-
-                website = value;
-
-                validationContext.SetValidationStrategy(null);
+                validationContext.SetValidationStrategy(null!);
             }
         }
 
@@ -221,58 +185,13 @@ namespace StartupCompanyManager.Models.Singleton
 
         public ICollection<Investor> Investors { get; set; } = new HashSet<Investor>();
 
-        public StartupCompanyManagerFacade StartupCompanyManagerFacade { get => startupCompanyManagerFacade; }
-
-        public static StartupCompany StartupCompanyInstance
+        public void SetCompanyDetails(string name, decimal capital, string email, string address, string phoneNumber)
         {
-            get
-            {
-                CheckIfInstanceIsCreated();
-                return startupCompanyInstance;
-            }
-        }
-
-        public static StartupCompany CreateInstance(
-            string name, decimal capital, string address, string phoneNumber, string email, string website
-        )
-        {
-            if (startupCompanyInstance == null) 
-            {
-                lock (lockObject) 
-                {
-                    if (startupCompanyInstance == null)
-                    {
-                        startupCompanyInstance = new StartupCompany(name, capital, address, phoneNumber, email, website);
-                        return startupCompanyInstance;
-                    }
-                }
-            }
-
-            throw new ExistingStartupCompanyManagerEntityException(
-                string.Format(
-                    ExceptionMessagesConstants.EXISTING_STARTUP_COMPANY_EXCEPTION_MESSAGE, 
-                    startupCompanyInstance.Name
-                )
-            );
-        } 
-
-        public static StartupCompany ChangeName(string newStartupCompanyName)
-        {
-            CheckIfInstanceIsCreated();
-
-            startupCompanyInstance.Name = newStartupCompanyName;
-
-            return startupCompanyInstance;
-        }
-        
-        private static void CheckIfInstanceIsCreated()
-        {
-            if (startupCompanyInstance is null)
-            {
-                throw new NonExistingStartupCompanyManagerEntityException(
-                    ExceptionMessagesConstants.NON_EXISTING_STARTUP_COMPANY_EXCEPTION_MESSAGE
-                );
-            }
+            Name = name;
+            Capital = capital;
+            Email = email;
+            Address = address; 
+            PhoneNumber = phoneNumber;
         }
     }
 }

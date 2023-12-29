@@ -11,17 +11,14 @@ namespace StartupCompanyManager.Core.Facade
 {
     public class StartupCompanyManagerFacade
     {
-        private readonly IStartupCompany startupCompany;
+        private DepartmentsSubSystem _departmentsSubSystem;
 
-        private DepartmentsSubSystem departmentsSubSystem;
+        private InvestorsSubSystem _investorsSubSystem;
 
-        private InvestorsSubSystem investorsSubSystem;
-
-        public StartupCompanyManagerFacade(IStartupCompany startupCompany)
+        public StartupCompanyManagerFacade(DepartmentsSubSystem departmentSubSystem, InvestorsSubSystem investorsSubSystem)
         {
-            this.startupCompany = startupCompany;
-            departmentsSubSystem = new DepartmentsSubSystem(startupCompany);
-            investorsSubSystem = new InvestorsSubSystem(startupCompany);
+            _departmentsSubSystem = departmentSubSystem;
+            _investorsSubSystem = investorsSubSystem;
         }
 
         public void ExecuteDepartmentRelatedOperation(
@@ -32,14 +29,15 @@ namespace StartupCompanyManager.Core.Facade
             switch (startupCompanyManagerCommandAction)
             {
                 case StartupCompanyManagerCommandAction.Add:
-                    departmentsSubSystem.AddDepartmentToStartupCompany(
-                        (string)departmentSubsystemOperationArguments[0], int.Parse((string)departmentSubsystemOperationArguments[1])
+                    _departmentsSubSystem.AddDepartmentToStartupCompany(
+                        (string)departmentSubsystemOperationArguments[0], 
+                        int.Parse((string)departmentSubsystemOperationArguments[1])
                     );
                     break;
                 case StartupCompanyManagerCommandAction.Change:
                     break;
                 case StartupCompanyManagerCommandAction.Remove:
-                    departmentsSubSystem.RemoveDepartment((string)departmentSubsystemOperationArguments[0]);
+                    _departmentsSubSystem.RemoveDepartment((string)departmentSubsystemOperationArguments[0]);
                     break;
             }
         }
@@ -52,14 +50,15 @@ namespace StartupCompanyManager.Core.Facade
             switch (startupCompanyManagerCommandAction)
             {
                 case StartupCompanyManagerCommandAction.Add:
-                    investorsSubSystem.AddInvestorToStartupCompany(
-                        (string)investorSubsystemOperationArguments[0], decimal.Parse((string)investorSubsystemOperationArguments[1])
+                    _investorsSubSystem.AddInvestorToStartupCompany(
+                        (string)investorSubsystemOperationArguments[0], 
+                        decimal.Parse((string)investorSubsystemOperationArguments[1])
                     );
                     break;
                 case StartupCompanyManagerCommandAction.Change:
                     break;
                 case StartupCompanyManagerCommandAction.Remove:
-                    investorsSubSystem.RemoveInvestor((string)investorSubsystemOperationArguments[0]);
+                    _investorsSubSystem.RemoveInvestor((string)investorSubsystemOperationArguments[0]);
                     break;
             }
         }

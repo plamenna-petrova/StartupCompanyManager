@@ -7,7 +7,7 @@ namespace StartupCompanyManager.Models
 {
     public class Task : BaseModel
     {
-        public string Name { get; set; }
+        public string Name { get; set; } = null!;
 
         public TaskPriority Priority { get; set; }
 
@@ -15,6 +15,6 @@ namespace StartupCompanyManager.Models
 
         public DateTime DueDate { get; set; }
 
-        public Employee Assignee { get; set; }
+        public Employee Assignee { get; set; } = null!;
     }
 }

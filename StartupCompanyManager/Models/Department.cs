@@ -16,11 +16,11 @@ namespace StartupCompanyManager.Models
             YearOfEstablishment = yearOfEstablishment;
         }
 
-        public string Name { get; set; }
+        public string Name { get; set; } = null!;
 
         public int YearOfEstablishment { get; set; }
 
-        public HeadOfDepartment HeadOfDepartment { get; set; }
+        public HeadOfDepartment HeadOfDepartment { get; set; } = null!;
 
         public ICollection<Team> Teams { get; set; } = new HashSet<Team>();    
     }

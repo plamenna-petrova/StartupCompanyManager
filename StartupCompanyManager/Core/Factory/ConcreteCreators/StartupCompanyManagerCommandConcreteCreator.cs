@@ -1,5 +1,6 @@
 ﻿using StartupCompanyManager.Constants;
 using StartupCompanyManager.Core.Command.Abstraction;
+using StartupCompanyManager.Core.Facade;
 using StartupCompanyManager.Core.Factory.Creator;
 using System;
 using System.Collections.Generic;
@@ -12,24 +13,38 @@ namespace StartupCompanyManager.Core.Factory.ConcreteCreators
 {
     public class StartupCompanyManagerCommandConcreteCreator : StartupCompanyManagerCreator<StartupCompanyManagerCommand>
     {
+        private readonly IServiceProvider _serviceProvider;
+
+        public StartupCompanyManagerCommandConcreteCreator(IServiceProvider serviceProvider)
+        {
+            _serviceProvider = serviceProvider;
+        }
+
         public override StartupCompanyManagerCommand Create(params string[] entityCreationArguments)
         {
-            string loweredCommandName = entityCreationArguments[0].ToLower() + GlobalConstants.CONCRETE_COMMAND_SUFIX.ToLower();
+            string commandNameToLower = entityCreationArguments[0].ToLower() + GlobalConstants.CONCRETE_COMMAND_SUFIX.ToLower();
 
             Assembly executingAssembly = Assembly.GetExecutingAssembly();
 
-            Type foundCommandType = executingAssembly.GetTypes()
+            Type? foundCommandType = executingAssembly.GetTypes()
                 .Where(t => typeof(StartupCompanyManagerCommand).IsAssignableFrom(t) && !t.IsAbstract)
-                .FirstOrDefault(t => t.Name.ToLower() == loweredCommandName);
+                .FirstOrDefault(t => t.Name.ToLower() == commandNameToLower)  
+                    ?? throw new ArgumentException(
+                          ExceptionMessagesConstants.INVALID_STARTUP_COMPANY_MANAGER_OPERATION_EXCEPTION_MESSAGE
+                       );
 
-            if (foundCommandType == null)
-            {
-                throw new ArgumentException(
-                    ExceptionMessagesConstants.INVALID_STARTUP_COMPANY_MANAGER_OPERATION_EXCEPTION_MESSAGE
-                );
-            }
+            ConstructorInfo? foundCommandTypeConstructor = foundCommandType.GetConstructors().FirstOrDefault()!;
 
-            StartupCompanyManagerCommand startupCompanyManagerCommand = (StartupCompanyManagerCommand)Activator.CreateInstance(foundCommandType);
+            Type[]? foundCommandTypeConstructorParameterTypes = foundCommandTypeConstructor
+                .GetParameters()
+                .Select(p => p.ParameterType)
+                .ToArray();
+
+            var injectedServices = foundCommandTypeConstructorParameterTypes.Select(cpt => _serviceProvider.GetService(cpt)).ToArray();
+
+            StartupCompanyManagerCommand startupCompanyManagerCommand = (StartupCompanyManagerCommand) Activator.CreateInstance(
+                foundCommandType, injectedServices
+            )!;
 
             return startupCompanyManagerCommand;
         }

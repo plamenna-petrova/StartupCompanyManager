@@ -13,8 +13,8 @@ namespace StartupCompanyManager.Utilities.Interpreter.Context
             Input = input;
         }
 
-        public string Input { get; set; }
+        public string Input { get; set; } = null!;
 
-        public string Output { get; set; }
+        public string Output { get; set; } = null!;
     }
 }

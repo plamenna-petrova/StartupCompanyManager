@@ -9,7 +9,7 @@ namespace StartupCompanyManager.Utilities.Strategy.Context
 {
     public class ValidationContext
     {
-        private IValidationStrategy validationStrategy;
+        private IValidationStrategy validationStrategy = null!;
 
         public ValidationContext()
         {

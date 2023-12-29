@@ -1,39 +1,31 @@
 ﻿using StartupCompanyManager.Core.Command.Abstraction;
+using StartupCompanyManager.Core.Command.ConcreteCommands;
 using StartupCompanyManager.Core.Factory.ConcreteCreators;
 using StartupCompanyManager.Core.Factory.Creator;
 using StartupCompanyManager.Models.Interfaces;
+using StartupCompanyManager.Models.Singleton;
 using StartupCompanyManager.Utilities.Interpreter.Context;
 using StartupCompanyManager.Utilities.Interpreter.Expessions.Abstraction;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace StartupCompanyManager.Utilities.Interpreter.Expessions
 {
     public class ConsoleInputOperationExpression : StartupCompanyOperationAbstractExpression
     {
-        private readonly IStartupCompany startupCompany;
+        private readonly StartupCompanyManagerCommandConcreteCreator _startupCompanyManagerCommandConcreteCreator;
 
-        private readonly StartupCompanyManagerCreator<StartupCompanyManagerCommand> startupCompanyManagerCreator;
-
-        public ConsoleInputOperationExpression(IStartupCompany startupCompany)
+        public ConsoleInputOperationExpression(StartupCompanyManagerCommandConcreteCreator startupCompanyManagerCommandConcreteCreator)
         {
-            this.startupCompany = startupCompany;
-            this.startupCompanyManagerCreator = new StartupCompanyManagerCommandConcreteCreator();
+            _startupCompanyManagerCommandConcreteCreator = startupCompanyManagerCommandConcreteCreator;
         }
 
         public override void Interpret(StartupCompanyManagerOperationsContext startupCompanyManagerOperationContext)
         {
             string[] consoleInputOperationArguments = startupCompanyManagerOperationContext.Input.Split(' ').ToArray();
             string commandType = string.Join(string.Empty, consoleInputOperationArguments.Take(2));
-            StartupCompanyManagerCommand startupCompanyManagerCommand = startupCompanyManagerCreator.Create(commandType);
+            StartupCompanyManagerCommand startupCompanyManagerCommand = _startupCompanyManagerCommandConcreteCreator.Create(commandType);
             string[] consoleInputCommandExecutionOperationArguments = consoleInputOperationArguments.Skip(2).ToArray();
-
-            startupCompanyManagerOperationContext.Output = startupCompanyManagerCommand.Execute(
-                startupCompany, consoleInputCommandExecutionOperationArguments
-            );
+            startupCompanyManagerOperationContext.Output = startupCompanyManagerCommand.Execute(consoleInputCommandExecutionOperationArguments);
         }
     }
 }

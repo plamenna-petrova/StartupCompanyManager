@@ -1,5 +1,6 @@
 ﻿using StartupCompanyManager.Constants;
 using StartupCompanyManager.Infrastructure.Exceptions;
+using StartupCompanyManager.Infrastructure.Repositories.Contracts;
 using StartupCompanyManager.Models;
 using StartupCompanyManager.Models.Interfaces;
 using System;
@@ -12,16 +13,16 @@ namespace StartupCompanyManager.Core.Facade.SubSystems
 {
     public class DepartmentsSubSystem
     {
-        private IStartupCompany startupCompany;
+        private readonly IDepartmentRepository _departmentRepository;
 
-        public DepartmentsSubSystem(IStartupCompany startupCompany)
+        public DepartmentsSubSystem(IDepartmentRepository departmentRepository)
         {
-            this.startupCompany = startupCompany;
+            _departmentRepository = departmentRepository;
         }
 
         public Department AddDepartmentToStartupCompany(string name, int yearOfEstablishment)
         {
-            Department foundDepartment = FindDepartment(name);
+            Department foundDepartment = _departmentRepository.GetAllByCondition(d => d.Name == name).FirstOrDefault()!;
 
             bool doesDepartmentExist = foundDepartment != null;
 
@@ -34,16 +35,16 @@ namespace StartupCompanyManager.Core.Facade.SubSystems
                 throw new ExistingStartupCompanyManagerEntityException(existingDepartmentExceptionMessage);
             }
 
-            Department departmentToAdd = new Department(name, yearOfEstablishment);
+            Department departmentToAdd = new(name, yearOfEstablishment);
 
-            startupCompany.Departments.Add(departmentToAdd);
+            _departmentRepository.Add(departmentToAdd);
 
             return departmentToAdd;
         }
 
         public void RemoveDepartment(string name)
         {
-            Department departmentToRemove = FindDepartment(name);
+            Department departmentToRemove = _departmentRepository.GetAllByCondition(d => d.Name == name).FirstOrDefault()!;
 
             if (departmentToRemove == null) 
             {
@@ -54,9 +55,7 @@ namespace StartupCompanyManager.Core.Facade.SubSystems
                 throw new NonExistingStartupCompanyManagerEntityException(nonExistingDepartmentExceptionMessage);
             }
 
-            startupCompany.Departments.Remove(departmentToRemove);
+            _departmentRepository.Remove(departmentToRemove);
         }
-
-        private Department FindDepartment(string name) => startupCompany.Departments.FirstOrDefault(d => d.Name == name);
     }
 }
