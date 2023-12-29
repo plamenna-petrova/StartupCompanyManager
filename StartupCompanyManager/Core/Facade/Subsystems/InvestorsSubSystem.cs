@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StartupCompanyManager.Core.Facade.Subsystems
+namespace StartupCompanyManager.Core.Facade.SubSystems
 {
     public class InvestorsSubSystem
     {
@@ -59,7 +59,6 @@ namespace StartupCompanyManager.Core.Facade.Subsystems
             startupCompany.Investors.Remove(investorToRemove);
         }
 
-        private Investor FindInvestor(string name) => 
-            startupCompany.Investors.FirstOrDefault(i => i.Name == name);
+        private Investor FindInvestor(string name) => startupCompany.Investors.FirstOrDefault(i => i.Name == name);
     }
 }

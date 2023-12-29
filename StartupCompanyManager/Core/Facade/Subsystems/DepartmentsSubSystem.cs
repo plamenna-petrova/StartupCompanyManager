@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StartupCompanyManager.Core.Facade.Subsystems
+namespace StartupCompanyManager.Core.Facade.SubSystems
 {
     public class DepartmentsSubSystem
     {
@@ -57,7 +57,6 @@ namespace StartupCompanyManager.Core.Facade.Subsystems
             startupCompany.Departments.Remove(departmentToRemove);
         }
 
-        private Department FindDepartment(string name) => 
-            startupCompany.Departments.FirstOrDefault(d => d.Name == name);
+        private Department FindDepartment(string name) => startupCompany.Departments.FirstOrDefault(d => d.Name == name);
     }
 }

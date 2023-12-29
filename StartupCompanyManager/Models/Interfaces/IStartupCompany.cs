@@ -1,4 +1,4 @@
-﻿using StartupCompanyManager.Core.Facade.Abstraction;
+﻿using StartupCompanyManager.Core.Facade;
 using System;
 using System.Collections.Generic;
 using System.Linq;

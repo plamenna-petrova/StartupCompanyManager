@@ -1,5 +1,5 @@
 ﻿using StartupCompanyManager.Constants;
-using StartupCompanyManager.Core.Facade.Abstraction;
+using StartupCompanyManager.Core.Facade;
 using StartupCompanyManager.Infrastructure.Exceptions;
 using StartupCompanyManager.Models.Abstraction;
 using StartupCompanyManager.Models.Interfaces;

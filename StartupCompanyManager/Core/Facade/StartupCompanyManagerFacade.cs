@@ -1,5 +1,5 @@
 ﻿using StartupCompanyManager.Core.Command.Enums;
-using StartupCompanyManager.Core.Facade.Subsystems;
+using StartupCompanyManager.Core.Facade.SubSystems;
 using StartupCompanyManager.Models.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StartupCompanyManager.Core.Facade.Abstraction
+namespace StartupCompanyManager.Core.Facade
 {
     public class StartupCompanyManagerFacade
     {
@@ -25,7 +25,7 @@ namespace StartupCompanyManager.Core.Facade.Abstraction
         }
 
         public void ExecuteDepartmentRelatedOperation(
-            StartupCompanyManagerCommandAction startupCompanyManagerCommandAction, 
+            StartupCompanyManagerCommandAction startupCompanyManagerCommandAction,
             params object[] departmentSubsystemOperationArguments
         )
         {
@@ -49,7 +49,7 @@ namespace StartupCompanyManager.Core.Facade.Abstraction
             params object[] investorSubsystemOperationArguments
         )
         {
-            switch (startupCompanyManagerCommandAction) 
+            switch (startupCompanyManagerCommandAction)
             {
                 case StartupCompanyManagerCommandAction.Add:
                     investorsSubSystem.AddInvestorToStartupCompany(

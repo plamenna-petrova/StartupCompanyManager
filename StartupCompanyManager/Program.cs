@@ -15,8 +15,8 @@ StartupCompany.CreateInstance(
 
 Console.WriteLine($"{GlobalConstants.OPERATIONS_INFO} \n");
 
-string[] splittedOperationsInfoConstant = GlobalConstants.OPERATIONS_INFO.Split(" ").ToArray();
-string[] operationsInfoCommandPrefixTokens = splittedOperationsInfoConstant.Skip(splittedOperationsInfoConstant.Length - 2).Take(2).ToArray();
+string[] splitOperationsInfoConstant = GlobalConstants.OPERATIONS_INFO.Split(" ").ToArray();
+string[] operationsInfoCommandPrefixTokens = splitOperationsInfoConstant.Skip(splitOperationsInfoConstant.Length - 2).Take(2).ToArray();
 
 StartupCompanyManagerOperationsContext startupCompanyManagerOperationsContext = new StartupCompanyManagerOperationsContext(
     string.Join(string.Empty, operationsInfoCommandPrefixTokens)

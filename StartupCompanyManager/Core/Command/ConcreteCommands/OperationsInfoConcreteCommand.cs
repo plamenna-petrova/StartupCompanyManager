@@ -24,12 +24,12 @@ namespace StartupCompanyManager.Core.Command.ConcreteCommands
 
             foreach (Type startupCompanyManagerCommandType in startupCompanyManagerCommandTypes) 
             {
-                object startupCommandManagerInstance = Activator.CreateInstance(startupCompanyManagerCommandType);
+                object startupCompanyManagerCommandInstance = Activator.CreateInstance(startupCompanyManagerCommandType);
 
                 operationsInfoStringBuilder.AppendLine(
                     $"{string.Concat(Enumerable.Repeat("=> ", 3))} " +
                     $"{GenerateCommandName(startupCompanyManagerCommandType.Name)} " +
-                    $"{startupCompanyManagerCommandType.GetProperty("ArgumentsPattern").GetValue(startupCommandManagerInstance, null)}"
+                    $"{startupCompanyManagerCommandType.GetProperty("ArgumentsPattern").GetValue(startupCompanyManagerCommandInstance, null)}"
                 );
             }
 
