@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using StartupCompanyManager.Models.Composite.Component;
+﻿using StartupCompanyManager.Models.Composite.Component;
 
-namespace StartupCompanyManager.Models.Composite.Leafs
+namespace StartupCompanyManager.Models.Composite.Leaves
 {
     public class Specialist : Employee
     {

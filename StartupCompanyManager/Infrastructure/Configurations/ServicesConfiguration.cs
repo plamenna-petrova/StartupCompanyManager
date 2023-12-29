@@ -6,9 +6,7 @@ using StartupCompanyManager.Core.Facade.SubSystems;
 using StartupCompanyManager.Core.Factory.ConcreteCreators;
 using StartupCompanyManager.Infrastructure.Repositories.Contracts;
 using StartupCompanyManager.Infrastructure.Repositories.Implementation;
-using StartupCompanyManager.Models.Interfaces;
-using StartupCompanyManager.Models.Singleton;
-using StartupCompanyManager.Utilities.Interpreter.Expessions;
+using StartupCompanyManager.Utilities.Interpreter.Expressions;
 
 namespace StartupCompanyManager.Infrastructure.Configurations
 {

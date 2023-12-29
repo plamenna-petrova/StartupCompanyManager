@@ -1,17 +1,8 @@
 ﻿using StartupCompanyManager.Constants;
-using StartupCompanyManager.Core.Command.Enums;
-using StartupCompanyManager.Core.Facade;
 using StartupCompanyManager.Infrastructure.Exceptions;
 using StartupCompanyManager.Models.Abstraction;
-using StartupCompanyManager.Models.Interfaces;
 using StartupCompanyManager.Utilities.Strategy.ConcreteStrategies;
 using StartupCompanyManager.Utilities.Strategy.Context;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Mail;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StartupCompanyManager.Models.Singleton
 {
@@ -58,8 +49,6 @@ namespace StartupCompanyManager.Models.Singleton
         private static StartupCompany? startupCompanyInstance;
 
         private static readonly object lockObject = new();
-
-        private static readonly Lazy<StartupCompany>? lazyStartupCompanyInstance;
 
         public StartupCompany(string name, decimal capital, string address, string phoneNumber, string email, string website)
         {
@@ -205,7 +194,7 @@ namespace StartupCompanyManager.Models.Singleton
             get
             {
                 CheckIfInstanceIsCreated();
-                return startupCompanyInstance;
+                return startupCompanyInstance!;
             }
         }
 
@@ -237,7 +226,7 @@ namespace StartupCompanyManager.Models.Singleton
         {
             CheckIfInstanceIsCreated();
 
-            startupCompanyInstance.Name = newStartupCompanyName;
+            startupCompanyInstance!.Name = newStartupCompanyName;
 
             return startupCompanyInstance;
         }

@@ -2,12 +2,6 @@
 using StartupCompanyManager.Infrastructure.Exceptions;
 using StartupCompanyManager.Infrastructure.Repositories.Contracts;
 using StartupCompanyManager.Models;
-using StartupCompanyManager.Models.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StartupCompanyManager.Core.Facade.SubSystems
 {

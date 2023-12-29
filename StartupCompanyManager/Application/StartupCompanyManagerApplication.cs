@@ -1,8 +1,7 @@
 ﻿using StartupCompanyManager.Constants;
 using StartupCompanyManager.Models.Singleton;
 using StartupCompanyManager.Utilities.Interpreter.Context;
-using StartupCompanyManager.Core.Facade;
-using StartupCompanyManager.Utilities.Interpreter.Expessions;
+using StartupCompanyManager.Utilities.Interpreter.Expressions;
 
 namespace StartupCompanyManager.Application
 {

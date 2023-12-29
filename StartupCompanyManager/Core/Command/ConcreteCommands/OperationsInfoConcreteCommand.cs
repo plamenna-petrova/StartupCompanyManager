@@ -1,14 +1,8 @@
 ﻿using StartupCompanyManager.Core.Command.Abstraction;
 using StartupCompanyManager.Core.Facade;
-using StartupCompanyManager.Models.Interfaces;
-using StartupCompanyManager.Models.Singleton;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace StartupCompanyManager.Core.Command.ConcreteCommands
 {

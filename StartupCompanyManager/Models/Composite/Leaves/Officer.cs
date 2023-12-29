@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using StartupCompanyManager.Models.Composite.Component;
+﻿using StartupCompanyManager.Models.Composite.Component;
 
-namespace StartupCompanyManager.Models.Composite.Leafs
+namespace StartupCompanyManager.Models.Composite.Leaves
 {
-    public class SoftwareDeveloper : Employee
+    public class Officer : Employee
     {
-        public SoftwareDeveloper(string firstName, string lastName, string position, int yearsOfWorkExperience, decimal salary)
+        public Officer(string firstName, string lastName, string position, int yearsOfWorkExperience, decimal salary)
             : base(firstName, lastName, position, yearsOfWorkExperience, salary)
         {
 

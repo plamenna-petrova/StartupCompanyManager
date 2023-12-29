@@ -1,14 +1,9 @@
 ﻿using StartupCompanyManager.Core.Command.Abstraction;
-using StartupCompanyManager.Core.Command.ConcreteCommands;
 using StartupCompanyManager.Core.Factory.ConcreteCreators;
-using StartupCompanyManager.Core.Factory.Creator;
-using StartupCompanyManager.Models.Interfaces;
-using StartupCompanyManager.Models.Singleton;
 using StartupCompanyManager.Utilities.Interpreter.Context;
-using StartupCompanyManager.Utilities.Interpreter.Expessions.Abstraction;
+using StartupCompanyManager.Utilities.Interpreter.Expressions.Abstraction;
 
-
-namespace StartupCompanyManager.Utilities.Interpreter.Expessions
+namespace StartupCompanyManager.Utilities.Interpreter.Expressions
 {
     public class ConsoleInputOperationExpression : StartupCompanyOperationAbstractExpression
     {
