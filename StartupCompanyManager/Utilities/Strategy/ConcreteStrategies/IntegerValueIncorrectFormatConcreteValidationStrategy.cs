@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace StartupCompanyManager.Utilities.Strategy.ConcreteStrategies
 {
-    public class NullOrWhiteSpaceStringValidationStrategy : IValidationStrategy
+    public class IntegerValueIncorrectFormatConcreteValidationStrategy : IValidationStrategy
     {
         public bool ValidateInput(object input, params object[] validationArguments)
         {
-            return string.IsNullOrWhiteSpace((string)input);
+            return int.TryParse((string)input, out int _);
         }
     }
 }

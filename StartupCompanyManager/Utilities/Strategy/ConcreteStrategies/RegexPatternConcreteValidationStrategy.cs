@@ -2,16 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using StartupCompanyManager.Utilities.Strategy.Interfaces;
 
 namespace StartupCompanyManager.Utilities.Strategy.ConcreteStrategies
 {
-    public class MaximumStringLengthValidationStrategy : IValidationStrategy
+    public class RegexPatternConcreteValidationStrategy : IValidationStrategy
     {
         public bool ValidateInput(object input, params object[] validationArguments)
         {
-            return ((string)input).Length >= (int)validationArguments[1];
+            return Regex.IsMatch((string)input, (string)validationArguments[0]);
         }
     }
 }

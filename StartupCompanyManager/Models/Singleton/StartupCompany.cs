@@ -1,4 +1,5 @@
 ﻿using StartupCompanyManager.Constants;
+using StartupCompanyManager.Core.Facade.Abstraction;
 using StartupCompanyManager.Infrastructure.Exceptions;
 using StartupCompanyManager.Models.Abstraction;
 using StartupCompanyManager.Models.Interfaces;
@@ -20,17 +21,23 @@ namespace StartupCompanyManager.Models.Singleton
 
         public const int MAXIMUM_STARTUP_COMPANY_NAME_LENGTH = 30;
 
+        public const decimal MINIMUM_STARTUP_COMPANY_CAPITAL = 50.0000M;
+
+        public const decimal MAXIMUM_STARTUP_COMPANY_CAPITAL = 10000000;
+
         private const int MINIMUM_STARTUP_COMPANY_ADDRESS_LENGTH = 8;
 
-        private const int MAXIMUM_STARTUP_COMPANY_ADDRESS_LENGTH = 32;
+        private const int MAXIMUM_STARTUP_COMPANY_ADDRESS_LENGTH = 50;
 
         private const string STARTUP_COMPANY_PHONE_NUMBER_REGEX_PATTERN = @"\(?\d{3}\)?-? *\d{3}-? *-?\d{4}";
 
         private const string STARTUP_COMPANY_EMAIL_ADDRESS_REGEX_PATTERN = @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$";
 
-        private const string STARTUP_COMPANY_WEBSITE_REGEX_PATTERN = @"^(http|https|ftp|)\://|[a-zA-Z0-9\-\.]+\.[a-zA-Z](:[a-zA-Z0-9]*)?/?([a-zA-Z0-9\-\._\?\,\'/\\\+&amp;%\$#\=~])*[^\.\,\)\(\s]$";
+        private const string STARTUP_COMPANY_WEBSITE_REGEX_PATTERN = @"^(http|https)\://|[a-zA-Z0-9\-\.]+\.[a-zA-Z](:[a-zA-Z0-9]*)?/?([a-zA-Z0-9\-\._\?\,\'/\\\+&amp;%\$#\=~])*[^\.\,\)\(\s]$";
 
         private string name;
+
+        private decimal capital;
 
         private string address;
 
@@ -42,23 +49,29 @@ namespace StartupCompanyManager.Models.Singleton
 
         private readonly ValidationContext validationContext = new();
 
-        private readonly NullOrWhiteSpaceStringValidationStrategy nullOrWhiteSpaceStringValidationStrategy = new();
+        private readonly NullOrWhiteSpaceStringConcreteValidationStrategy nullOrWhiteSpaceStringValidationStrategy = new();
 
-        private readonly StringLengthRangeValidationStrategy stringLengthRangeValidationStrategy = new();
+        private readonly StringLengthRangeConcreteValidationStrategy stringLengthRangeValidationStrategy = new();
 
-        private readonly RegexPatternValidationStrategy regexPatternValidationStrategy = new();
+        private readonly NumberRangeConcreteValidationStrategy numberRangeValidationStrategy = new();
+
+        private readonly RegexPatternConcreteValidationStrategy regexPatternValidationStrategy = new();
+
+        private readonly StartupCompanyManagerFacade startupCompanyManagerFacade;
 
         private static StartupCompany? startupCompanyInstance;
 
         private static readonly object lockObject = new();
 
-        public StartupCompany(string name, string address, string phoneNumber, string email, string website)
+        public StartupCompany(string name, decimal capital, string address, string phoneNumber, string email, string website)
         {
             Name = name;
+            Capital = capital;
             Address = address;
             PhoneNumber = phoneNumber;  
             Email = email;
             Website = website;
+            startupCompanyManagerFacade = new StartupCompanyManagerFacade(this);
         }
 
         public string Name
@@ -77,7 +90,9 @@ namespace StartupCompanyManager.Models.Singleton
 
                 validationContext.SetValidationStrategy(stringLengthRangeValidationStrategy);
 
-                if (!validationContext.ValidateInput(value, MINIMUM_STARTUP_COMPANY_NAME_LENGTH, MAXIMUM_STARTUP_COMPANY_ADDRESS_LENGTH))
+                if (!validationContext.ValidateInput(
+                    value, MINIMUM_STARTUP_COMPANY_NAME_LENGTH, MAXIMUM_STARTUP_COMPANY_ADDRESS_LENGTH
+                ))
                 {
                     throw new ArgumentException(
                         string.Format(
@@ -89,6 +104,26 @@ namespace StartupCompanyManager.Models.Singleton
                 }
 
                 name = value;
+
+                validationContext.SetValidationStrategy(null);
+            }
+        }
+
+        public decimal Capital
+        {
+            get => capital;
+            set
+            {
+                validationContext.SetValidationStrategy(numberRangeValidationStrategy);
+
+                if (!validationContext.ValidateInput(value, MINIMUM_STARTUP_COMPANY_CAPITAL, MAXIMUM_STARTUP_COMPANY_CAPITAL))
+                {
+                    throw new ArgumentException(
+                        nameof(Capital), ValidationConstants.STARTUP_COMPANY_CAPITAL_NUMBER_RANGER_ERROR_MESSAGE
+                    );
+                }
+
+                capital = value;
 
                 validationContext.SetValidationStrategy(null);
             }
@@ -110,7 +145,9 @@ namespace StartupCompanyManager.Models.Singleton
 
                 validationContext.SetValidationStrategy(stringLengthRangeValidationStrategy);
 
-                if (!validationContext.ValidateInput(value, MINIMUM_STARTUP_COMPANY_ADDRESS_LENGTH, MAXIMUM_STARTUP_COMPANY_ADDRESS_LENGTH))
+                if (!validationContext.ValidateInput(
+                    value, MINIMUM_STARTUP_COMPANY_ADDRESS_LENGTH, MAXIMUM_STARTUP_COMPANY_ADDRESS_LENGTH
+                ))
                 {
                     throw new ArgumentException(
                         string.Format(
@@ -182,6 +219,10 @@ namespace StartupCompanyManager.Models.Singleton
 
         public ICollection<Department> Departments { get; set; } = new HashSet<Department>();
 
+        public ICollection<Investor> Investors { get; set; } = new HashSet<Investor>();
+
+        public StartupCompanyManagerFacade StartupCompanyManagerFacade { get => startupCompanyManagerFacade; }
+
         public static StartupCompany StartupCompanyInstance
         {
             get
@@ -191,7 +232,9 @@ namespace StartupCompanyManager.Models.Singleton
             }
         }
 
-        public static StartupCompany CreateInstance(string name, string address, string phoneNumber, string email, string website)
+        public static StartupCompany CreateInstance(
+            string name, decimal capital, string address, string phoneNumber, string email, string website
+        )
         {
             if (startupCompanyInstance == null) 
             {
@@ -199,13 +242,13 @@ namespace StartupCompanyManager.Models.Singleton
                 {
                     if (startupCompanyInstance == null)
                     {
-                        startupCompanyInstance = new StartupCompany(name, address, phoneNumber, email, website);
+                        startupCompanyInstance = new StartupCompany(name, capital, address, phoneNumber, email, website);
                         return startupCompanyInstance;
                     }
                 }
             }
 
-            throw new ExistingStartupCompanyException(
+            throw new ExistingStartupCompanyManagerEntityException(
                 string.Format(
                     ExceptionMessagesConstants.EXISTING_STARTUP_COMPANY_EXCEPTION_MESSAGE, 
                     startupCompanyInstance.Name
@@ -216,6 +259,7 @@ namespace StartupCompanyManager.Models.Singleton
         public static StartupCompany ChangeName(string newStartupCompanyName)
         {
             CheckIfInstanceIsCreated();
+
             startupCompanyInstance.Name = newStartupCompanyName;
 
             return startupCompanyInstance;
@@ -225,7 +269,9 @@ namespace StartupCompanyManager.Models.Singleton
         {
             if (startupCompanyInstance is null)
             {
-                throw new NonExistingStartupCompanyException(ExceptionMessagesConstants.NON_EXISTING_STARTUP_COMPANY_EXCEPTION_MESSAGE);
+                throw new NonExistingStartupCompanyManagerEntityException(
+                    ExceptionMessagesConstants.NON_EXISTING_STARTUP_COMPANY_EXCEPTION_MESSAGE
+                );
             }
         }
     }

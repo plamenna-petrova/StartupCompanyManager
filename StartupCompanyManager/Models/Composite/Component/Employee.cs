@@ -30,15 +30,15 @@ namespace StartupCompanyManager.Models.Composite.Component
 
         public int YearsOfWorkExperience { get; set; }
 
-        public string Address { get; set; } = null!;
+        public string Address { get; set; }
 
-        public string PhoneNumber { get; set; } = null!;
+        public string PhoneNumber { get; set; }
 
         public DateTime BirthDate { get; set; }
 
         public int Rating { get; set; }
 
-        public Team Team { get; set; } = null!;
+        public Team Team { get; set; }
 
         public ICollection<Task> Tasks { get; set; } = new HashSet<Task>();
 

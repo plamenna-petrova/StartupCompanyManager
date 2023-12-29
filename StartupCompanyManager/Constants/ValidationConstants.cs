@@ -16,6 +16,8 @@ namespace StartupCompanyManager.Constants
 
         public const string NULL_OR_WHITE_SPACE_STARTUP_COMPANY_ADDRESS_ERROR_MESSAGE = "The startup company's address cannot be empty or consisting only of whitespaces";
 
+        public const string STARTUP_COMPANY_CAPITAL_NUMBER_RANGER_ERROR_MESSAGE = "The startup company's capital must be between ${0} and ${1}";
+
         public const string STARTUP_COMPANY_ADDRESS_STRING_LENGTH_RANGE_ERROR_MESSAGE = "The startup company's address must be between {0} and {1} characters long.";
 
         public const string STARTUP_COMPANY_PHONE_NUMBER_REGEX_PATTERN_ERROR_MESSAGE = "The startup company's phone number is not in the correct format";

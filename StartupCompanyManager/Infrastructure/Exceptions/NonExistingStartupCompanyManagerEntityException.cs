@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace StartupCompanyManager.Infrastructure.Exceptions
 {
-    public class NonExistingStartupCompanyException : Exception
+    public class NonExistingStartupCompanyManagerEntityException : Exception
     {
-        public NonExistingStartupCompanyException() 
+        public NonExistingStartupCompanyManagerEntityException() 
         {
             
         }
 
-        public NonExistingStartupCompanyException(string message) : base(message)
+        public NonExistingStartupCompanyManagerEntityException(string message) : base(message)
         {
             
         }

@@ -1,17 +1,17 @@
-﻿using StartupCompanyManager.Utilities.Strategy.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using StartupCompanyManager.Utilities.Strategy.Interfaces;
 
 namespace StartupCompanyManager.Utilities.Strategy.ConcreteStrategies
 {
-    public class StringLengthRangeValidationStrategy : IValidationStrategy
+    public class MinNumberConcreteValidationStrategy : IValidationStrategy
     {
         public bool ValidateInput(object input, params object[] validationArguments)
         {
-            return ((string)input).Length >= (int)validationArguments[0] && ((string)input).Length <= (int)validationArguments[1];
+            return (decimal)input <= (decimal)validationArguments[0];
         }
     }
 }

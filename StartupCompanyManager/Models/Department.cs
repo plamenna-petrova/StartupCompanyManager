@@ -10,6 +10,12 @@ namespace StartupCompanyManager.Models
 {
     public class Department : BaseModel
     {
+        public Department(string name, int yearOfEstablishment)
+        {
+            Name = name;
+            YearOfEstablishment = yearOfEstablishment;
+        }
+
         public string Name { get; set; }
 
         public int YearOfEstablishment { get; set; }

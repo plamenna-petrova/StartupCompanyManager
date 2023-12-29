@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace StartupCompanyManager.Utilities.Strategy.ConcreteStrategies
 {
-    public class NegativeNumberValidationStrategy : IValidationStrategy
+    public class NegativeNumberConcreteValidationStrategy : IValidationStrategy
     {
         public bool ValidateInput(object input, params object[] validationArguments)
         {
