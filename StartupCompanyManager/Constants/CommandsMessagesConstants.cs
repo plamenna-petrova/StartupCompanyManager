@@ -14,6 +14,6 @@ namespace StartupCompanyManager.Constants
 
         public const string ADDED_INVESTOR_TO_STARTUP_COMPANY_SUCCESS_MESSAGE = "Successfully added investor {0} to Startup Company {1}.\nIncreased the company's capital from ${2} to ${3}.";
 
-        public const string REMOVED_INVESTOR_FROM_STARTUP_COMPANY_SUCCESS_MESSAGE = "Successfully remove investor {0} from Startup Company {1}";
+        public const string REMOVED_INVESTOR_FROM_STARTUP_COMPANY_SUCCESS_MESSAGE = "Successfully removed investor {0} from Startup Company {1}";
     }
 }

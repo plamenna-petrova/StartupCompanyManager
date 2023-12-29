@@ -16,8 +16,6 @@ namespace StartupCompanyManager.Core.Command.ConcreteCommands
 
         public override string Execute(IStartupCompany startupCompany, params string[] commandExecutionOperationArguments)
         {
-            decimal oldStartupCompanyCapital = startupCompany.Capital;
-
             startupCompany.StartupCompanyManagerFacade.ExecuteInvestorRelatedOperation(
                 StartupCompanyManagerCommandAction.Remove, commandExecutionOperationArguments
             );
@@ -25,9 +23,7 @@ namespace StartupCompanyManager.Core.Command.ConcreteCommands
             string removeInvestorConcreteCommandSuccessMessage = string.Format(
                 CommandsMessagesConstants.REMOVED_INVESTOR_FROM_STARTUP_COMPANY_SUCCESS_MESSAGE,
                 commandExecutionOperationArguments[0],
-                startupCompany.Name,
-                $"{Math.Round(oldStartupCompanyCapital, 2):F3}",
-                $"{Math.Round(startupCompany.Capital, 2):F3}"
+                startupCompany.Name
             );
 
             return removeInvestorConcreteCommandSuccessMessage;
