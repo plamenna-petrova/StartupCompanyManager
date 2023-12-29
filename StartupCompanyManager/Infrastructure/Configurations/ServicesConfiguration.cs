@@ -18,7 +18,6 @@ namespace StartupCompanyManager.Infrastructure.Configurations
         {
             var serviceCollection = new ServiceCollection();
 
-            serviceCollection.AddSingleton<StartupCompany>();
             serviceCollection.AddScoped<IDepartmentRepository, DepartmentRepository>();
             serviceCollection.AddScoped<IInvestorRepository, InvestorRepository>();
             serviceCollection.AddScoped<DepartmentsSubSystem>();

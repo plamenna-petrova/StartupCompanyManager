@@ -11,13 +11,10 @@ namespace StartupCompanyManager.Core.Command.Abstraction
 {
     public abstract class StartupCompanyManagerCommand
     {
-        public StartupCompanyManagerCommand(StartupCompany startupCompany, StartupCompanyManagerFacade startupCompanyManagerFacade)
+        public StartupCompanyManagerCommand(StartupCompanyManagerFacade startupCompanyManagerFacade)
         {
-            StartupCompany = startupCompany;
             StartupCompanyManagerFacade = startupCompanyManagerFacade;
         }
-
-        public StartupCompany StartupCompany { get; set; }
 
         public StartupCompanyManagerFacade StartupCompanyManagerFacade { get; set; }
 

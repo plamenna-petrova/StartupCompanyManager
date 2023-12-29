@@ -14,8 +14,8 @@ namespace StartupCompanyManager.Core.Command.ConcreteCommands
 {
     public class RemoveDepartmentConcreteCommand : StartupCompanyManagerCommand
     {
-        public RemoveDepartmentConcreteCommand(StartupCompany startupCompany, StartupCompanyManagerFacade startupCompanyManagerFacade) 
-            : base(startupCompany, startupCompanyManagerFacade) 
+        public RemoveDepartmentConcreteCommand(StartupCompanyManagerFacade startupCompanyManagerFacade) 
+            : base(startupCompanyManagerFacade) 
         {
             
         }
@@ -31,7 +31,7 @@ namespace StartupCompanyManager.Core.Command.ConcreteCommands
             string removeDepartmentConcreteCommandSuccessMessage = string.Format(
                 CommandsMessagesConstants.REMOVED_DEPARTMENT_FROM_STARTUP_COMPANY_SUCCESS_MESSAGE,
                 commandExecutionOperationArguments[0],
-                null
+                StartupCompany.StartupCompanyInstance.Name
             );
 
             return removeDepartmentConcreteCommandSuccessMessage;

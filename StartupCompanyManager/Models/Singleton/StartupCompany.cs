@@ -55,6 +55,21 @@ namespace StartupCompanyManager.Models.Singleton
 
         private readonly RegexPatternConcreteValidationStrategy regexPatternValidationStrategy = new();
 
+        private static StartupCompany? startupCompanyInstance;
+
+        private static readonly object lockObject = new();
+
+        private static readonly Lazy<StartupCompany>? lazyStartupCompanyInstance;
+
+        public StartupCompany(string name, decimal capital, string address, string phoneNumber, string email, string website)
+        {
+            Name = name;
+            Capital = capital;
+            Address = address;
+            PhoneNumber = phoneNumber;
+            Email = email;
+        }
+
         public string Name
         {
             get => name;
@@ -185,13 +200,56 @@ namespace StartupCompanyManager.Models.Singleton
 
         public ICollection<Investor> Investors { get; set; } = new HashSet<Investor>();
 
-        public void SetCompanyDetails(string name, decimal capital, string email, string address, string phoneNumber)
+        public static StartupCompany StartupCompanyInstance
         {
-            Name = name;
-            Capital = capital;
-            Email = email;
-            Address = address; 
-            PhoneNumber = phoneNumber;
+            get
+            {
+                CheckIfInstanceIsCreated();
+                return startupCompanyInstance;
+            }
+        }
+
+        public static StartupCompany CreateInstance(
+            string name, decimal capital, string address, string phoneNumber, string email, string website
+        )
+        {
+            if (startupCompanyInstance == null)
+            {
+                lock (lockObject)
+                {
+                    if (startupCompanyInstance == null)
+                    {
+                        startupCompanyInstance = new StartupCompany(name, capital, address, phoneNumber, email, website);
+                        return startupCompanyInstance;
+                    }
+                }
+            }
+
+            throw new ExistingStartupCompanyManagerEntityException(
+                string.Format(
+                    ExceptionMessagesConstants.EXISTING_STARTUP_COMPANY_EXCEPTION_MESSAGE,
+                    startupCompanyInstance.Name
+                )
+            );
+        }
+
+        public static StartupCompany ChangeName(string newStartupCompanyName)
+        {
+            CheckIfInstanceIsCreated();
+
+            startupCompanyInstance.Name = newStartupCompanyName;
+
+            return startupCompanyInstance;
+        }
+
+        private static void CheckIfInstanceIsCreated()
+        {
+            if (startupCompanyInstance is null)
+            {
+                throw new NonExistingStartupCompanyManagerEntityException(
+                    ExceptionMessagesConstants.NON_EXISTING_STARTUP_COMPANY_EXCEPTION_MESSAGE
+                );
+            }
         }
     }
 }

@@ -16,8 +16,8 @@ namespace StartupCompanyManager.Core.Command.ConcreteCommands
     {
         private readonly IServiceProvider _serviceProvider;
 
-        public OperationsInfoConcreteCommand(StartupCompany startupCompany, StartupCompanyManagerFacade startupCompanyManagerFacade, IServiceProvider serviceProvider) 
-            : base(startupCompany, startupCompanyManagerFacade)
+        public OperationsInfoConcreteCommand(StartupCompanyManagerFacade startupCompanyManagerFacade, IServiceProvider serviceProvider) 
+            : base(startupCompanyManagerFacade)
         {
             _serviceProvider = serviceProvider;    
         }
@@ -41,7 +41,9 @@ namespace StartupCompanyManager.Core.Command.ConcreteCommands
                     .Select(p => p.ParameterType)
                     .ToArray();
 
-                var injectedServices = foundCommandTypeConstructorParameterTypes.Select(cpt => _serviceProvider.GetService(cpt)).ToArray();
+                object?[]? injectedServices = foundCommandTypeConstructorParameterTypes
+                    .Select(cpt => _serviceProvider.GetService(cpt))
+                    .ToArray();
 
                 object startupCompanyManagerCommandInstance = Activator.CreateInstance(startupCompanyManagerCommandType, injectedServices)!;
 

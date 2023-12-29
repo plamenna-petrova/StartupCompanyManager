@@ -14,8 +14,8 @@ namespace StartupCompanyManager.Core.Command.ConcreteCommands
 {
     public class AddInvestorConcreteCommand : StartupCompanyManagerCommand
     {
-        public AddInvestorConcreteCommand(StartupCompany startupCompany, StartupCompanyManagerFacade startupCompanyManagerFacade) 
-            : base(startupCompany, startupCompanyManagerFacade)
+        public AddInvestorConcreteCommand(StartupCompanyManagerFacade startupCompanyManagerFacade) 
+            : base(startupCompanyManagerFacade)
         {
             
         }
@@ -24,7 +24,7 @@ namespace StartupCompanyManager.Core.Command.ConcreteCommands
 
         public override string Execute(params string[] commandExecutionOperationArguments)
         {
-            decimal oldStartupCompanyCapital = StartupCompany.Capital;
+            decimal oldStartupCompanyCapital = StartupCompany.StartupCompanyInstance.Capital;
 
             StartupCompanyManagerFacade.ExecuteInvestorRelatedOperation(
                 StartupCompanyManagerCommandAction.Add, commandExecutionOperationArguments
@@ -33,9 +33,9 @@ namespace StartupCompanyManager.Core.Command.ConcreteCommands
             string addInvestorConcreteCommandSuccessMessage = string.Format(
                 CommandsMessagesConstants.ADDED_INVESTOR_TO_STARTUP_COMPANY_SUCCESS_MESSAGE,
                 commandExecutionOperationArguments[0],
-                StartupCompany.Name,
+                StartupCompany.StartupCompanyInstance.Name,
                 $"{Math.Round(oldStartupCompanyCapital, 2):F3}",
-                $"{Math.Round(StartupCompany.Capital, 2):F3}"
+                $"{Math.Round(StartupCompany.StartupCompanyInstance.Capital, 2):F3}"
             );
 
             return addInvestorConcreteCommandSuccessMessage;

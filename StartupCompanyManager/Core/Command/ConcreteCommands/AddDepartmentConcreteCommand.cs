@@ -8,8 +8,8 @@ namespace StartupCompanyManager.Core.Command.ConcreteCommands
 {
     public class AddDepartmentConcreteCommand : StartupCompanyManagerCommand
     {
-        public AddDepartmentConcreteCommand(StartupCompany startupCompany, StartupCompanyManagerFacade startupCompanyManagerFacade) 
-            : base(startupCompany, startupCompanyManagerFacade)
+        public AddDepartmentConcreteCommand(StartupCompanyManagerFacade startupCompanyManagerFacade) 
+            : base(startupCompanyManagerFacade)
         {
             
         }
@@ -25,7 +25,7 @@ namespace StartupCompanyManager.Core.Command.ConcreteCommands
             string addDepartmentConcreteCommandSuccessMessage = string.Format(
                 CommandsMessagesConstants.ADDED_DEPARTMENT_TO_STARTUP_COMPANY_SUCCESS_MESSAGE,
                 commandExecutionOperationArguments[0],
-                StartupCompany.Name
+                StartupCompany.StartupCompanyInstance.Name
             );
 
             return addDepartmentConcreteCommandSuccessMessage;

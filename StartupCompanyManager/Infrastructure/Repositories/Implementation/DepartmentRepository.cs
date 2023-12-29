@@ -1,21 +1,11 @@
 ﻿using StartupCompanyManager.Infrastructure.Repositories.Contracts;
 using StartupCompanyManager.Models;
 using StartupCompanyManager.Models.Singleton;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StartupCompanyManager.Infrastructure.Repositories.Implementation
 {
     public class DepartmentRepository : BaseRepository, IDepartmentRepository
     {
-        public DepartmentRepository(StartupCompany startupCompany) : base(startupCompany)
-        {
-
-        }
-
         public ICollection<Department> GetAll()
         {
             return StartupCompany.Departments.ToList();

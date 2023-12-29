@@ -9,11 +9,6 @@ namespace StartupCompanyManager.Infrastructure.Repositories.Implementation
 {
     public abstract class BaseRepository
     {
-        public BaseRepository(StartupCompany startupCompany)
-        {
-            StartupCompany = startupCompany ?? throw new ArgumentNullException(nameof(startupCompany));
-        }
-
-        protected StartupCompany StartupCompany { get; set; }
+        protected StartupCompany StartupCompany { get; set; } = StartupCompany.StartupCompanyInstance;
     }
 }

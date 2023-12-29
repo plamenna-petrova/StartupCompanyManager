@@ -8,27 +8,21 @@ namespace StartupCompanyManager.Application
 {
     public class StartupCompanyManagerApplication : IStartupCompanyManagerApplication
     {
-        private readonly StartupCompany _startupCompany;
-
         private readonly ConsoleInputOperationExpression _consoleInputOperationExpression;
 
-        public StartupCompanyManagerApplication(
-            StartupCompany startupCompany, 
-            ConsoleInputOperationExpression consoleInputOperationExpression
-        )
-        {
-            _startupCompany = startupCompany;
+        public StartupCompanyManagerApplication(ConsoleInputOperationExpression consoleInputOperationExpression)
+        { 
             _consoleInputOperationExpression = consoleInputOperationExpression;
         }
 
         public void Run()
         {
-            _startupCompany.SetCompanyDetails(
+            StartupCompany.CreateInstance(
                 "CuttingEdgeFocus Tech",
                 80.0000M,
-                "cutting_edge_tech_focus@gmail.com",
                 "9th Street. 47 W 15th St, New York, NY 10011",
-                "+1 (646) 555-3890"
+                "+1 (646) 555-3890", "cutting_edge_tech_focus@gmail.com",
+                "https://cutting-edge-tech.com"
             );
 
             Console.WriteLine($"{GlobalConstants.OPERATIONS_INFO} \n");
