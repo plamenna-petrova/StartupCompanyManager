@@ -52,13 +52,13 @@ namespace StartupCompanyManager.Models.Singleton
 
         private static readonly object lockObject = new();
 
-        public StartupCompany(string name, decimal capital, string address, string phoneNumber, string email, string website)
+        public StartupCompany(string name, decimal capital, string email, string address, string phoneNumber)
         {
             Name = name;
             Capital = capital;
             Address = address;
-            PhoneNumber = phoneNumber;
             Email = email;
+            PhoneNumber = phoneNumber;
         }
 
         public string Name
@@ -208,7 +208,7 @@ namespace StartupCompanyManager.Models.Singleton
         }
 
         public static StartupCompany CreateInstance(
-            string name, decimal capital, string address, string phoneNumber, string email, string website
+            string name, decimal capital, string email, string address, string phoneNumber
         )
         {
             if (startupCompanyInstance == null)
@@ -217,7 +217,7 @@ namespace StartupCompanyManager.Models.Singleton
                 {
                     if (startupCompanyInstance == null)
                     {
-                        startupCompanyInstance = new StartupCompany(name, capital, address, phoneNumber, email, website);
+                        startupCompanyInstance = new StartupCompany(name, capital, email, address, phoneNumber);
                         return startupCompanyInstance;
                     }
                 }

@@ -19,9 +19,9 @@ namespace StartupCompanyManager.Application
             StartupCompany.CreateInstance(
                 "CuttingEdgeFocus Tech",
                 80.0000M,
+                "cutting_edge_tech_focus@gmail.com",
                 "9th Street. 47 W 15th St, New York, NY 10011",
-                "+1 (646) 555-3890", "cutting_edge_tech_focus@gmail.com",
-                "https://cutting-edge-tech.com"
+                "+1 (646) 555-3890"
             );
 
             Console.WriteLine($"{GlobalConstants.OPERATIONS_INFO} \n");
