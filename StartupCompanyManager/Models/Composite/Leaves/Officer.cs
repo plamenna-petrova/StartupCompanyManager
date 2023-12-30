@@ -1,28 +1,27 @@
-﻿using StartupCompanyManager.Models.Composite.Component;
+﻿using StartupCompanyManager.Constants;
+using StartupCompanyManager.Models.Composite.Component;
 
 namespace StartupCompanyManager.Models.Composite.Leaves
 {
     public class Officer : Employee
     {
-        public Officer(string firstName, string lastName, string position, int yearsOfWorkExperience, decimal salary)
-            : base(firstName, lastName, position, yearsOfWorkExperience, salary)
-        {
-
-        }
-
         public override void Add(Employee employee)
         {
-            Console.WriteLine($"Cannot add to a {GetType().Name}");
+            throw new InvalidOperationException(
+                string.Format(ExceptionMessagesConstants.CANNOT_ADD_ELEMENT_TO_LEAF_EXCEPTION_MESSAGE, GetType().Name)
+            );
         }
 
         public override void Remove(Employee employee)
         {
-            Console.WriteLine($"Cannot remove from a {GetType().Name}");
+            throw new InvalidOperationException(
+                string.Format(ExceptionMessagesConstants.CANNOT_REMOVE_ELEMENT_FROM_LEAF_EXCEPTION_MESSAGE, GetType().Name)
+            );
         }
 
         public override void GetHierarchicalLevel(int depthIndicator)
         {
-            Console.WriteLine($"{new string('-', depthIndicator)} {FullName} [{Position}] [${Salary}]");
+            Console.WriteLine($"{new string('-', depthIndicator)} {FullName} [{Position}] [${MonthlySalary}]");
         }
     }
 }

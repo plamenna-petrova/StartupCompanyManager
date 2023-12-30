@@ -18,15 +18,15 @@ namespace StartupCompanyManager.Models
 
         private int yearOfEstablishment = default;
 
-        private readonly StartupCompanyManagerValidationContext validationContext = new();
+        private readonly StartupCompanyManagerValidationContext _startupCompanyManagerValidationContext = new();
 
-        private readonly NullOrWhiteSpaceStringConcreteValidationStrategy nullOrWhiteSpaceStringValidationStrategy = new();
+        private readonly NullOrWhiteSpaceStringConcreteValidationStrategy _nullOrWhiteSpaceStringConcreteValidationStrategy = new();
 
-        private readonly StringLengthRangeConcreteValidationStrategy stringLengthRangeValidationStrategy = new();
+        private readonly StringLengthRangeConcreteValidationStrategy _stringLengthRangeConcreteValidationStrategy = new();
 
-        private readonly IntegerValueIncorrectFormatConcreteValidationStrategy integerValueIncorrectFormatConcreteValidationStrategy = new();
+        private readonly IntegerValueIncorrectFormatConcreteValidationStrategy _integerValueIncorrectFormatConcreteValidationStrategy = new();
 
-        private readonly NumberRangeConcreteValidationStrategy numberRangeConcreteValidationStrategy = new();
+        private readonly NumberRangeConcreteValidationStrategy _numberRangeConcreteValidationStrategy = new();
 
         public Department(string name, int yearOfEstablishment)
         {
@@ -39,16 +39,16 @@ namespace StartupCompanyManager.Models
             get => name;
             set
             {
-                validationContext.SetValidationStrategy(nullOrWhiteSpaceStringValidationStrategy);
+                _startupCompanyManagerValidationContext.SetValidationStrategy(_nullOrWhiteSpaceStringConcreteValidationStrategy);
 
-                if (validationContext.ValidateInput(value))
+                if (_startupCompanyManagerValidationContext.ValidateInput(value))
                 {
                     throw new ArgumentException(ValidationConstants.NULL_OR_WHITE_SPACE_DEPARTMENT_NAME_ERROR_MESSAGE);
                 }
 
-                validationContext.SetValidationStrategy(stringLengthRangeValidationStrategy);
+                _startupCompanyManagerValidationContext.SetValidationStrategy(_stringLengthRangeConcreteValidationStrategy);
 
-                if (!validationContext.ValidateInput(
+                if (!_startupCompanyManagerValidationContext.ValidateInput(
                     value, MINIMUM_DEPARTMENT_NAME_LENGTH, MAXIMUM_DEPARTMENT_NAME_LENGTH
                 ))
                 {
@@ -63,7 +63,7 @@ namespace StartupCompanyManager.Models
 
                 name = value;
 
-                validationContext.SetValidationStrategy(null!);
+                _startupCompanyManagerValidationContext.SetValidationStrategy(null!);
             }
         } 
 
@@ -72,16 +72,16 @@ namespace StartupCompanyManager.Models
             get => yearOfEstablishment;
             set
             {
-                validationContext.SetValidationStrategy(integerValueIncorrectFormatConcreteValidationStrategy);
+                _startupCompanyManagerValidationContext.SetValidationStrategy(_integerValueIncorrectFormatConcreteValidationStrategy);
 
-                if (!validationContext.ValidateInput(value))
+                if (!_startupCompanyManagerValidationContext.ValidateInput(value))
                 {
                     throw new ArgumentException(ValidationConstants.DEPARTMENT_YEAR_OF_ESTABLISHMENT_INCORRECT_FORMAT_ERROR_MESSAGE);
                 }
 
-                validationContext.SetValidationStrategy(numberRangeConcreteValidationStrategy);
+                _startupCompanyManagerValidationContext.SetValidationStrategy(_numberRangeConcreteValidationStrategy);
 
-                if (!validationContext.ValidateInput(
+                if (!_startupCompanyManagerValidationContext.ValidateInput(
                     Convert.ToDecimal(value), EARLIEST_ALLOWED_DEPARTMENT_YEAR_OF_ESTABLISHMENT, DateTime.Today.Year
                 ))
                 {
@@ -96,7 +96,7 @@ namespace StartupCompanyManager.Models
 
                 yearOfEstablishment = value;
 
-                validationContext.SetValidationStrategy(null!);
+                _startupCompanyManagerValidationContext.SetValidationStrategy(null!);
             }
         }
 

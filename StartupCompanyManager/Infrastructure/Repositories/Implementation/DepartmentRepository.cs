@@ -12,14 +12,14 @@ namespace StartupCompanyManager.Infrastructure.Repositories.Implementation
             return StartupCompany.Departments.ToList();
         }
 
-        public Department GetByCondition(Func<Department, bool> filterExpression)
+        public Department GetByCondition(Func<Department, bool> entityFilterDelegate)
         {
-            return StartupCompany.Departments.FirstOrDefault(filterExpression)!;
+            return StartupCompany.Departments.FirstOrDefault(entityFilterDelegate)!;
         }
 
-        public ICollection<Department> GetAllByCondition(Func<Department, bool> filterExpression)
+        public ICollection<Department> GetAllByCondition(Func<Department, bool> entitiesFilterDelegate)
         {
-            return StartupCompany.Departments.Where(filterExpression).ToList();
+            return StartupCompany.Departments.Where(entitiesFilterDelegate).ToList();
         }
 
         public void Add(Department department)

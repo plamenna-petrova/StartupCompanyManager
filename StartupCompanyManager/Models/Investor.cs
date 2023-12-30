@@ -17,15 +17,15 @@ namespace StartupCompanyManager.Models
 
         private decimal funds = default;
 
-        private readonly StartupCompanyManagerValidationContext validationContext = new();
+        private readonly StartupCompanyManagerValidationContext _startupCompanyManagerValidationContext = new();
 
-        private readonly NullOrWhiteSpaceStringConcreteValidationStrategy nullOrWhiteSpaceStringValidationStrategy = new();
+        private readonly NullOrWhiteSpaceStringConcreteValidationStrategy _nullOrWhiteSpaceStringConcreteValidationStrategy = new();
 
-        private readonly StringLengthRangeConcreteValidationStrategy stringLengthRangeValidationStrategy = new();
+        private readonly StringLengthRangeConcreteValidationStrategy _stringLengthRangeConcreteValidationStrategy = new();
 
-        private readonly DecimalValueIncorrectFormatConcreteValidationStrategy decimalValueIncorrectFormatConcreteValidationStrategy = new();
+        private readonly DecimalValueIncorrectFormatConcreteValidationStrategy _decimalValueIncorrectFormatConcreteValidationStrategy = new();
 
-        private readonly MinNumberConcreteValidationStrategy minNumberConcreteValidationStrategy = new();
+        private readonly MinNumberConcreteValidationStrategy _minNumberConcreteValidationStrategy = new();
 
         public Investor(string name, decimal funds)
         {
@@ -38,16 +38,16 @@ namespace StartupCompanyManager.Models
             get => name;
             set
             {
-                validationContext.SetValidationStrategy(nullOrWhiteSpaceStringValidationStrategy);
+                _startupCompanyManagerValidationContext.SetValidationStrategy(_nullOrWhiteSpaceStringConcreteValidationStrategy);
 
-                if (validationContext.ValidateInput(value))
+                if (_startupCompanyManagerValidationContext.ValidateInput(value))
                 {
                     throw new ArgumentException(ValidationConstants.NULL_OR_WHITE_SPACE_INVESTOR_NAME_ERROR_MESSAGE);
                 }
 
-                validationContext.SetValidationStrategy(stringLengthRangeValidationStrategy);
+                _startupCompanyManagerValidationContext.SetValidationStrategy(_stringLengthRangeConcreteValidationStrategy);
 
-                if (!validationContext.ValidateInput(
+                if (!_startupCompanyManagerValidationContext.ValidateInput(
                     value, MINIMUM_INVESTOR_NAME_LENGTH, MAXIMUM_INVESTOR_NAME_LENGTH
                 ))
                 {
@@ -62,7 +62,7 @@ namespace StartupCompanyManager.Models
 
                 name = value;
 
-                validationContext.SetValidationStrategy(null!);
+                _startupCompanyManagerValidationContext.SetValidationStrategy(null!);
             }
         }
 
@@ -71,16 +71,16 @@ namespace StartupCompanyManager.Models
             get => funds;
             set
             {
-                validationContext.SetValidationStrategy(decimalValueIncorrectFormatConcreteValidationStrategy);
+                _startupCompanyManagerValidationContext.SetValidationStrategy(_decimalValueIncorrectFormatConcreteValidationStrategy);
 
-                if (!validationContext.ValidateInput(value))
+                if (!_startupCompanyManagerValidationContext.ValidateInput(value))
                 {
                     throw new ArgumentException(ValidationConstants.INVESTOR_FUNDS_INCORRECT_FORMAT_ERROR_MESSAGE);
                 }
 
-                validationContext.SetValidationStrategy(minNumberConcreteValidationStrategy);
+                _startupCompanyManagerValidationContext.SetValidationStrategy(_minNumberConcreteValidationStrategy);
 
-                if (!validationContext.ValidateInput(value, MINIMUM_INVESTOR_FUNDS))
+                if (!_startupCompanyManagerValidationContext.ValidateInput(value, MINIMUM_INVESTOR_FUNDS))
                 {
                     throw new ArgumentException(
                         string.Format(
@@ -92,7 +92,7 @@ namespace StartupCompanyManager.Models
 
                 funds = value;
 
-                validationContext.SetValidationStrategy(null!);
+                _startupCompanyManagerValidationContext.SetValidationStrategy(null!);
             }
         }
     }

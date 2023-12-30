@@ -23,5 +23,11 @@
         public const string INVALID_COUNT_OF_ARGUMENTS_EXCEPTION_MESSAGE = "Invalid count of arguments. Expected {0}, but found {1}.";
 
         public const string INPUT_INCORRECT_CHARACTERISTIC_TYPE_EXCEPTION_MESSAGE = "The input must be of the following type {0}";
+
+        // Composite
+
+        public const string CANNOT_ADD_ELEMENT_TO_LEAF_EXCEPTION_MESSAGE = "Cannot add new element to a {0}";
+
+        public const string CANNOT_REMOVE_ELEMENT_FROM_LEAF_EXCEPTION_MESSAGE = "Cannot remove element from a {0}";
     }
 }

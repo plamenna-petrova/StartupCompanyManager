@@ -4,6 +4,8 @@
     {
         Add,
         Change,
+        Increase,
+        Decrease,
         Remove
     }
 }

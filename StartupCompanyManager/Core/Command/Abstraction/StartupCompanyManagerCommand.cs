@@ -11,7 +11,7 @@ namespace StartupCompanyManager.Core.Command.Abstraction
 
         public StartupCompanyManagerFacade StartupCompanyManagerFacade { get; set; }
 
-        public virtual string ArgumentsPattern { get; set; } = null!;
+        public virtual string ArgumentsPattern { get; protected set; } = null!;
 
         public abstract string Execute(params string[] commandExecutionOperationArguments);
     }

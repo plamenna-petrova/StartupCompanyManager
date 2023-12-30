@@ -4,7 +4,7 @@ namespace StartupCompanyManager.Utilities.Strategy.Context
 {
     public class StartupCompanyManagerValidationContext
     {
-        private IStartupCompanyManagerValidationStrategy validationStrategy = null!;
+        private IStartupCompanyManagerValidationStrategy _startupCompanyManagerValidationStrategy = null!;
 
         public StartupCompanyManagerValidationContext()
         {
@@ -13,15 +13,17 @@ namespace StartupCompanyManager.Utilities.Strategy.Context
 
         public StartupCompanyManagerValidationContext(IStartupCompanyManagerValidationStrategy validationStrategy) : this()
         {
-            this.validationStrategy = validationStrategy;
+            _startupCompanyManagerValidationStrategy = validationStrategy;
         }
 
         public void SetValidationStrategy(IStartupCompanyManagerValidationStrategy validationStrategy)
         {
-            this.validationStrategy = validationStrategy;
+            _startupCompanyManagerValidationStrategy = validationStrategy;
         }
 
-        public bool ValidateInput(object input, params object[] validationArguments) 
-            => validationStrategy.ValidateInput(input, validationArguments);
+        public bool ValidateInput(object input, params object[] validationArguments)
+        {
+            return _startupCompanyManagerValidationStrategy.ValidateInput(input, validationArguments);
+        }
     }
 }

@@ -39,8 +39,7 @@ namespace StartupCompanyManager.Application
 
             _consoleInputOperationExpression.Interpret(startupCompanyManagerOperationsContext);
 
-            Console.WriteLine(startupCompanyManagerOperationsContext.Output);
-            Console.WriteLine();
+            Console.WriteLine(startupCompanyManagerOperationsContext.Output + "\r\n");
 
             string consoleInputCommand = Console.ReadLine()!;
 

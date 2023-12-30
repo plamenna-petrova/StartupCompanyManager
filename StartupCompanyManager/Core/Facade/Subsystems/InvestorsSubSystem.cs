@@ -30,7 +30,7 @@ namespace StartupCompanyManager.Core.Facade.SubSystems
                 throw new ExistingStartupCompanyManagerEntityException(existingInvestorExceptionMessage);
             }
 
-            Investor investorToAdd = new Investor(name, funds);
+            Investor investorToAdd = new(name, funds);
 
             _investorRepository.Add(investorToAdd);
 

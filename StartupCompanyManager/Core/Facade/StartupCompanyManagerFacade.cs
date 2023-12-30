@@ -9,7 +9,10 @@ namespace StartupCompanyManager.Core.Facade
 
         private InvestorsSubSystem _investorsSubSystem;
 
-        public StartupCompanyManagerFacade(DepartmentsSubSystem departmentSubSystem, InvestorsSubSystem investorsSubSystem)
+        public StartupCompanyManagerFacade(
+            DepartmentsSubSystem departmentSubSystem, 
+            InvestorsSubSystem investorsSubSystem
+        )
         {
             _departmentsSubSystem = departmentSubSystem;
             _investorsSubSystem = investorsSubSystem;
