@@ -2,21 +2,21 @@
 
 namespace StartupCompanyManager.Utilities.Strategy.Context
 {
-    public class ValidationContext
+    public class StartupCompanyManagerValidationContext
     {
-        private IValidationStrategy validationStrategy = null!;
+        private IStartupCompanyManagerValidationStrategy validationStrategy = null!;
 
-        public ValidationContext()
+        public StartupCompanyManagerValidationContext()
         {
             
         }
 
-        public ValidationContext(IValidationStrategy validationStrategy) : this()
+        public StartupCompanyManagerValidationContext(IStartupCompanyManagerValidationStrategy validationStrategy) : this()
         {
             this.validationStrategy = validationStrategy;
         }
 
-        public void SetValidationStrategy(IValidationStrategy validationStrategy)
+        public void SetValidationStrategy(IStartupCompanyManagerValidationStrategy validationStrategy)
         {
             this.validationStrategy = validationStrategy;
         }

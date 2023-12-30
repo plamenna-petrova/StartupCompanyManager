@@ -2,7 +2,7 @@
 
 namespace StartupCompanyManager.Utilities.Strategy.ConcreteStrategies
 {
-    public class NullOrWhiteSpaceStringConcreteValidationStrategy : IValidationStrategy
+    public class NullOrWhiteSpaceStringConcreteValidationStrategy : IStartupCompanyManagerValidationStrategy
     {
         public bool ValidateInput(object input, params object[] validationArguments)
         {

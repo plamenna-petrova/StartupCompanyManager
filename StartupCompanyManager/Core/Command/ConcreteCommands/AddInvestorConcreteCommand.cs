@@ -8,16 +8,29 @@ namespace StartupCompanyManager.Core.Command.ConcreteCommands
 {
     public class AddInvestorConcreteCommand : StartupCompanyManagerCommand
     {
+        private const int ADD_INVESTOR_CONCRETE_COMMAND_EXPECTED_ARGUMENTS_COUNT = 2;
+
         public AddInvestorConcreteCommand(StartupCompanyManagerFacade startupCompanyManagerFacade) 
             : base(startupCompanyManagerFacade)
         {
             
         }
 
-        public override string ArgumentsPattern { get; set; } = "[Name] [Funds]";
+        public override string ArgumentsPattern { get; set; } = CommandsMessagesConstants.ADD_INVESTOR_CONCRETE_COMMAND_ARGUMENTS_PATTERN;
 
         public override string Execute(params string[] commandExecutionOperationArguments)
         {
+            if (commandExecutionOperationArguments.Length != ADD_INVESTOR_CONCRETE_COMMAND_EXPECTED_ARGUMENTS_COUNT)
+            {
+                throw new IndexOutOfRangeException(
+                    string.Format(
+                        ExceptionMessagesConstants.INVALID_COUNT_OF_ARGUMENTS_EXCEPTION_MESSAGE, 
+                        ADD_INVESTOR_CONCRETE_COMMAND_EXPECTED_ARGUMENTS_COUNT,
+                        commandExecutionOperationArguments.Length
+                    )
+                );
+            }
+
             decimal oldStartupCompanyCapital = StartupCompany.StartupCompanyInstance.Capital;
 
             StartupCompanyManagerFacade.ExecuteInvestorRelatedOperation(

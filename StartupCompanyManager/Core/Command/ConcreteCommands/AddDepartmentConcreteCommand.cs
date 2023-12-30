@@ -8,16 +8,29 @@ namespace StartupCompanyManager.Core.Command.ConcreteCommands
 {
     public class AddDepartmentConcreteCommand : StartupCompanyManagerCommand
     {
+        private const int ADD_DEPARTMENT_CONCRETE_COMMAND_EXPECTED_ARGUMENTS_COUNT = 2;
+
         public AddDepartmentConcreteCommand(StartupCompanyManagerFacade startupCompanyManagerFacade) 
             : base(startupCompanyManagerFacade)
         {
             
         }
 
-        public override string ArgumentsPattern { get; set; } = "[Name] [YearOfEstablishment]";
+        public override string ArgumentsPattern { get; set; } = CommandsMessagesConstants.ADD_DEPARTMENT_CONCRETE_COMMAND_ARGUMENTS_PATTERN;
 
         public override string Execute(params string[] commandExecutionOperationArguments)
         {
+            if (commandExecutionOperationArguments.Length != ADD_DEPARTMENT_CONCRETE_COMMAND_EXPECTED_ARGUMENTS_COUNT)
+            {
+                throw new IndexOutOfRangeException(
+                    string.Format(
+                        ExceptionMessagesConstants.INVALID_COUNT_OF_ARGUMENTS_EXCEPTION_MESSAGE,
+                        ADD_DEPARTMENT_CONCRETE_COMMAND_EXPECTED_ARGUMENTS_COUNT,
+                        commandExecutionOperationArguments.Length
+                    )
+                );
+            }
+
             StartupCompanyManagerFacade.ExecuteDepartmentRelatedOperation(
                 StartupCompanyManagerCommandAction.Add, commandExecutionOperationArguments
             );

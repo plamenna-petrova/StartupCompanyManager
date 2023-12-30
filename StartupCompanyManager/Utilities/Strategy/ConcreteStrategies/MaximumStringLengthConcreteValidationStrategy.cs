@@ -2,7 +2,7 @@
 
 namespace StartupCompanyManager.Utilities.Strategy.ConcreteStrategies
 {
-    public class MaximumStringLengthConcreteValidationStrategy : IValidationStrategy
+    public class MaximumStringLengthConcreteValidationStrategy : IStartupCompanyManagerValidationStrategy
     {
         public bool ValidateInput(object input, params object[] validationArguments)
         {

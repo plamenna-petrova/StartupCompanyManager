@@ -1,4 +1,5 @@
-﻿using StartupCompanyManager.Infrastructure.Repositories.Contracts;
+﻿using StartupCompanyManager.Constants;
+using StartupCompanyManager.Infrastructure.Repositories.Contracts;
 using StartupCompanyManager.Models;
 using StartupCompanyManager.Models.Singleton;
 
@@ -23,13 +24,22 @@ namespace StartupCompanyManager.Infrastructure.Repositories.Implementation
 
         public void Add(Investor investor)
         {
-            StartupCompany.Capital += investor.Funds;
             StartupCompany.Investors.Add(investor);
+            StartupCompany.Capital += investor.Funds;
         }
 
         public void Update(Investor investor, string propertyName, object propertyValueToSet)
         {
-            investor.GetType().GetProperty(propertyName)!.SetValue(investor, propertyValueToSet);
+            var investorPropertyInfo = investor.GetType().GetProperty(propertyName);
+            var investorPropertyConversionType = investorPropertyInfo!.PropertyType;
+            var convertedPropertyValueToSet = Convert.ChangeType(propertyValueToSet, investorPropertyConversionType);
+
+            investor.GetType().GetProperty(propertyName)!.SetValue(investor, convertedPropertyValueToSet);
+
+            if (propertyName == nameof(investor.Funds))
+            {
+                StartupCompany.Capital += (decimal) convertedPropertyValueToSet;
+            }
         }
 
         public void Remove(Investor investor)

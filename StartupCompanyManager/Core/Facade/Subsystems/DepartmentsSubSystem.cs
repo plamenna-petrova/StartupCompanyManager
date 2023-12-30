@@ -16,7 +16,7 @@ namespace StartupCompanyManager.Core.Facade.SubSystems
 
         public Department AddDepartmentToStartupCompany(string name, int yearOfEstablishment)
         {
-            Department foundDepartment = _departmentRepository.GetAllByCondition(d => d.Name == name).FirstOrDefault()!;
+            Department foundDepartment = _departmentRepository.GetByCondition(d => d.Name == name);
 
             bool doesDepartmentExist = foundDepartment != null;
 
@@ -36,9 +36,25 @@ namespace StartupCompanyManager.Core.Facade.SubSystems
             return departmentToAdd;
         }
 
+        public void ChangeDepartmentCharacteristic(string name, string characteristic, object value)
+        {
+            Department departmentToUpdate = _departmentRepository.GetByCondition(d => d.Name == name);
+
+            if (departmentToUpdate == null)
+            {
+                string nonExistingDepartmentExceptionMessage = string.Format(
+                    ExceptionMessagesConstants.NON_EXISTING_DEPARTMENT_EXCEPTION_MESSAGE, name
+                );
+
+                throw new NonExistingStartupCompanyManagerEntityException(nonExistingDepartmentExceptionMessage);
+            }
+
+            _departmentRepository.Update(departmentToUpdate, characteristic, value);
+        }
+
         public void RemoveDepartment(string name)
         {
-            Department departmentToRemove = _departmentRepository.GetAllByCondition(d => d.Name == name).FirstOrDefault()!;
+            Department departmentToRemove = _departmentRepository.GetByCondition(d => d.Name == name);
 
             if (departmentToRemove == null) 
             {

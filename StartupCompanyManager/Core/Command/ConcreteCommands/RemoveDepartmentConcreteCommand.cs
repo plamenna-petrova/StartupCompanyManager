@@ -8,16 +8,29 @@ namespace StartupCompanyManager.Core.Command.ConcreteCommands
 {
     public class RemoveDepartmentConcreteCommand : StartupCompanyManagerCommand
     {
+        private const int REMOVE_DEPARTMENT_CONCRETE_COMMAND_EXPECTED_ARGUMENTS_COUNT = 1;
+
         public RemoveDepartmentConcreteCommand(StartupCompanyManagerFacade startupCompanyManagerFacade) 
             : base(startupCompanyManagerFacade) 
         {
             
         }
 
-        public override string ArgumentsPattern { get; set; } = "[Name]";
+        public override string ArgumentsPattern { get; set; } = CommandsMessagesConstants.REMOVE_DEPARTMENT_CONCRETE_COMMAND_ARGUMENTS_PATTERN;
 
         public override string Execute(params string[] commandExecutionOperationArguments)
         {
+            if (commandExecutionOperationArguments.Length != REMOVE_DEPARTMENT_CONCRETE_COMMAND_EXPECTED_ARGUMENTS_COUNT)
+            {
+                throw new IndexOutOfRangeException(
+                    string.Format(
+                        ExceptionMessagesConstants.INVALID_COUNT_OF_ARGUMENTS_EXCEPTION_MESSAGE,
+                        REMOVE_DEPARTMENT_CONCRETE_COMMAND_EXPECTED_ARGUMENTS_COUNT,
+                        commandExecutionOperationArguments.Length
+                    )
+                );
+            }
+
             StartupCompanyManagerFacade.ExecuteDepartmentRelatedOperation(
                StartupCompanyManagerCommandAction.Remove, commandExecutionOperationArguments
             );

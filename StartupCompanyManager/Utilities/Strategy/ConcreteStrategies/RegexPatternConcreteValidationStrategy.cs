@@ -3,7 +3,7 @@ using StartupCompanyManager.Utilities.Strategy.Interfaces;
 
 namespace StartupCompanyManager.Utilities.Strategy.ConcreteStrategies
 {
-    public class RegexPatternConcreteValidationStrategy : IValidationStrategy
+    public class RegexPatternConcreteValidationStrategy : IStartupCompanyManagerValidationStrategy
     {
         public bool ValidateInput(object input, params object[] validationArguments)
         {

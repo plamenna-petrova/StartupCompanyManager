@@ -1,4 +1,5 @@
-﻿using StartupCompanyManager.Infrastructure.Repositories.Contracts;
+﻿using StartupCompanyManager.Constants;
+using StartupCompanyManager.Infrastructure.Repositories.Contracts;
 using StartupCompanyManager.Models;
 using StartupCompanyManager.Models.Singleton;
 
@@ -28,7 +29,19 @@ namespace StartupCompanyManager.Infrastructure.Repositories.Implementation
 
         public void Update(Department department, string propertyName, object propertyValueToSet)
         {
-            department.GetType().GetProperty(propertyName)!.SetValue(department, propertyValueToSet);
+            if(!propertyValueToSet.GetType().IsPrimitive)
+            {
+                throw new ArgumentException(
+                    string.Format(
+                        ExceptionMessagesConstants.INPUT_INCORRECT_CHARACTERISTIC_TYPE_EXCEPTION_MESSAGE, 
+                        CommandsMessagesConstants.CHANGE_DEPARTMENT_CONCRETE_COMMAND_ARGUMENTS_PATTERN
+                    )
+                );
+            }
+            else
+            {
+                department.GetType().GetProperty(propertyName)!.SetValue(department, propertyValueToSet);
+            }
         }
 
         public void Remove(Department department)

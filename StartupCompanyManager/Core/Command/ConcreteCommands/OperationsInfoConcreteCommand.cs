@@ -6,9 +6,12 @@ using System.Text.RegularExpressions;
 
 namespace StartupCompanyManager.Core.Command.ConcreteCommands
 {
-    public class OperationsInfoConcreteCommand : StartupCompanyManagerCommand
+    public partial class OperationsInfoConcreteCommand : StartupCompanyManagerCommand
     {
         private readonly IServiceProvider _serviceProvider;
+
+        [GeneratedRegex("(?<=[A-Z])(?=[A-Z][a-z]) | (?<=[^A-Z])(?=[A-Z]) | (?<=[A-Za-z])(?=[^A-Za-z])", RegexOptions.IgnorePatternWhitespace)]
+        private static partial Regex CommandNameGenerationRegex();
 
         public OperationsInfoConcreteCommand(StartupCompanyManagerFacade startupCompanyManagerFacade, IServiceProvider serviceProvider) 
             : base(startupCompanyManagerFacade)
@@ -28,18 +31,18 @@ namespace StartupCompanyManager.Core.Command.ConcreteCommands
 
             foreach (Type startupCompanyManagerCommandType in startupCompanyManagerCommandTypes) 
             {
-                ConstructorInfo? foundCommandTypeConstructor = startupCompanyManagerCommandType.GetConstructors().FirstOrDefault()!;
+                var foundCommandTypeConstructor = startupCompanyManagerCommandType.GetConstructors().FirstOrDefault()!;
 
-                Type[]? foundCommandTypeConstructorParameterTypes = foundCommandTypeConstructor
+                var foundCommandTypeConstructorParameterTypes = foundCommandTypeConstructor
                     .GetParameters()
                     .Select(p => p.ParameterType)
                     .ToArray();
 
-                object?[]? injectedServices = foundCommandTypeConstructorParameterTypes
+                var injectedServices = foundCommandTypeConstructorParameterTypes
                     .Select(cpt => _serviceProvider.GetService(cpt))
                     .ToArray();
 
-                object startupCompanyManagerCommandInstance = Activator.CreateInstance(startupCompanyManagerCommandType, injectedServices)!;
+                var startupCompanyManagerCommandInstance = Activator.CreateInstance(startupCompanyManagerCommandType, injectedServices)!;
 
                 operationsInfoStringBuilder.AppendLine(
                     $"{string.Concat(Enumerable.Repeat("=> ", 3))} " +
@@ -55,10 +58,7 @@ namespace StartupCompanyManager.Core.Command.ConcreteCommands
 
         private string GenerateCommandName(string commandTypeName)
         {
-            Regex commandGenerationPattern = new Regex(
-                @"(?<=[A-Z])(?=[A-Z][a-z]) | (?<=[^A-Z])(?=[A-Z]) | (?<=[A-Za-z])(?=[^A-Za-z])",
-                RegexOptions.IgnorePatternWhitespace
-            );
+            Regex commandGenerationPattern = CommandNameGenerationRegex();
 
             List<string> listOfCommandArguments = commandGenerationPattern.Replace(commandTypeName, " ")
                 .Split(" ", StringSplitOptions.RemoveEmptyEntries)

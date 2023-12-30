@@ -29,6 +29,11 @@ namespace StartupCompanyManager.Core.Facade
                     );
                     break;
                 case StartupCompanyManagerCommandAction.Change:
+                    _departmentsSubSystem.ChangeDepartmentCharacteristic(
+                        (string)departmentSubsystemOperationArguments[0],
+                        (string)departmentSubsystemOperationArguments[1],
+                        departmentSubsystemOperationArguments[2]
+                    );
                     break;
                 case StartupCompanyManagerCommandAction.Remove:
                     _departmentsSubSystem.RemoveDepartment((string)departmentSubsystemOperationArguments[0]);
@@ -50,6 +55,11 @@ namespace StartupCompanyManager.Core.Facade
                     );
                     break;
                 case StartupCompanyManagerCommandAction.Change:
+                    _investorsSubSystem.ChangeInvestorCharacteristic(
+                        (string)investorSubsystemOperationArguments[0],
+                        (string)investorSubsystemOperationArguments[1],
+                        investorSubsystemOperationArguments[2]
+                    );
                     break;
                 case StartupCompanyManagerCommandAction.Remove:
                     _investorsSubSystem.RemoveInvestor((string)investorSubsystemOperationArguments[0]);

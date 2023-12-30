@@ -10,13 +10,13 @@ namespace StartupCompanyManager.Models.Singleton
     {
         private const string STARTUP_COMPANY_PRESENTATION_MESSAGE = "Hereby the startup company \"{0}\" is presented...";
 
-        public const int MINIMUM_STARTUP_COMPANY_NAME_LENGTH = 2;
+        private const int MINIMUM_STARTUP_COMPANY_NAME_LENGTH = 2;
 
-        public const int MAXIMUM_STARTUP_COMPANY_NAME_LENGTH = 30;
+        private const int MAXIMUM_STARTUP_COMPANY_NAME_LENGTH = 30;
 
-        public const decimal MINIMUM_STARTUP_COMPANY_CAPITAL = 50.0000M;
+        private const decimal MINIMUM_STARTUP_COMPANY_CAPITAL = 50.0000M;
 
-        public const decimal MAXIMUM_STARTUP_COMPANY_CAPITAL = 10000000;
+        private const decimal MAXIMUM_STARTUP_COMPANY_CAPITAL = 10000000M;
 
         private const int MINIMUM_STARTUP_COMPANY_ADDRESS_LENGTH = 8;
 
@@ -36,11 +36,13 @@ namespace StartupCompanyManager.Models.Singleton
 
         private string phoneNumber = null!;
 
-        private readonly ValidationContext validationContext = new();
+        private readonly StartupCompanyManagerValidationContext validationContext = new();
 
         private readonly NullOrWhiteSpaceStringConcreteValidationStrategy nullOrWhiteSpaceStringValidationStrategy = new();
 
         private readonly StringLengthRangeConcreteValidationStrategy stringLengthRangeValidationStrategy = new();
+
+        private readonly DecimalValueIncorrectFormatConcreteValidationStrategy decimalValueIncorrectFormatConcreteValidationStrategy = new();
 
         private readonly NumberRangeConcreteValidationStrategy numberRangeValidationStrategy = new();
 
@@ -68,15 +70,13 @@ namespace StartupCompanyManager.Models.Singleton
 
                 if (validationContext.ValidateInput(value))
                 {
-                    throw new ArgumentException(
-                        nameof(Name), ValidationConstants.NULL_OR_WHITE_SPACE_STARTUP_COMPANY_NAME_ERROR_MESSAGE
-                    );
+                    throw new ArgumentException(ValidationConstants.NULL_OR_WHITE_SPACE_STARTUP_COMPANY_NAME_ERROR_MESSAGE);
                 }
 
                 validationContext.SetValidationStrategy(stringLengthRangeValidationStrategy);
 
                 if (!validationContext.ValidateInput(
-                    value, MINIMUM_STARTUP_COMPANY_NAME_LENGTH, MAXIMUM_STARTUP_COMPANY_ADDRESS_LENGTH
+                    value, MINIMUM_STARTUP_COMPANY_NAME_LENGTH, MAXIMUM_STARTUP_COMPANY_NAME_LENGTH
                 ))
                 {
                     throw new ArgumentException(
@@ -99,12 +99,23 @@ namespace StartupCompanyManager.Models.Singleton
             get => capital;
             set
             {
+                validationContext.SetValidationStrategy(decimalValueIncorrectFormatConcreteValidationStrategy);
+
+                if (!validationContext.ValidateInput(value))
+                {
+                    throw new ArgumentException(ValidationConstants.STARTUP_COMPANY_CAPITAL_INCORRECT_FORMAT_ERROR_MESSAGE);
+                }
+
                 validationContext.SetValidationStrategy(numberRangeValidationStrategy);
 
                 if (!validationContext.ValidateInput(value, MINIMUM_STARTUP_COMPANY_CAPITAL, MAXIMUM_STARTUP_COMPANY_CAPITAL))
                 {
                     throw new ArgumentException(
-                        nameof(Capital), ValidationConstants.STARTUP_COMPANY_CAPITAL_NUMBER_RANGER_ERROR_MESSAGE
+                        string.Format(
+                            ValidationConstants.STARTUP_COMPANY_CAPITAL_NUMBER_RANGER_ERROR_MESSAGE, 
+                            MINIMUM_STARTUP_COMPANY_CAPITAL, 
+                            MAXIMUM_STARTUP_COMPANY_CAPITAL
+                        )
                     );
                 }
 
@@ -141,9 +152,7 @@ namespace StartupCompanyManager.Models.Singleton
 
                 if (validationContext.ValidateInput(value)) 
                 {
-                    throw new ArgumentException(
-                        nameof(Address), ValidationConstants.NULL_OR_WHITE_SPACE_STARTUP_COMPANY_ADDRESS_ERROR_MESSAGE
-                    );
+                    throw new ArgumentException(ValidationConstants.NULL_OR_WHITE_SPACE_STARTUP_COMPANY_ADDRESS_ERROR_MESSAGE);
                 }
 
                 validationContext.SetValidationStrategy(stringLengthRangeValidationStrategy);

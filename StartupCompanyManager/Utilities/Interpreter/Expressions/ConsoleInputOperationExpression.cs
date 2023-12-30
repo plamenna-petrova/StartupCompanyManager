@@ -16,10 +16,14 @@ namespace StartupCompanyManager.Utilities.Interpreter.Expressions
 
         public override void Interpret(StartupCompanyManagerOperationsContext startupCompanyManagerOperationContext)
         {
-            string[] consoleInputOperationArguments = startupCompanyManagerOperationContext.Input.Split(' ').ToArray();
+            string[] consoleInputOperationArguments = startupCompanyManagerOperationContext.Input
+                .Split(' ', StringSplitOptions.RemoveEmptyEntries)
+                .ToArray();
+
             string commandType = string.Join(string.Empty, consoleInputOperationArguments.Take(2));
             StartupCompanyManagerCommand startupCompanyManagerCommand = _startupCompanyManagerCommandConcreteCreator.Create(commandType);
             string[] consoleInputCommandExecutionOperationArguments = consoleInputOperationArguments.Skip(2).ToArray();
+
             startupCompanyManagerOperationContext.Output = startupCompanyManagerCommand.Execute(consoleInputCommandExecutionOperationArguments);
         }
     }
