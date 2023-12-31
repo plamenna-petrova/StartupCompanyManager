@@ -1,5 +1,7 @@
 ﻿using StartupCompanyManager.Constants;
+using StartupCompanyManager.Infrastructure.Extensions;
 using StartupCompanyManager.Infrastructure.Repositories.Contracts;
+using StartupCompanyManager.Models;
 using StartupCompanyManager.Models.Composite.Component;
 using StartupCompanyManager.Models.Singleton;
 
@@ -29,22 +31,36 @@ namespace StartupCompanyManager.Infrastructure.Repositories.Implementation
 
         public void Update(Employee employee, string propertyName, object propertyValueToSet)
         {
-            Type propertyValueToSetType = propertyValueToSet.GetType();
+            try
+            {
+                string formattedEmployeePropertyName = string.Join(string.Empty, propertyName.Split(" "));
+                var employeePropertyInfo = employee.GetType().GetProperty(formattedEmployeePropertyName);
+                var employeePropertyConversionType = employeePropertyInfo!.PropertyType;
 
-            if (propertyValueToSet.GetType().IsPrimitive || propertyValueToSetType == typeof(decimal) ||
-                propertyValueToSetType == typeof(string)
-            )
-            {
-                employee.GetType().GetProperty(propertyName)!.SetValue(employee, propertyValueToSet);
+                if (employeePropertyConversionType.IsPrimitive || employeePropertyConversionType == typeof(decimal) ||
+                    employeePropertyConversionType == typeof(string)
+                )
+                {
+                    var convertedEmployeePropertyValueToSet = Convert.ChangeType(propertyValueToSet, employeePropertyConversionType);
+                    employee.GetType().GetProperty(formattedEmployeePropertyName)!.SetValue(employee, convertedEmployeePropertyValueToSet);
+                }
+                else
+                {
+                    throw new ArgumentException(
+                        string.Format(
+                            ExceptionMessagesConstants.INPUT_INCORRECT_CHARACTERISTIC_TYPE_EXCEPTION_MESSAGE,
+                            CommandsMessagesConstants.CHANGE_EMPLOYEE_CONCRETE_COMMAND_ARGUMENTS_PATTERN
+                        )
+                    );
+                }
             }
-            else
+            catch (Exception exception)
             {
-                throw new ArgumentException(
-                    string.Format(
-                        ExceptionMessagesConstants.INPUT_INCORRECT_CHARACTERISTIC_TYPE_EXCEPTION_MESSAGE,
-                        CommandsMessagesConstants.CHANGE_DEPARTMENT_CONCRETE_COMMAND_ARGUMENTS_PATTERN
-                    )
-                );
+                if (exception.InnerException != null)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine(exception.InnerException.Message);
+                }
             }
         }
 

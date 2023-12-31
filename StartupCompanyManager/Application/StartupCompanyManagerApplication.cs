@@ -18,7 +18,7 @@ namespace StartupCompanyManager.Application
         {
             StartupCompany.CreateInstance(
                 "DiligentSys",
-                80.0000M,
+                80000.00M,
                 "cutting_edge_tech_focus@gmail.com",
                 "9th Street. 47 W 15th St, New York, NY 10011",
                 "+1 (646) 555-3890"
@@ -49,13 +49,20 @@ namespace StartupCompanyManager.Application
                 {
                     startupCompanyManagerOperationsContext.Input = consoleInputCommand;
                     _consoleInputOperationExpression.Interpret(startupCompanyManagerOperationsContext);
-                    Console.WriteLine(startupCompanyManagerOperationsContext.Output);
+
+                    if (!string.IsNullOrEmpty(startupCompanyManagerOperationsContext.Output))
+                    {
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine(startupCompanyManagerOperationsContext.Output);
+                    }
                 }
                 catch (Exception exception)
                 {
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine(exception.Message);
                 }
 
+                Console.ForegroundColor = ConsoleColor.White;
                 consoleInputCommand = Console.ReadLine()!;
             }
         }

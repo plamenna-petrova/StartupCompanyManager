@@ -15,7 +15,7 @@ namespace StartupCompanyManager.Models.Singleton
 
         private const int MAXIMUM_STARTUP_COMPANY_NAME_LENGTH = 30;
 
-        private const decimal MINIMUM_STARTUP_COMPANY_CAPITAL = 50.0000M;
+        private const decimal MINIMUM_STARTUP_COMPANY_CAPITAL = 5000.00M;
 
         private const decimal MAXIMUM_STARTUP_COMPANY_CAPITAL = 10000000M;
 

@@ -29,22 +29,36 @@ namespace StartupCompanyManager.Infrastructure.Repositories.Implementation
 
         public void Update(Department department, string propertyName, object propertyValueToSet)
         {
-            Type propertyValueToSetType = propertyValueToSet.GetType();
+            try
+            {
+                string formattedDepartmentPropertyName = string.Join(string.Empty, propertyName.Split(" "));
+                var departmentPropertyInfo = department.GetType().GetProperty(formattedDepartmentPropertyName);
+                var departmentPropertyConversionType = departmentPropertyInfo!.PropertyType;
 
-            if (propertyValueToSet.GetType().IsPrimitive || propertyValueToSetType == typeof(decimal) || 
-                propertyValueToSetType == typeof(string)
-            )
-            {
-                department.GetType().GetProperty(propertyName)!.SetValue(department, propertyValueToSet);
+                if (departmentPropertyConversionType.IsPrimitive || departmentPropertyConversionType == typeof(decimal) ||
+                    departmentPropertyConversionType == typeof(string)
+                )
+                {
+                    var convertedDepartmentPropertyValueToSet = Convert.ChangeType(propertyValueToSet, departmentPropertyConversionType);
+                    department.GetType().GetProperty(formattedDepartmentPropertyName)!.SetValue(department, convertedDepartmentPropertyValueToSet);
+                }
+                else
+                {
+                    throw new ArgumentException(
+                        string.Format(
+                            ExceptionMessagesConstants.INPUT_INCORRECT_CHARACTERISTIC_TYPE_EXCEPTION_MESSAGE,
+                            CommandsMessagesConstants.CHANGE_DEPARTMENT_CONCRETE_COMMAND_ARGUMENTS_PATTERN
+                        )
+                    );
+                }
             }
-            else
+            catch (Exception exception)
             {
-                throw new ArgumentException(
-                    string.Format(
-                        ExceptionMessagesConstants.INPUT_INCORRECT_CHARACTERISTIC_TYPE_EXCEPTION_MESSAGE,
-                        CommandsMessagesConstants.CHANGE_DEPARTMENT_CONCRETE_COMMAND_ARGUMENTS_PATTERN
-                    )
-                );
+                if (exception.InnerException != null)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine(exception.InnerException.Message);
+                }
             }
         }
 

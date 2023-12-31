@@ -17,7 +17,7 @@ namespace StartupCompanyManager.Core.Facade.SubSystems
         }
 
         public Employee AddEmployeeToStartupCompany(
-            string employeeType, string firstName, string lastName,
+            string employeeType, string firstName, string lastName, string position,
             decimal monthlySalary, int yearOfWorkExperience, DateTime birthDate, int rating
         )
         {
@@ -30,7 +30,7 @@ namespace StartupCompanyManager.Core.Facade.SubSystems
             if (doesEmployeeExist)
             {
                 string existingDepartmentExceptionMessage = string.Format(
-                    ExceptionMessagesConstants.EXISTING_EMPLOYEE_EXCEPTION_MESSAGE, firstName, lastName, birthDate.ToString()
+                    ExceptionMessagesConstants.EXISTING_EMPLOYEE_EXCEPTION_MESSAGE, firstName, lastName, birthDate.ToString("dd.MM.yyy")
                 );
 
                 throw new ExistingStartupCompanyManagerEntityException(existingDepartmentExceptionMessage);
@@ -40,14 +40,14 @@ namespace StartupCompanyManager.Core.Facade.SubSystems
 
             var foundEmployeeType = executingAssembly.GetTypes()
                 .Where(t => typeof(Employee).IsAssignableFrom(t) && !t.IsAbstract)
-                .FirstOrDefault(t => t.Name.ToLower() == employeeType.ToLower())
+                .FirstOrDefault(t => t.Name.ToLower() == string.Join(string.Empty, employeeType.ToLower().Split(" ")))
                     ?? throw new ArgumentException(
                           string.Format(ExceptionMessagesConstants.INVALID_EMPLOYEE_TYPE_EXCEPTION_MESSAGE, employeeType)
                        );
 
             Employee employeeToAdd = (Employee)Activator.CreateInstance(
                foundEmployeeType, 
-               new object[] { firstName, lastName, monthlySalary, yearOfWorkExperience, birthDate, rating }
+               new object[] { firstName, lastName, position, monthlySalary, yearOfWorkExperience, birthDate, rating }
             )!;
 
             _employeeRepository.Add(employeeToAdd);

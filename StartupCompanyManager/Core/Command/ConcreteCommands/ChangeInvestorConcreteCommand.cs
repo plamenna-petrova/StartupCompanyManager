@@ -4,11 +4,6 @@ using StartupCompanyManager.Core.Command.Enums;
 using StartupCompanyManager.Core.Facade;
 using StartupCompanyManager.Models;
 using StartupCompanyManager.Models.Singleton;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StartupCompanyManager.Core.Command.ConcreteCommands
 {
@@ -52,17 +47,24 @@ namespace StartupCompanyManager.Core.Command.ConcreteCommands
 
             if (((string)commandExecutionOperationArguments[1]) == nameof(Investor.Funds))
             {
-                string companyCapitalIncreaseAfterInvestorFundsChangeMessage = string.Format(
-                    CommandsMessagesConstants.INCREASED_STARTUP_COMPANY_CAPITAL_AFTER_INVESTOR_FUNDS_CHANGE,
-                    StartupCompany.StartupCompanyInstance.Name,
-                    oldStartupCompanyCapital,
-                    StartupCompany.StartupCompanyInstance.Capital
-                );
+                if (oldStartupCompanyCapital == StartupCompany.StartupCompanyInstance.Capital) 
+                {
+                    changeInvestorConcreteCommandSuccessMessage = null!;
+                }
+                else
+                {
+                    string companyCapitalIncreaseAfterInvestorFundsChangeMessage = string.Format(
+                        CommandsMessagesConstants.INCREASED_STARTUP_COMPANY_CAPITAL_AFTER_INVESTOR_FUNDS_CHANGE,
+                        StartupCompany.StartupCompanyInstance.Name,
+                        oldStartupCompanyCapital,
+                        StartupCompany.StartupCompanyInstance.Capital
+                    );
 
-                changeInvestorConcreteCommandSuccessMessage += $"\n{companyCapitalIncreaseAfterInvestorFundsChangeMessage}";
+                    changeInvestorConcreteCommandSuccessMessage += $"\n{companyCapitalIncreaseAfterInvestorFundsChangeMessage}";
+                }
             }
 
-            return changeInvestorConcreteCommandSuccessMessage;
+            return changeInvestorConcreteCommandSuccessMessage!;
         }
     }
 }

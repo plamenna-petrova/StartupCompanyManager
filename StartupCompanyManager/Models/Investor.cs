@@ -11,7 +11,7 @@ namespace StartupCompanyManager.Models
 
         private const int MAXIMUM_INVESTOR_NAME_LENGTH = 35;
 
-        private const decimal MINIMUM_INVESTOR_FUNDS = 5.0000M;
+        private const decimal MINIMUM_INVESTOR_FUNDS = 5.000M;
 
         private string name = null!;
 
@@ -25,7 +25,7 @@ namespace StartupCompanyManager.Models
 
         private readonly DecimalValueIncorrectFormatConcreteValidationStrategy _decimalValueIncorrectFormatConcreteValidationStrategy = new();
 
-        private readonly MinIntegerNumberValueConcreteValidationStrategy _minNumberConcreteValidationStrategy = new();
+        private readonly MinDecimalNumberValueConcreteValidationStrategy _minDecimalNumberValueConcreteValidationStrategy = new();
 
         public Investor(string name, decimal funds)
         {
@@ -78,7 +78,7 @@ namespace StartupCompanyManager.Models
                     throw new ArgumentException(ValidationConstants.INVESTOR_FUNDS_INCORRECT_FORMAT_ERROR_MESSAGE);
                 }
 
-                _startupCompanyManagerValidationContext.SetValidationStrategy(_minNumberConcreteValidationStrategy);
+                _startupCompanyManagerValidationContext.SetValidationStrategy(_minDecimalNumberValueConcreteValidationStrategy);
 
                 if (!_startupCompanyManagerValidationContext.ValidateInput(value, MINIMUM_INVESTOR_FUNDS))
                 {

@@ -3,11 +3,6 @@ using StartupCompanyManager.Infrastructure.Exceptions;
 using StartupCompanyManager.Infrastructure.Repositories.Contracts;
 using StartupCompanyManager.Models.Singleton;
 using StartupCompanyManager.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StartupCompanyManager.Infrastructure.Repositories.Implementation
 {
@@ -44,7 +39,10 @@ namespace StartupCompanyManager.Infrastructure.Repositories.Implementation
         public void Add(Project project, params object[] entityCreationArguments)
         {
             string teamName = (string)entityCreationArguments[0];
-            var targetTeamOfProject = StartupCompany.Departments.SelectMany(d => d.Teams).FirstOrDefault(t => t.Name == teamName);
+
+            var targetTeamOfProject = StartupCompany.Departments
+                .SelectMany(d => d.Teams)
+                .FirstOrDefault(t => t.Name == teamName);
 
             if (targetTeamOfProject == null)
             {
@@ -63,28 +61,49 @@ namespace StartupCompanyManager.Infrastructure.Repositories.Implementation
 
         public void Update(Project project, string propertyName, object propertyValueToSet)
         {
-            Type propertyValueToSetType = propertyValueToSet.GetType();
+            try
+            {
+                string formattedProjectPropertyName = string.Join(string.Empty, propertyName.Split(" "));
+                var projectPropertyInfo = project.GetType().GetProperty(formattedProjectPropertyName);
+                var projectPropertyConversionType = projectPropertyInfo!.PropertyType;
 
-            if (propertyValueToSetType.IsPrimitive || propertyValueToSetType == typeof(decimal) || 
-                propertyValueToSetType == typeof(string)
-            )
-            {
-                project.GetType().GetProperty(propertyName)!.SetValue(project, propertyValueToSet);
+                if (projectPropertyConversionType.IsPrimitive || projectPropertyConversionType == typeof(decimal) ||
+                    projectPropertyConversionType == typeof(string)
+                )
+                {
+                    var convertedProjectPropertyValueToSet = Convert.ChangeType(propertyValueToSet, projectPropertyConversionType);
+                    project.GetType().GetProperty(formattedProjectPropertyName)!.SetValue(project, convertedProjectPropertyValueToSet);
+                }
+                else
+                {
+                    throw new ArgumentException(
+                        string.Format(
+                            ExceptionMessagesConstants.INPUT_INCORRECT_CHARACTERISTIC_TYPE_EXCEPTION_MESSAGE,
+                            CommandsMessagesConstants.CHANGE_PROJECT_CONCRETE_COMMAND_ARGUMENTS_PATTERN
+                        )
+                    );
+                }
             }
-            else
+            catch (Exception exception)
             {
-                throw new ArgumentException(
-                  string.Format(
-                      ExceptionMessagesConstants.INPUT_INCORRECT_CHARACTERISTIC_TYPE_EXCEPTION_MESSAGE,
-                      CommandsMessagesConstants.CHANGE_PROJECT_CONCRETE_COMMAND_ARGUMENTS_PATTERN
-                  )
-                );
+                if (exception.InnerException != null)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine(exception.InnerException.Message);
+                }
             }
         }
 
         public void Remove(Project project, params object[] entityRemovalArguments)
         {
-            project.Team.Project = null!;
+            var teamOfProject = StartupCompany.Departments
+                .SelectMany(d => d.Teams)
+                .FirstOrDefault(t => t.Project.Name == project.Name);   
+
+            if (teamOfProject != null)
+            {
+                teamOfProject.Project = null!;
+            }
         }
 
         public bool Exists(Project projectToFind, params object[] entityExistenceArguments)

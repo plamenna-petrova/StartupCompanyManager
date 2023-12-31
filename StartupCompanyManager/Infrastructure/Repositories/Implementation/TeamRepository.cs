@@ -54,28 +54,43 @@ namespace StartupCompanyManager.Infrastructure.Repositories.Implementation
 
         public void Update(Team team, string propertyName, object propertyValueToSet)
         {
-            Type propertyValueToSetType = propertyValueToSet.GetType();
+            try
+            {
+                string formattedTeamPropertyName = string.Join(string.Empty, propertyName.Split(" "));
+                var teamPropertyInfo = team.GetType().GetProperty(formattedTeamPropertyName);
+                var teamPropertyConversionType = teamPropertyInfo!.PropertyType;
 
-            if (propertyValueToSetType.IsPrimitive || propertyValueToSetType == typeof(decimal) || 
-                propertyValueToSetType == typeof(string)
-            )
-            {
-                team.GetType().GetProperty(propertyName)!.SetValue(team, propertyValueToSet);
+                if (teamPropertyConversionType.IsPrimitive || teamPropertyConversionType == typeof(decimal) ||
+                    teamPropertyConversionType == typeof(string)
+                )
+                {
+                    var convertedTeamPropertyValueToSet = Convert.ChangeType(propertyValueToSet, teamPropertyConversionType);
+                    team.GetType().GetProperty(formattedTeamPropertyName)!.SetValue(team, convertedTeamPropertyValueToSet);
+                }
+                else
+                {
+                    throw new ArgumentException(
+                        string.Format(
+                            ExceptionMessagesConstants.INPUT_INCORRECT_CHARACTERISTIC_TYPE_EXCEPTION_MESSAGE,
+                            CommandsMessagesConstants.CHANGE_TEAM_CONCRETE_COMMAND_ARGUMENTS_PATTERN
+                        )
+                    );
+                }
             }
-            else
+            catch (Exception exception)
             {
-                throw new ArgumentException(
-                  string.Format(
-                      ExceptionMessagesConstants.INPUT_INCORRECT_CHARACTERISTIC_TYPE_EXCEPTION_MESSAGE,
-                      CommandsMessagesConstants.CHANGE_TEAM_CONCRETE_COMMAND_ARGUMENTS_PATTERN
-                  )
-                );
+                if (exception.InnerException != null)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine(exception.InnerException.Message);
+                }
             }
         }
 
         public void Remove(Team team, params object[] entityRemovalArguments)
         {
-            team.Department?.Teams.Remove(team);
+            var departmentOfTeam = StartupCompany.Departments.Where(d => d.Teams.Contains(team)).FirstOrDefault();
+            departmentOfTeam?.Teams.Remove(team);
         }
 
         public bool Exists(Team teamToFind, params object[] entityExistenceArguments)

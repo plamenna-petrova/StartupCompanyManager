@@ -17,12 +17,13 @@ namespace StartupCompanyManager.Utilities.Interpreter.Expressions
         public override void Interpret(StartupCompanyManagerOperationsContext startupCompanyManagerOperationContext)
         {
             string[] consoleInputOperationArguments = startupCompanyManagerOperationContext.Input
-                .Split(' ', StringSplitOptions.RemoveEmptyEntries)
+                .Split(new char[] { '[', ']' }, StringSplitOptions.RemoveEmptyEntries)
+                .Where(commandEntry => commandEntry.Trim() != string.Empty)
                 .ToArray();
 
-            string commandType = string.Join(string.Empty, consoleInputOperationArguments.Take(2));
+            string commandType = string.Join(string.Empty, consoleInputOperationArguments[0].Split(" "));
             StartupCompanyManagerCommand startupCompanyManagerCommand = _startupCompanyManagerCommandConcreteCreator.Create(commandType);
-            string[] consoleInputCommandExecutionOperationArguments = consoleInputOperationArguments.Skip(2).ToArray();
+            string[] consoleInputCommandExecutionOperationArguments = consoleInputOperationArguments.Skip(1).ToArray();
 
             startupCompanyManagerOperationContext.Output = startupCompanyManagerCommand.Execute(consoleInputCommandExecutionOperationArguments);
         }

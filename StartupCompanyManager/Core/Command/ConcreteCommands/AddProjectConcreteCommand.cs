@@ -59,8 +59,8 @@ namespace StartupCompanyManager.Core.Command.ConcreteCommands
 
             _startupCompanyManagerValidationContext.SetValidationStrategy(_totalDaysDifferenceConcreteValidationStrategy);
 
-            ((string)commandExecutionOperationArguments[1]).ParseDateTimeExactly(out DateTime exactlyParsedProjectAssignmentDate);
-            ((string)commandExecutionOperationArguments[2]).ParseDateTimeExactly(out DateTime exactlyParsedProjectDeadline);
+            DateTime exactlyParsedProjectAssignmentDate = ((string)commandExecutionOperationArguments[1]).ParseDateTimeExactly();
+            DateTime exactlyParsedProjectDeadline = ((string)commandExecutionOperationArguments[2]).ParseDateTimeExactly();
 
             if (!_startupCompanyManagerValidationContext.ValidateInput(
                 exactlyParsedProjectAssignmentDate, exactlyParsedProjectDeadline, PROJECT_MINIMUM_EXECUTION_DAYS

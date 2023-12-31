@@ -24,7 +24,7 @@
 
         public const string NON_EXISTING_PROJECT_EXCEPTION_MESSAGE = "A project with the following name \"{0}\" could not be found.";
 
-        public const string EXISTING_EMPLOYEE_EXCEPTION_MESSAGE = "An with the following data: First Name - \"{0}\", Last Name - \"{1}\", Birthdate - \"{2}\" already exists.";
+        public const string EXISTING_EMPLOYEE_EXCEPTION_MESSAGE = "An employee with the following data: First Name - \"{0}\", Last Name - \"{1}\", Birthdate - \"{2}\" already exists.";
 
         public const string NON_EXISTING_EMPLOYEE_EXCEPTION_MESSAGE = "An employee with the following name \"{0}\" could not be found.";
 

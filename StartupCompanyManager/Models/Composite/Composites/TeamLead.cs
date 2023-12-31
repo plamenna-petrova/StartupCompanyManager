@@ -4,8 +4,8 @@ namespace StartupCompanyManager.Models.Composite.Composites
 {
     public class TeamLead : Employee
     {
-        public TeamLead(string firstName, string lastName, decimal monthlySalary, int yearsOfWorkExperience, DateTime birthDate, int rating) 
-            : base(firstName, lastName, monthlySalary, yearsOfWorkExperience, birthDate, rating)
+        public TeamLead(string firstName, string lastName, string position, decimal monthlySalary, int yearsOfWorkExperience, DateTime birthDate, int rating) 
+            : base(firstName, lastName, position, monthlySalary, yearsOfWorkExperience, birthDate, rating)
         {
 
         }

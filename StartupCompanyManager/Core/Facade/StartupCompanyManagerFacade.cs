@@ -148,21 +148,22 @@ namespace StartupCompanyManager.Core.Facade
                         (string)employeesSubsystemOperationArguments[0],
                         (string)employeesSubsystemOperationArguments[1],
                         (string)employeesSubsystemOperationArguments[2],
-                        decimal.Parse((string)employeesSubsystemOperationArguments[3]),
-                        int.Parse((string)employeesSubsystemOperationArguments[4]),
-                        (DateTime)employeesSubsystemOperationArguments[5],
-                        int.Parse((string)employeesSubsystemOperationArguments[6])
+                        (string)employeesSubsystemOperationArguments[3],
+                        decimal.Parse((string)employeesSubsystemOperationArguments[4]),
+                        int.Parse((string)employeesSubsystemOperationArguments[5]),
+                        (DateTime)employeesSubsystemOperationArguments[6],
+                        int.Parse((string)employeesSubsystemOperationArguments[7])
                     );
                     break;
                 case StartupCompanyManagerCommandAction.Change:
-                    _projectsSubSystem.ChangeProjectCharacteristic(
+                    _employeesSubSystem.ChangeEmployeeCharacteristic(
                         (string)employeesSubsystemOperationArguments[0],
                         (string)employeesSubsystemOperationArguments[1],
                         employeesSubsystemOperationArguments[2]
                     );
                     break;
                 case StartupCompanyManagerCommandAction.Remove:
-                    _projectsSubSystem.RemoveProject((string)employeesSubsystemOperationArguments[0]);
+                    _employeesSubSystem.RemoveEmployee((string)employeesSubsystemOperationArguments[0]);
                     break;
             }
         }

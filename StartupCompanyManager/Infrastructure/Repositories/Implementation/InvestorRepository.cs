@@ -30,15 +30,40 @@ namespace StartupCompanyManager.Infrastructure.Repositories.Implementation
 
         public void Update(Investor investor, string propertyName, object propertyValueToSet)
         {
-            var investorPropertyInfo = investor.GetType().GetProperty(propertyName);
-            var investorPropertyConversionType = investorPropertyInfo!.PropertyType;
-            var convertedPropertyValueToSet = Convert.ChangeType(propertyValueToSet, investorPropertyConversionType);
-
-            investor.GetType().GetProperty(propertyName)!.SetValue(investor, convertedPropertyValueToSet);
-
-            if (propertyName == nameof(investor.Funds))
+            try
             {
-                StartupCompany.Capital += (decimal) convertedPropertyValueToSet;
+                var investorPropertyInfo = investor.GetType().GetProperty(propertyName);
+                var investorPropertyConversionType = investorPropertyInfo!.PropertyType;
+
+                if (investorPropertyConversionType.IsPrimitive || investorPropertyConversionType == typeof(decimal) ||
+                    investorPropertyConversionType == typeof(string)
+                )
+                {
+                    var convertedInvestorPropertyValueToSet = Convert.ChangeType(propertyValueToSet, investorPropertyConversionType);
+                    investor.GetType().GetProperty(propertyName)!.SetValue(investor, convertedInvestorPropertyValueToSet);
+
+                    if (propertyName == nameof(investor.Funds))
+                    {
+                        StartupCompany.Capital += (decimal)convertedInvestorPropertyValueToSet;
+                    }
+                }
+                else
+                {
+                    throw new ArgumentException(
+                        string.Format(
+                            ExceptionMessagesConstants.INPUT_INCORRECT_CHARACTERISTIC_TYPE_EXCEPTION_MESSAGE,
+                            CommandsMessagesConstants.CHANGE_INVESTOR_CONCRETE_COMMAND_ARGUMENTS_PATTERN
+                        )
+                    );
+                }
+            }
+            catch (Exception exception)
+            {
+                if (exception.InnerException != null)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine(exception.InnerException.Message);
+                }
             }
         }
 

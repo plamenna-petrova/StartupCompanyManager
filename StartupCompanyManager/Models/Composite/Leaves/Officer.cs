@@ -5,8 +5,8 @@ namespace StartupCompanyManager.Models.Composite.Leaves
 {
     public class Officer : Employee
     {
-        public Officer(string firstName, string lastName, decimal monthlySalary, int yearsOfWorkExperience, DateTime birthDate, int rating) 
-            : base(firstName, lastName, monthlySalary, yearsOfWorkExperience, birthDate, rating)
+        public Officer(string firstName, string lastName, string position, decimal monthlySalary, int yearsOfWorkExperience, DateTime birthDate, int rating) 
+            : base(firstName, lastName, position, monthlySalary, yearsOfWorkExperience, birthDate, rating)
         {
 
         }

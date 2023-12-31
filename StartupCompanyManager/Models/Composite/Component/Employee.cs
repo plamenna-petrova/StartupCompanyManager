@@ -15,6 +15,10 @@ namespace StartupCompanyManager.Models.Composite.Component
 
         private const int MAXIMUM_EMPLOYEE_LAST_NAME_LENGTH = 35;
 
+        private const int MINIMUM_EMPLOYEE_POSITION_LENGTH = 3;
+
+        private const int MAXIMUM_EMPLOYEE_POSITION_LENGTH = 50;
+
         private const decimal MINIMUM_EMPLOYEE_MONTHLY_SALARY = 1000.00M;
 
         private const decimal MAXIMUM_EMPLOYEE_MONTHLY_SALARY = 30000.00M;
@@ -28,6 +32,8 @@ namespace StartupCompanyManager.Models.Composite.Component
         private string firstName = null!;
 
         private string lastName = null!;
+
+        private string position = null!;
 
         private decimal monthlySalary = default;
 
@@ -53,10 +59,11 @@ namespace StartupCompanyManager.Models.Composite.Component
 
         private readonly MinIntegerNumberValueConcreteValidationStrategy _minIntegerNumberConcreteValidationStrategy = new();
 
-        public Employee(string firstName, string lastName, decimal monthlySalary, int yearsOfWorkExperience, DateTime birthDate, int rating)
+        public Employee(string firstName, string lastName, string position, decimal monthlySalary, int yearsOfWorkExperience, DateTime birthDate, int rating)
         {
             FirstName = firstName;
             LastName = lastName;
+            Position = position;
             MonthlySalary = monthlySalary;
             YearsOfWorkExperience = yearsOfWorkExperience;
             BirthDate = birthDate;
@@ -130,6 +137,39 @@ namespace StartupCompanyManager.Models.Composite.Component
         }
 
         public string FullName { get => $"{FirstName} {LastName}"; }
+
+        public string Position
+        {
+            get => position;
+            set
+            {
+                _startupCompanyManagerValidationContext.SetValidationStrategy(_nullOrWhiteSpaceStringConcreteValidationStrategy);
+
+                if (_startupCompanyManagerValidationContext.ValidateInput(value))
+                {
+                    throw new ArgumentException(ValidationConstants.NULL_OR_WHITE_SPACE_EMPLOYEE_POSITION_ERROR_MESSAGE);
+                }
+
+                _startupCompanyManagerValidationContext.SetValidationStrategy(_stringLengthRangeConcreteValidationStrategy);
+
+                if (!_startupCompanyManagerValidationContext.ValidateInput(
+                    value, MINIMUM_EMPLOYEE_POSITION_LENGTH, MAXIMUM_EMPLOYEE_POSITION_LENGTH
+                ))
+                {
+                    throw new ArgumentException(
+                        string.Format(
+                            ValidationConstants.EMPLOYEE_POSITION_STRING_LENGTH_RANGE_ERROR_MESSAGE,
+                            MINIMUM_EMPLOYEE_POSITION_LENGTH,
+                            MAXIMUM_EMPLOYEE_POSITION_LENGTH
+                        )
+                    );
+                }
+
+                position = value;
+
+                _startupCompanyManagerValidationContext.SetValidationStrategy(null!);
+            }
+        }
 
         public decimal MonthlySalary
         {

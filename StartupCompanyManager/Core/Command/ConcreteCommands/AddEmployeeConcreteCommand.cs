@@ -11,7 +11,7 @@ namespace StartupCompanyManager.Core.Command.ConcreteCommands
 {
     public class AddEmployeeConcreteCommand : StartupCompanyManagerCommand
     {
-        private const int ADD_EMPLOYEE_CONCRETE_COMMAND_EXPECTED_ARGUMENTS_COUNT = 7;
+        private const int ADD_EMPLOYEE_CONCRETE_COMMAND_EXPECTED_ARGUMENTS_COUNT = 8;
 
         private readonly StartupCompanyManagerValidationContext _startupCompanyManagerValidationContext = new();
 
@@ -41,7 +41,7 @@ namespace StartupCompanyManager.Core.Command.ConcreteCommands
             _startupCompanyManagerValidationContext.SetValidationStrategy(_dateTimeIncorrectFormatConcreteValidationStrategy);
 
             if (!_startupCompanyManagerValidationContext.ValidateInput(
-                commandExecutionOperationArguments[5], GlobalConstants.DATE_TIME_VALUE_FORMAT
+                commandExecutionOperationArguments[6], GlobalConstants.DATE_TIME_VALUE_FORMAT
             ))
             {
                 throw new ArgumentException(ValidationConstants.EMPLOYEE_BIRTH_DATE_INCORRECT_FORMAT_ERROR_MESSAGE);
@@ -49,7 +49,7 @@ namespace StartupCompanyManager.Core.Command.ConcreteCommands
 
             _startupCompanyManagerValidationContext.SetValidationStrategy(null!);
 
-            ((string)commandExecutionOperationArguments[5]).ParseDateTimeExactly(out DateTime exactlyParsedBirthDate);
+            DateTime exactlyParsedEmployeeBirthDate = ((string)commandExecutionOperationArguments[6]).ParseDateTimeExactly();
 
             StartupCompanyManagerFacade.ExecuteEmployeeRelatedOperation(
                 StartupCompanyManagerCommandAction.Add,
@@ -58,17 +58,18 @@ namespace StartupCompanyManager.Core.Command.ConcreteCommands
                 commandExecutionOperationArguments[2],
                 commandExecutionOperationArguments[3],
                 commandExecutionOperationArguments[4],
-                exactlyParsedBirthDate,
-                commandExecutionOperationArguments[6]
+                commandExecutionOperationArguments[5],
+                exactlyParsedEmployeeBirthDate,
+                commandExecutionOperationArguments[7]
             );
 
-            string addDepartmentConcreteCommandSuccessMessage = string.Format(
+            string addEmployeeConcreteCommandSuccessMessage = string.Format(
                 CommandsMessagesConstants.ADDED_DEPARTMENT_TO_STARTUP_COMPANY_SUCCESS_MESSAGE,
                 $"{commandExecutionOperationArguments[1]} {commandExecutionOperationArguments[2]}",
                 StartupCompany.StartupCompanyInstance.Name
             );
 
-            return addDepartmentConcreteCommandSuccessMessage;
+            return addEmployeeConcreteCommandSuccessMessage;
         }
     }
 }
