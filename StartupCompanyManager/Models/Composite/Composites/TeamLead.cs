@@ -4,6 +4,12 @@ namespace StartupCompanyManager.Models.Composite.Composites
 {
     public class TeamLead : Employee
     {
+        public TeamLead(string firstName, string lastName, decimal monthlySalary, int yearsOfWorkExperience, DateTime birthDate, int rating) 
+            : base(firstName, lastName, monthlySalary, yearsOfWorkExperience, birthDate, rating)
+        {
+
+        }
+
         public ICollection<Employee> Employees { get; set; } = new HashSet<Employee>();
 
         public override void Add(Employee employee)
@@ -18,7 +24,7 @@ namespace StartupCompanyManager.Models.Composite.Composites
 
         public override void GetHierarchicalLevel(int depthIndicator)
         {
-            Console.WriteLine($"{new string('-', depthIndicator)}+ {FullName} [{Position}] [${MonthlySalary}]");
+            Console.WriteLine($"{new string('-', depthIndicator)}+ {FullName} [{GetType().Name}] [${MonthlySalary}]");
 
             foreach (var employee in Employees)
             {

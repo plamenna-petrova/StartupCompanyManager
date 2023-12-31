@@ -88,10 +88,6 @@
 
         public const string EMPLOYEE_LAST_NAME_STRING_LENGTH_RANGE_ERROR_MESSAGE = "The employee's last name must be between {0} and {1} characters long.";
 
-        public const string NULL_OR_WHITE_SPACE_EMPLOYEE_POSITION_ERROR_MESSAGE = "The employee's position cannot be empty or consisting only of whitespaces.";
-
-        public const string EMPLOYEE_POSITION_STRING_LENGTH_RANGE_ERROR_MESSAGE = "The employee's position must be between {0} and {1} characters long.";
-
         public const string EMPLOYEE_MONTHLY_SALARY_INCORRECT_FORMAT_ERROR_MESSAGE = "The employee's salary is not in the correct format.";
 
         public const string EMPLOYEE_MONTHLY_SALARY_NUMBER_RANGE_ERROR_MESSAGE = "The employee's salary must be between ${0} and ${1}.";

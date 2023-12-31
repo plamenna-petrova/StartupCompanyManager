@@ -24,7 +24,7 @@ namespace StartupCompanyManager.Core.Command.ConcreteCommands
 
         public override string ArgumentsPattern { get; protected set; } = CommandsMessagesConstants.CHANGE_INVESTOR_CONCRETE_COMMAND_ARGUMENTS_PATTERN;
 
-        public override string Execute(params string[] commandExecutionOperationArguments)
+        public override string Execute(params object[] commandExecutionOperationArguments)
         {
             if (commandExecutionOperationArguments.Length != CHANGE_INVESTOR_CONCRETE_COMMAND_EXPECTED_ARGUMENTS_COUNT)
             {
@@ -50,7 +50,7 @@ namespace StartupCompanyManager.Core.Command.ConcreteCommands
                 commandExecutionOperationArguments[2]
             );
 
-            if (commandExecutionOperationArguments[1] == nameof(Investor.Funds))
+            if (((string)commandExecutionOperationArguments[1]) == nameof(Investor.Funds))
             {
                 string companyCapitalIncreaseAfterInvestorFundsChangeMessage = string.Format(
                     CommandsMessagesConstants.INCREASED_STARTUP_COMPANY_CAPITAL_AFTER_INVESTOR_FUNDS_CHANGE,

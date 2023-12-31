@@ -2,11 +2,11 @@
 
 namespace StartupCompanyManager.Utilities.Strategy.ConcreteStrategies
 {
-    public class MaxNumberConcreteValidationStrategy : IStartupCompanyManagerValidationStrategy
+    public class MinIntegerNumberValueConcreteValidationStrategy : IStartupCompanyManagerValidationStrategy
     {
         public bool ValidateInput(object input, params object[] validationArguments)
         {
-            return (decimal)input <= (decimal)validationArguments[0];
+            return (int)input >= (int)validationArguments[0];
         }
     }
 }

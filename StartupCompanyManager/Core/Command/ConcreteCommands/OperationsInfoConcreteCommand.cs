@@ -19,7 +19,7 @@ namespace StartupCompanyManager.Core.Command.ConcreteCommands
             _serviceProvider = serviceProvider;    
         }
 
-        public override string Execute(params string[] commandExecutionOperationArguments)
+        public override string Execute(params object[] commandExecutionOperationArguments)
         {
             Assembly executingAssembly = Assembly.GetExecutingAssembly();
 

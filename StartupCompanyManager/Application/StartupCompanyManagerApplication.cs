@@ -17,7 +17,7 @@ namespace StartupCompanyManager.Application
         public void Run()
         {
             StartupCompany.CreateInstance(
-                "CuttingEdgeFocus Tech",
+                "DiligentSys",
                 80.0000M,
                 "cutting_edge_tech_focus@gmail.com",
                 "9th Street. 47 W 15th St, New York, NY 10011",

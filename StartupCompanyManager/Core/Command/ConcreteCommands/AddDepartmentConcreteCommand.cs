@@ -18,7 +18,7 @@ namespace StartupCompanyManager.Core.Command.ConcreteCommands
 
         public override string ArgumentsPattern { get; protected set; } = CommandsMessagesConstants.ADD_DEPARTMENT_CONCRETE_COMMAND_ARGUMENTS_PATTERN;
 
-        public override string Execute(params string[] commandExecutionOperationArguments)
+        public override string Execute(params object[] commandExecutionOperationArguments)
         {
             if (commandExecutionOperationArguments.Length != ADD_DEPARTMENT_CONCRETE_COMMAND_EXPECTED_ARGUMENTS_COUNT)
             {

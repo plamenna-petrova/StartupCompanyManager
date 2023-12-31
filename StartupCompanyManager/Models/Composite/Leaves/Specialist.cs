@@ -5,6 +5,12 @@ namespace StartupCompanyManager.Models.Composite.Leaves
 {
     public class Specialist : Employee
     {
+        public Specialist(string firstName, string lastName, decimal monthlySalary, int yearsOfWorkExperience, DateTime birthDate, int rating) 
+            : base(firstName, lastName, monthlySalary, yearsOfWorkExperience, birthDate, rating)
+        {
+
+        }
+
         public override void Add(Employee employee)
         {
             throw new InvalidOperationException(
@@ -21,7 +27,7 @@ namespace StartupCompanyManager.Models.Composite.Leaves
 
         public override void GetHierarchicalLevel(int depthIndicator)
         {
-            Console.WriteLine($"{new string('-', depthIndicator)} {FullName} [{Position}] [${MonthlySalary}]");
+            Console.WriteLine($"{new string('-', depthIndicator)} {FullName} [{GetType().Name}] [${MonthlySalary}]");
         }
     }
 }

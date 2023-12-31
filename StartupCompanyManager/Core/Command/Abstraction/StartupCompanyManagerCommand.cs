@@ -13,6 +13,6 @@ namespace StartupCompanyManager.Core.Command.Abstraction
 
         public virtual string ArgumentsPattern { get; protected set; } = null!;
 
-        public abstract string Execute(params string[] commandExecutionOperationArguments);
+        public abstract string Execute(params object[] commandExecutionOperationArguments);
     }
 }

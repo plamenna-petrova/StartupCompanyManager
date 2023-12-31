@@ -28,7 +28,7 @@ namespace StartupCompanyManager.Core.Command.ConcreteCommands
 
         public override string ArgumentsPattern { get; protected set; } = CommandsMessagesConstants.ADD_PROJECT_CONCRETE_COMMAND_ARGUMENTS_PATTERN;
 
-        public override string Execute(params string[] commandExecutionOperationArguments)
+        public override string Execute(params object[] commandExecutionOperationArguments)
         {
             if (commandExecutionOperationArguments.Length != ADD_PROJECT_CONCRETE_COMMAND_EXPECTED_ARGUMENTS_COUNT)
             {
@@ -59,8 +59,8 @@ namespace StartupCompanyManager.Core.Command.ConcreteCommands
 
             _startupCompanyManagerValidationContext.SetValidationStrategy(_totalDaysDifferenceConcreteValidationStrategy);
 
-            commandExecutionOperationArguments[1].ParseDateTimeExactly(out DateTime exactlyParsedProjectAssignmentDate);
-            commandExecutionOperationArguments[2].ParseDateTimeExactly(out DateTime exactlyParsedProjectDeadline);
+            ((string)commandExecutionOperationArguments[1]).ParseDateTimeExactly(out DateTime exactlyParsedProjectAssignmentDate);
+            ((string)commandExecutionOperationArguments[2]).ParseDateTimeExactly(out DateTime exactlyParsedProjectDeadline);
 
             if (!_startupCompanyManagerValidationContext.ValidateInput(
                 exactlyParsedProjectAssignmentDate, exactlyParsedProjectDeadline, PROJECT_MINIMUM_EXECUTION_DAYS

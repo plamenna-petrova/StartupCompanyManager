@@ -13,17 +13,21 @@ namespace StartupCompanyManager.Core.Facade
 
         private readonly ProjectsSubSystem _projectsSubSystem;
 
+        private readonly EmployeesSubSystem _employeesSubSystem;
+
         public StartupCompanyManagerFacade(
-            DepartmentsSubSystem departmentSubSystem, 
+            DepartmentsSubSystem departmentSubSystem,
             InvestorsSubSystem investorsSubSystem,
             TeamsSubSystem teamsSubSystem,
-            ProjectsSubSystem projectsSubSystem
+            ProjectsSubSystem projectsSubSystem,
+            EmployeesSubSystem employeesSubSystem
         )
         {
             _departmentsSubSystem = departmentSubSystem;
             _investorsSubSystem = investorsSubSystem;
             _teamsSubSystem = teamsSubSystem;
             _projectsSubSystem = projectsSubSystem;
+            _employeesSubSystem = employeesSubSystem;
         }
 
         public void ExecuteDepartmentRelatedOperation(
@@ -35,7 +39,7 @@ namespace StartupCompanyManager.Core.Facade
             {
                 case StartupCompanyManagerCommandAction.Add:
                     _departmentsSubSystem.AddDepartmentToStartupCompany(
-                        (string)departmentsSubsystemOperationArguments[0], 
+                        (string)departmentsSubsystemOperationArguments[0],
                         int.Parse((string)departmentsSubsystemOperationArguments[1])
                     );
                     break;
@@ -61,7 +65,7 @@ namespace StartupCompanyManager.Core.Facade
             {
                 case StartupCompanyManagerCommandAction.Add:
                     _investorsSubSystem.AddInvestorToStartupCompany(
-                        (string)investorsSubsystemOperationArguments[0], 
+                        (string)investorsSubsystemOperationArguments[0],
                         decimal.Parse((string)investorsSubsystemOperationArguments[1])
                     );
                     break;
@@ -79,7 +83,7 @@ namespace StartupCompanyManager.Core.Facade
         }
 
         public void ExecuteTeamRelatedOperation(
-            StartupCompanyManagerCommandAction startupCompanyManagerCommandAction, 
+            StartupCompanyManagerCommandAction startupCompanyManagerCommandAction,
             params object[] teamsSubsystemOperationArguments
         )
         {
@@ -128,6 +132,37 @@ namespace StartupCompanyManager.Core.Facade
                     break;
                 case StartupCompanyManagerCommandAction.Remove:
                     _projectsSubSystem.RemoveProject((string)projectsSubsystemOperationArguments[0]);
+                    break;
+            }
+        }
+
+        public void ExecuteEmployeeRelatedOperation(
+            StartupCompanyManagerCommandAction startupCompanyManagerCommandAction,
+            params object[] employeesSubsystemOperationArguments
+        )
+        {
+            switch (startupCompanyManagerCommandAction)
+            {
+                case StartupCompanyManagerCommandAction.Add:
+                    _employeesSubSystem.AddEmployeeToStartupCompany(
+                        (string)employeesSubsystemOperationArguments[0],
+                        (string)employeesSubsystemOperationArguments[1],
+                        (string)employeesSubsystemOperationArguments[2],
+                        decimal.Parse((string)employeesSubsystemOperationArguments[3]),
+                        int.Parse((string)employeesSubsystemOperationArguments[4]),
+                        (DateTime)employeesSubsystemOperationArguments[5],
+                        int.Parse((string)employeesSubsystemOperationArguments[6])
+                    );
+                    break;
+                case StartupCompanyManagerCommandAction.Change:
+                    _projectsSubSystem.ChangeProjectCharacteristic(
+                        (string)employeesSubsystemOperationArguments[0],
+                        (string)employeesSubsystemOperationArguments[1],
+                        employeesSubsystemOperationArguments[2]
+                    );
+                    break;
+                case StartupCompanyManagerCommandAction.Remove:
+                    _projectsSubSystem.RemoveProject((string)employeesSubsystemOperationArguments[0]);
                     break;
             }
         }

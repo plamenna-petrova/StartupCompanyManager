@@ -25,7 +25,7 @@ namespace StartupCompanyManager.Models
 
         private readonly DecimalValueIncorrectFormatConcreteValidationStrategy _decimalValueIncorrectFormatConcreteValidationStrategy = new();
 
-        private readonly MinNumberConcreteValidationStrategy _minNumberConcreteValidationStrategy = new();
+        private readonly MinIntegerNumberValueConcreteValidationStrategy _minNumberConcreteValidationStrategy = new();
 
         public Investor(string name, decimal funds)
         {

@@ -63,11 +63,11 @@ namespace StartupCompanyManager.Core.Facade.SubSystems
 
             if (projectToRemove == null)
             {
-                string nonExistingTeamExceptionMessage = string.Format(
+                string nonExistingProjectExceptionMessage = string.Format(
                     ExceptionMessagesConstants.NON_EXISTING_PROJECT_EXCEPTION_MESSAGE, name
                 );
 
-                throw new NonExistingStartupCompanyManagerEntityException(nonExistingTeamExceptionMessage);
+                throw new NonExistingStartupCompanyManagerEntityException(nonExistingProjectExceptionMessage);
             }
 
             _projectRepository.Remove(projectToRemove);
