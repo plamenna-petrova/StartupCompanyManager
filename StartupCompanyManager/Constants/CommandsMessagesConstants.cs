@@ -16,6 +16,18 @@
 
         public const string REMOVE_INVESTOR_CONCRETE_COMMAND_ARGUMENTS_PATTERN = "[Name]";
 
+        public const string ADD_TEAM_CONCRETE_COMMAND_ARGUMENTS_PATTERN = "[Name] [Department]";
+
+        public const string CHANGE_TEAM_CONCRETE_COMMAND_ARGUMENTS_PATTERN = "[Name] [Name | TeamLead] [Value]";
+
+        public const string REMOVE_TEAM_CONCRETE_COMMAND_ARGUMENTS_PATTERN = "[Name]";
+
+        public const string ADD_PROJECT_CONCRETE_COMMAND_ARGUMENTS_PATTERN = "[Name] [AssignmentDate] [Deadline] [Team]";
+
+        public const string CHANGE_PROJECT_CONCRETE_COMMAND_ARGUMENTS_PATTERN = "[Name] [Name] [Value]";
+
+        public const string REMOVE_PROJECT_CONCRETE_COMMAND_ARGUMENTS_PATTERN = "[Name]";
+
         // Success Messages
 
         public const string ADDED_DEPARTMENT_TO_STARTUP_COMPANY_SUCCESS_MESSAGE = "Successfully added department {0} to Startup Company \"{1}\".";
@@ -31,5 +43,17 @@
         public const string INCREASED_STARTUP_COMPANY_CAPITAL_AFTER_INVESTOR_FUNDS_CHANGE = "Successfully increased the company's capital from {1} to {2}.";
 
         public const string REMOVED_INVESTOR_FROM_STARTUP_COMPANY_SUCCESS_MESSAGE = "Successfully removed investor {0} from Startup Company \"{1}\".";
+
+        public const string ADDED_TEAM_TO_DEPARTMENT_SUCCESS_MESSAGE = "Successfully added team {0} to department {1}.";
+
+        public const string CHANGED_TEAM_OF_STARTUP_COMPANY_SUCCESS_MESSAGE = "Successfully changed team's {0} characteristic {1} to {2}.";
+
+        public const string REMOVED_TEAM_FROM_STARTUP_COMPANY_SUCCESS_MESSAGE = "Successfully removed team {0} from Startup Company \"{1}\".";
+
+        public const string ADDED_PROJECT_TO_TEAM_SUCCESS_MESSAGE = "Successfully added project {0} to team {1}.";
+
+        public const string CHANGED_PROJECT_OF_STARTUP_COMPANY_SUCCESS_MESSAGE = "Successfully changed project's {0} characteristic {1} to {2}.";
+
+        public const string REMOVED_PROJECT_FROM_STARTUP_COMPANY_SUCCESS_MESSAGE = "Successfully removed project {0} from Startup Company \"{1}\".";
     }
 }

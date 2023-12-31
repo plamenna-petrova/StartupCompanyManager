@@ -12,7 +12,7 @@
 
         public const string STARTUP_COMPANY_CAPITAL_INCORRECT_FORMAT_ERROR_MESSAGE = "The startup company's capital is not in the correct format.";
 
-        public const string STARTUP_COMPANY_CAPITAL_NUMBER_RANGER_ERROR_MESSAGE = "The startup company's capital must be between ${0} and ${1}.";
+        public const string STARTUP_COMPANY_CAPITAL_NUMBER_RANGE_ERROR_MESSAGE = "The startup company's capital must be between ${0} and ${1}.";
 
         public const string STARTUP_COMPANY_ADDRESS_STRING_LENGTH_RANGE_ERROR_MESSAGE = "The startup company's address must be between {0} and {1} characters long.";
 
@@ -50,7 +50,7 @@
 
         public const string PROJECT_DEADLINE_INCORRECT_FORMAT_ERROR_MESSAGE = "The project's deadline is not in the correct format.";
 
-        public const string PROJECT_EXECUTION_DAYS_ERROR_MESSAGE = "The project's deadline must be set at least {0} days from the its assignment date.";
+        public const string PROJECT_EXECUTION_DAYS_ERROR_MESSAGE = "The project's deadline must be set at least {0} days apart from its assignment date.";
 
         // Task
 

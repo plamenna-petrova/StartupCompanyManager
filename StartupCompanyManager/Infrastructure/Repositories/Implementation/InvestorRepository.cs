@@ -22,7 +22,7 @@ namespace StartupCompanyManager.Infrastructure.Repositories.Implementation
             return StartupCompany.Investors.Where(entitiesFilterDelegate).ToList();
         }
 
-        public void Add(Investor investor)
+        public void Add(Investor investor, params object[] entityCreationArguments)
         {
             StartupCompany.Investors.Add(investor);
             StartupCompany.Capital += investor.Funds;
@@ -42,12 +42,12 @@ namespace StartupCompanyManager.Infrastructure.Repositories.Implementation
             }
         }
 
-        public void Remove(Investor investor)
+        public void Remove(Investor investor, params object[] entityDeletionArguments)
         {
             StartupCompany.Investors.Remove(investor);
         }
 
-        public bool Exists(Investor investorToFind)
+        public bool Exists(Investor investorToFind, params object[] entityExistenceArguments)
         {
             return StartupCompany.Investors.Contains(investorToFind);
         }

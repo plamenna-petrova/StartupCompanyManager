@@ -12,7 +12,7 @@ namespace StartupCompanyManager.Models
 
         private const int MAXIMUM_DEPARTMENT_NAME_LENGTH = 25;
 
-        private const decimal EARLIEST_ALLOWED_DEPARTMENT_YEAR_OF_ESTABLISHMENT = 2012;
+        private const int EARLIEST_ALLOWED_DEPARTMENT_YEAR_OF_ESTABLISHMENT = 2012;
 
         private string name = null!;
 
@@ -26,7 +26,7 @@ namespace StartupCompanyManager.Models
 
         private readonly IntegerValueIncorrectFormatConcreteValidationStrategy _integerValueIncorrectFormatConcreteValidationStrategy = new();
 
-        private readonly NumberRangeConcreteValidationStrategy _numberRangeConcreteValidationStrategy = new();
+        private readonly IntegersNumberRangeConcreteValidationStrategy _integersRangeConcreteValidationStrategy = new();
 
         public Department(string name, int yearOfEstablishment)
         {
@@ -79,10 +79,10 @@ namespace StartupCompanyManager.Models
                     throw new ArgumentException(ValidationConstants.DEPARTMENT_YEAR_OF_ESTABLISHMENT_INCORRECT_FORMAT_ERROR_MESSAGE);
                 }
 
-                _startupCompanyManagerValidationContext.SetValidationStrategy(_numberRangeConcreteValidationStrategy);
+                _startupCompanyManagerValidationContext.SetValidationStrategy(_integersRangeConcreteValidationStrategy);
 
                 if (!_startupCompanyManagerValidationContext.ValidateInput(
-                    Convert.ToDecimal(value), EARLIEST_ALLOWED_DEPARTMENT_YEAR_OF_ESTABLISHMENT, DateTime.Today.Year
+                    value, EARLIEST_ALLOWED_DEPARTMENT_YEAR_OF_ESTABLISHMENT, DateTime.Today.Year
                 ))
                 {
                     throw new ArgumentException(

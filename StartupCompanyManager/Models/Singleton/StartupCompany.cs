@@ -1,6 +1,7 @@
 ﻿using StartupCompanyManager.Constants;
 using StartupCompanyManager.Infrastructure.Exceptions;
 using StartupCompanyManager.Models.Abstraction;
+using StartupCompanyManager.Models.Composite.Component;
 using StartupCompanyManager.Utilities.Strategy.ConcreteStrategies;
 using StartupCompanyManager.Utilities.Strategy.Context;
 
@@ -44,7 +45,7 @@ namespace StartupCompanyManager.Models.Singleton
 
         private readonly DecimalValueIncorrectFormatConcreteValidationStrategy _decimalValueIncorrectFormatConcreteValidationStrategy = new();
 
-        private readonly NumberRangeConcreteValidationStrategy _numberRangeConcreteValidationStrategy = new();
+        private readonly DecimalsNumberRangeConcreteValidationStrategy _decimalsNumberRangeConcreteValidationStrategy = new();
 
         private readonly RegexPatternConcreteValidationStrategy _regexPatternConcreteValidationStrategy = new();
 
@@ -106,7 +107,7 @@ namespace StartupCompanyManager.Models.Singleton
                     throw new ArgumentException(ValidationConstants.STARTUP_COMPANY_CAPITAL_INCORRECT_FORMAT_ERROR_MESSAGE);
                 }
 
-                _startupCompanyManagerValidationContext.SetValidationStrategy(_numberRangeConcreteValidationStrategy);
+                _startupCompanyManagerValidationContext.SetValidationStrategy(_decimalsNumberRangeConcreteValidationStrategy);
 
                 if (!_startupCompanyManagerValidationContext.ValidateInput(
                     value, MINIMUM_STARTUP_COMPANY_CAPITAL, MAXIMUM_STARTUP_COMPANY_CAPITAL
@@ -114,7 +115,7 @@ namespace StartupCompanyManager.Models.Singleton
                 {
                     throw new ArgumentException(
                         string.Format(
-                            ValidationConstants.STARTUP_COMPANY_CAPITAL_NUMBER_RANGER_ERROR_MESSAGE, 
+                            ValidationConstants.STARTUP_COMPANY_CAPITAL_NUMBER_RANGE_ERROR_MESSAGE, 
                             MINIMUM_STARTUP_COMPANY_CAPITAL, 
                             MAXIMUM_STARTUP_COMPANY_CAPITAL
                         )
@@ -199,6 +200,8 @@ namespace StartupCompanyManager.Models.Singleton
         public ICollection<Department> Departments { get; set; } = new HashSet<Department>();
 
         public ICollection<Investor> Investors { get; set; } = new HashSet<Investor>();
+
+        public ICollection<Employee> Employees { get; set; } = new HashSet<Employee>();
 
         public static StartupCompany StartupCompanyInstance
         {

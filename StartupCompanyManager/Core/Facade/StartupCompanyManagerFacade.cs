@@ -5,67 +5,129 @@ namespace StartupCompanyManager.Core.Facade
 {
     public class StartupCompanyManagerFacade
     {
-        private DepartmentsSubSystem _departmentsSubSystem;
+        private readonly DepartmentsSubSystem _departmentsSubSystem;
 
-        private InvestorsSubSystem _investorsSubSystem;
+        private readonly InvestorsSubSystem _investorsSubSystem;
+
+        private readonly TeamsSubSystem _teamsSubSystem;
+
+        private readonly ProjectsSubSystem _projectsSubSystem;
 
         public StartupCompanyManagerFacade(
             DepartmentsSubSystem departmentSubSystem, 
-            InvestorsSubSystem investorsSubSystem
+            InvestorsSubSystem investorsSubSystem,
+            TeamsSubSystem teamsSubSystem,
+            ProjectsSubSystem projectsSubSystem
         )
         {
             _departmentsSubSystem = departmentSubSystem;
             _investorsSubSystem = investorsSubSystem;
+            _teamsSubSystem = teamsSubSystem;
+            _projectsSubSystem = projectsSubSystem;
         }
 
         public void ExecuteDepartmentRelatedOperation(
             StartupCompanyManagerCommandAction startupCompanyManagerCommandAction,
-            params object[] departmentSubsystemOperationArguments
+            params object[] departmentsSubsystemOperationArguments
         )
         {
             switch (startupCompanyManagerCommandAction)
             {
                 case StartupCompanyManagerCommandAction.Add:
                     _departmentsSubSystem.AddDepartmentToStartupCompany(
-                        (string)departmentSubsystemOperationArguments[0], 
-                        int.Parse((string)departmentSubsystemOperationArguments[1])
+                        (string)departmentsSubsystemOperationArguments[0], 
+                        int.Parse((string)departmentsSubsystemOperationArguments[1])
                     );
                     break;
                 case StartupCompanyManagerCommandAction.Change:
                     _departmentsSubSystem.ChangeDepartmentCharacteristic(
-                        (string)departmentSubsystemOperationArguments[0],
-                        (string)departmentSubsystemOperationArguments[1],
-                        departmentSubsystemOperationArguments[2]
+                        (string)departmentsSubsystemOperationArguments[0],
+                        (string)departmentsSubsystemOperationArguments[1],
+                        departmentsSubsystemOperationArguments[2]
                     );
                     break;
                 case StartupCompanyManagerCommandAction.Remove:
-                    _departmentsSubSystem.RemoveDepartment((string)departmentSubsystemOperationArguments[0]);
+                    _departmentsSubSystem.RemoveDepartment((string)departmentsSubsystemOperationArguments[0]);
                     break;
             }
         }
 
         public void ExecuteInvestorRelatedOperation(
             StartupCompanyManagerCommandAction startupCompanyManagerCommandAction,
-            params object[] investorSubsystemOperationArguments
+            params object[] investorsSubsystemOperationArguments
         )
         {
             switch (startupCompanyManagerCommandAction)
             {
                 case StartupCompanyManagerCommandAction.Add:
                     _investorsSubSystem.AddInvestorToStartupCompany(
-                        (string)investorSubsystemOperationArguments[0], 
-                        decimal.Parse((string)investorSubsystemOperationArguments[1])
+                        (string)investorsSubsystemOperationArguments[0], 
+                        decimal.Parse((string)investorsSubsystemOperationArguments[1])
                     );
                     break;
                 case StartupCompanyManagerCommandAction.Change:
                     _investorsSubSystem.ChangeInvestorCharacteristic(
-                        (string)investorSubsystemOperationArguments[0],
-                        (string)investorSubsystemOperationArguments[1],
-                        investorSubsystemOperationArguments[2]
+                        (string)investorsSubsystemOperationArguments[0],
+                        (string)investorsSubsystemOperationArguments[1],
+                        investorsSubsystemOperationArguments[2]
                     );
                     break;
                 case StartupCompanyManagerCommandAction.Remove:
-                    _investorsSubSystem.RemoveInvestor((string)investorSubsystemOperationArguments[0]);
+                    _investorsSubSystem.RemoveInvestor((string)investorsSubsystemOperationArguments[0]);
+                    break;
+            }
+        }
+
+        public void ExecuteTeamRelatedOperation(
+            StartupCompanyManagerCommandAction startupCompanyManagerCommandAction, 
+            params object[] teamsSubsystemOperationArguments
+        )
+        {
+            switch (startupCompanyManagerCommandAction)
+            {
+                case StartupCompanyManagerCommandAction.Add:
+                    _teamsSubSystem.AddTeamToDepartment(
+                        (string)teamsSubsystemOperationArguments[0],
+                        (string)teamsSubsystemOperationArguments[1]
+                    );
+                    break;
+                case StartupCompanyManagerCommandAction.Change:
+                    _teamsSubSystem.ChangeTeamCharacteristic(
+                        (string)teamsSubsystemOperationArguments[0],
+                        (string)teamsSubsystemOperationArguments[1],
+                        teamsSubsystemOperationArguments[2]
+                    );
+                    break;
+                case StartupCompanyManagerCommandAction.Remove:
+                    _teamsSubSystem.RemoveTeam((string)teamsSubsystemOperationArguments[0]);
+                    break;
+            }
+        }
+
+        public void ExecuteProjectRelatedOperation(
+            StartupCompanyManagerCommandAction startupCompanyManagerCommandAction,
+            params object[] projectsSubsystemOperationArguments
+        )
+        {
+            switch (startupCompanyManagerCommandAction)
+            {
+                case StartupCompanyManagerCommandAction.Add:
+                    _projectsSubSystem.AddProjectToTeam(
+                        (string)projectsSubsystemOperationArguments[0],
+                        (DateTime)projectsSubsystemOperationArguments[1],
+                        (DateTime)projectsSubsystemOperationArguments[2],
+                        (string)projectsSubsystemOperationArguments[3]
+                    );
+                    break;
+                case StartupCompanyManagerCommandAction.Change:
+                    _projectsSubSystem.ChangeProjectCharacteristic(
+                        (string)projectsSubsystemOperationArguments[0],
+                        (string)projectsSubsystemOperationArguments[1],
+                        projectsSubsystemOperationArguments[2]
+                    );
+                    break;
+                case StartupCompanyManagerCommandAction.Remove:
+                    _projectsSubSystem.RemoveProject((string)projectsSubsystemOperationArguments[0]);
                     break;
             }
         }

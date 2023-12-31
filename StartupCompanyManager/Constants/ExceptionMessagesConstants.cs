@@ -16,6 +16,14 @@
 
         public const string NON_EXISTING_INVESTOR_EXCEPTION_MESSAGE = "An investor with the following name \"{0}\" could not be found.";
 
+        public const string EXISTING_TEAM_EXCEPTION_MESSAGE = "A team with the following name \"{0}\" already exists.";
+
+        public const string NON_EXISTING_TEAM_EXCEPTION_MESSAGE = "A team with the following name \"{0}\" could not be found.";
+
+        public const string EXISTING_PROJECT_EXCEPTION_MESSAGE = "A project with the following name \"{0}\" already exists.";
+
+        public const string NON_EXISTING_PROJECT_EXCEPTION_MESSAGE = "A project with the following name \"{0}\" could not be found.";
+
         // Commands
 
         public const string INVALID_STARTUP_COMPANY_MANAGER_OPERATION_EXCEPTION_MESSAGE = "Invalid operation expression. See the upper listed commands.";

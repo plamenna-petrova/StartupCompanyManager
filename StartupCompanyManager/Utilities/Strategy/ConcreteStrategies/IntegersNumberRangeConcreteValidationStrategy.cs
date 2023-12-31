@@ -2,11 +2,11 @@
 
 namespace StartupCompanyManager.Utilities.Strategy.ConcreteStrategies
 {
-    public class TotalDaysDifferenceConcreteValidationStrategy : IStartupCompanyManagerValidationStrategy
+    public class IntegersNumberRangeConcreteValidationStrategy : IStartupCompanyManagerValidationStrategy
     {
         public bool ValidateInput(object input, params object[] validationArguments)
         {
-            return ((DateTime)validationArguments[0] - (DateTime) input).TotalDays >= (int) validationArguments[1];
+            return (int)input >= (int)validationArguments[0] && (int)input <= (int)validationArguments[1];
         }
     }
 }

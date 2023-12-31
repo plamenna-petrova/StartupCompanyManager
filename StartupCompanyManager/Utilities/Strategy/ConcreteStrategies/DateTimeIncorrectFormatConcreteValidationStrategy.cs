@@ -1,4 +1,5 @@
-﻿using StartupCompanyManager.Utilities.Strategy.Interfaces;
+﻿using StartupCompanyManager.Infrastructure.Extensions;
+using StartupCompanyManager.Utilities.Strategy.Interfaces;
 using System.Globalization;
 
 namespace StartupCompanyManager.Utilities.Strategy.ConcreteStrategies
@@ -7,7 +8,7 @@ namespace StartupCompanyManager.Utilities.Strategy.ConcreteStrategies
     {
         public bool ValidateInput(object input, params object[] validationArguments)
         {
-            return DateTime.TryParseExact((string) input, (string)validationArguments[0], CultureInfo.InvariantCulture, DateTimeStyles.None, out _);
+            return ((string)input).ParseDateTimeExactly(out _);
         }
     }
 }

@@ -8,12 +8,12 @@
 
         ICollection<TEntity> GetAllByCondition(Func<TEntity, bool> entitiesFilterDelegate);
 
-        void Add(TEntity entity);
+        void Add(TEntity entity, params object[] entityCreationArguments);
 
         void Update(TEntity entity, string propertyName, object propertyValueToSet);
 
-        void Remove(TEntity entity);
+        void Remove(TEntity entity, params object[] entityDeletionArguments);
 
-        bool Exists(TEntity entityToFind);
+        bool Exists(TEntity entityToFind, params object[] entityExistenceArguments);
     }
 }

@@ -53,7 +53,7 @@ namespace StartupCompanyManager.Models.Composite.Component
 
         private readonly IntegerValueIncorrectFormatConcreteValidationStrategy _integerValueIncorrectFormatConcreteValidationStrategy = new();
 
-        private readonly NumberRangeConcreteValidationStrategy _numberRangeConcreteValidationStrategy = new();
+        private readonly DecimalsNumberRangeConcreteValidationStrategy _decimalsNumberRangeConcreteValidationStrategy = new();
 
         private readonly MinNumberConcreteValidationStrategy _minNumberConcreteValidationStrategy = new();
 
@@ -172,7 +172,7 @@ namespace StartupCompanyManager.Models.Composite.Component
                     throw new ArgumentException(ValidationConstants.EMPLOYEE_MONTHLY_SALARY_INCORRECT_FORMAT_ERROR_MESSAGE);
                 }
 
-                _startupCompanyManagerValidationContext.SetValidationStrategy(_numberRangeConcreteValidationStrategy);
+                _startupCompanyManagerValidationContext.SetValidationStrategy(_decimalsNumberRangeConcreteValidationStrategy);
 
                 if (!_startupCompanyManagerValidationContext.ValidateInput(
                     value, MINIMUM_EMPLOYEE_MONTHLY_SALARY, MAXIMUM_EMPLOYEE_MONTHLY_SALARY
@@ -253,7 +253,7 @@ namespace StartupCompanyManager.Models.Composite.Component
                     throw new ArgumentException(ValidationConstants.EMPLOYEE_RATING_INCORRECT_FORMAT_ERROR_MESSAGE);
                 }
 
-                _startupCompanyManagerValidationContext.SetValidationStrategy(_numberRangeConcreteValidationStrategy);
+                _startupCompanyManagerValidationContext.SetValidationStrategy(_decimalsNumberRangeConcreteValidationStrategy);
 
                 if (!_startupCompanyManagerValidationContext.ValidateInput(
                     value, MINIMUM_EMPLOYEE_RATING, MAXIMUM_EMPLOYEE_RATING

@@ -11,8 +11,6 @@ namespace StartupCompanyManager.Models
 
         private const int MAXIMUM_PROJECT_NAME_LENGTH = 32;
 
-        private const int PROJECT_MINIMUM_EXECUTION_DAYS = 30;
-
         private string name = null!;
 
         private DateTime assignmentDate = default;
@@ -24,10 +22,6 @@ namespace StartupCompanyManager.Models
         private readonly NullOrWhiteSpaceStringConcreteValidationStrategy _nullOrWhiteSpaceStringConcreteValidationStrategy = new();
 
         private readonly StringLengthRangeConcreteValidationStrategy _stringLengthRangeConcreteValidationStrategy = new();
-
-        private readonly DateTimeIncorrectFormatConcreteValidationStrategy _dateTimeIncorrectFormatConcreteValidationStrategy = new();
-
-        private readonly TotalDaysDifferenceConcreteValidationStrategy _totalDaysDifferenceConcreteValidationStrategy = new();
 
         public Project(string name, DateTime assignmentDate, DateTime deadline)
         {
@@ -69,52 +63,9 @@ namespace StartupCompanyManager.Models
             }
         }
 
-        public DateTime AssignmentDate
-        {
-            get => assignmentDate;
-            set
-            {
-                _startupCompanyManagerValidationContext.SetValidationStrategy(_dateTimeIncorrectFormatConcreteValidationStrategy);
+        public DateTime AssignmentDate { get => assignmentDate; set => assignmentDate = value;}
 
-                if (!_startupCompanyManagerValidationContext.ValidateInput(value, GlobalConstants.DATE_TIME_VALUE_FORMAT))
-                {
-                    throw new ArgumentException(ValidationConstants.PROJECT_ASSIGNMENT_DATE_INCORRECT_FORMAT_ERROR_MESSAGE);
-                }
-
-                assignmentDate = value;
-
-                _startupCompanyManagerValidationContext.SetValidationStrategy(null!);
-            }
-        }
-
-        public DateTime Deadline
-        {
-            get => deadline;
-            set
-            {
-                _startupCompanyManagerValidationContext.SetValidationStrategy(_dateTimeIncorrectFormatConcreteValidationStrategy);
-
-                if (!_startupCompanyManagerValidationContext.ValidateInput(value, GlobalConstants.DATE_TIME_VALUE_FORMAT))
-                {
-                    throw new ArgumentException(ValidationConstants.PROJECT_DEADLINE_INCORRECT_FORMAT_ERROR_MESSAGE);
-                }
-
-                _startupCompanyManagerValidationContext.SetValidationStrategy(_totalDaysDifferenceConcreteValidationStrategy);
-
-                if (!_startupCompanyManagerValidationContext.ValidateInput(
-                    value.Date, AssignmentDate.Date, PROJECT_MINIMUM_EXECUTION_DAYS
-                ))
-                {
-                    throw new ArgumentException(
-                        string.Format(ValidationConstants.PROJECT_EXECUTION_DAYS_ERROR_MESSAGE, PROJECT_MINIMUM_EXECUTION_DAYS)
-                    );
-                }
-
-                deadline = value;
-
-                _startupCompanyManagerValidationContext.SetValidationStrategy(null!);
-            }
-        }
+        public DateTime Deadline { get => deadline; set => deadline = value; }
 
         public Team Team { get; set; } = null!;
 

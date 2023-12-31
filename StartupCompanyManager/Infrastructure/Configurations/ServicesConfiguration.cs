@@ -18,8 +18,12 @@ namespace StartupCompanyManager.Infrastructure.Configurations
 
             serviceCollection.AddScoped<IDepartmentRepository, DepartmentRepository>();
             serviceCollection.AddScoped<IInvestorRepository, InvestorRepository>();
+            serviceCollection.AddScoped<ITeamRepository, TeamRepository>();
+            serviceCollection.AddScoped<IProjectRepository, ProjectRepository>();
             serviceCollection.AddScoped<DepartmentsSubSystem>();
             serviceCollection.AddScoped<InvestorsSubSystem>();
+            serviceCollection.AddScoped<TeamsSubSystem>();
+            serviceCollection.AddScoped<ProjectsSubSystem>();
             serviceCollection.AddScoped<StartupCompanyManagerFacade>();
             serviceCollection.AddScoped<StartupCompanyManagerCommandConcreteCreator>();
             serviceCollection.AddScoped<ConsoleInputOperationExpression>();
