@@ -42,6 +42,10 @@
 
         public const string EMPLOYEE_ALREADY_SUBORDINATE_OF_OTHER_TEAM_LEAD_EXCEPTION_MESAGE = "The following employee {0} is already a subordinate of another team lead {1}.";
 
+        public const string EXISTING_TASK_EXCEPTION_MESSAGE = "A task with the following name \"{0}\" and assignee \"{1}\" already exists.";
+
+        public const string NON_EXISTING_TASK_EXCEPTION_MESSAGE = "A project with the following name \"{0}\" and assignee \"{1}\" could not be found.";
+
         // Commands
 
         public const string INVALID_STARTUP_COMPANY_MANAGER_OPERATION_EXCEPTION_MESSAGE = "Invalid operation expression. See the upper listed commands.";
@@ -62,7 +66,7 @@
 
         public const string CANNOT_REMOVE_ELEMENT_FROM_LEAF_EXCEPTION_MESSAGE = "Cannot remove subordinate from a {0}.";
 
-        public const string DEPARTMENT_AND_TEAM_LEAD_TEAMS_MISMATCH_EXCEPTION_MESSAGE = "The department of the head employee {0} either doesn't have a team that matches to the team of the lead employee {1} or the team is not-existent.";
+        public const string DEPARTMENT_AND_TEAM_LEAD_TEAMS_MISMATCH_EXCEPTION_MESSAGE = "The department of the head employee {0} either doesn't have a team that matches the team of the lead employee {1} or the team is not-existent.";
 
         public const string TEAM_LEAD_NOT_ASSIGNED_TEAM_EXCEPTION_MESSAGE = "The team lead doesn't have an assigned team.";
     }

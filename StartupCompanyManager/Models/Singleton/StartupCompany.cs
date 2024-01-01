@@ -341,7 +341,7 @@ namespace StartupCompanyManager.Models.Singleton
 
                     if (department.HeadOfDepartment != null)
                     {
-                        startupCompanyInfoStringBuilder.AppendLine(DEPARTMENT_EMPLOYEES_DETAILS);
+                        startupCompanyInfoStringBuilder.AppendLine($"{new string(' ', 2)}{DEPARTMENT_EMPLOYEES_DETAILS}");
                         startupCompanyInfoStringBuilder.AppendLine($"{new string(' ', 4)}{department.HeadOfDepartment.GetHierarchicalLevel(2)}");
                     }
                     else

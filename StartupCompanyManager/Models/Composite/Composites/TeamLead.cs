@@ -34,8 +34,8 @@ namespace StartupCompanyManager.Models.Composite.Composites
 
         public override string GetHierarchicalLevel(int depthIndicator)
         {
-            string teamLeadHierarchicalLevelInfo = $"{new string(' ', depthIndicator)}{new string('-', depthIndicator)}+ Team Lead: {FullName}, " +
-                $"Position: [{Position}], Monthly Salary: [${MonthlySalary}], Years of Work Experience: [{YearsOfWorkExperience}], " +
+            string teamLeadHierarchicalLevelInfo = $"{new string('-', depthIndicator)}+ Team Lead: {FullName}, " +
+                $"Position: {Position}, Monthly Salary: ${MonthlySalary}, Years of Work Experience: {YearsOfWorkExperience}, " +
                 $"Birth Date: {BirthDate.ToString(GlobalConstants.DATE_TIME_VALUE_FORMAT)}, Rating: {Rating} " +
                 $"Team: {(Team != null ? $"{Team.Name}, {(Team.Project != null ? $"Project: {Team.Project.Name}" : "No project")}" : "No team")} \r\n";
 

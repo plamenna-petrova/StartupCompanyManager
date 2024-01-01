@@ -14,8 +14,6 @@ namespace StartupCompanyManager.Models
 
         private const int MAXIMUM_TASK_NAME_LENGTH = 50;
 
-        private const int TASK_DUE_DATE_MINIMUM_EXECUTION_DAYS = 1;
-
         private string name = null!;
 
         private TaskPriority priority = default;
@@ -31,12 +29,6 @@ namespace StartupCompanyManager.Models
         private readonly NullOrWhiteSpaceStringConcreteValidationStrategy _nullOrWhiteSpaceStringConcreteValidationStrategy = new();
 
         private readonly StringLengthRangeConcreteValidationStrategy _stringLengthRangeConcreteValidationStrategy = new();
-
-        private readonly DateTimeIncorrectFormatConcreteValidationStrategy _dateTimeIncorrectFormatConcreteValidationStrategy = new();
-
-        private readonly TotalDaysDifferenceConcreteValidationStrategy _totalDaysDifferenceConcreteValidationStrategy = new();
-
-        private readonly ExistingEnumNameConcreteValidationStrategy _existingEnumNameConcreteValidationStrategy = new();
 
         private readonly EarlierDateConcreteValidationStrategy _earlierDateConcreteValidationStrategy = new();
 
@@ -73,65 +65,20 @@ namespace StartupCompanyManager.Models
             }
         }
 
-        public TaskPriority Priority
-        {
-            get => priority;
-            set
-            {
-                _startupCompanyManagerValidationContext.SetValidationStrategy(_existingEnumNameConcreteValidationStrategy);
+        public TaskPriority Priority { get => priority; set => priority = value; }
 
-                if (_startupCompanyManagerValidationContext.ValidateInput(value, nameof(TaskPriority)))
-                {
-                    throw new ArgumentException(
-                        string.Format(
-                            ValidationConstants.TASK_PRIORITY_INCORRECT_OPTION_ERROR_MESAGE, 
-                            string.Join(" | ", Enum.GetNames(typeof(TaskPriority))))
-                        );
-                }
-
-                priority = value;
-
-                _startupCompanyManagerValidationContext.SetValidationStrategy(null!);
-            }
-        }
-
-        public TaskStatus Status
-        {
-            get => status;
-            set
-            {
-                _startupCompanyManagerValidationContext.SetValidationStrategy(_existingEnumNameConcreteValidationStrategy);
-
-                if (_startupCompanyManagerValidationContext.ValidateInput(value, nameof(TaskStatus)))
-                {
-                    throw new ArgumentException(
-                        string.Format(
-                            ValidationConstants.TASK_STATUS_INCORRECT_OPTION_ERROR_MESSAGE),
-                            string.Join(" | ", Enum.GetNames(typeof(TaskStatus)))
-                        );
-                }
-
-                status = value;
-            }
-        }
+        public TaskStatus Status { get => status; set => status = value; }
 
         public DateTime AssignmentDate
         {
             get => assignmentDate;
             set
             {
-                _startupCompanyManagerValidationContext.SetValidationStrategy(_dateTimeIncorrectFormatConcreteValidationStrategy);
-
-                if (!_startupCompanyManagerValidationContext.ValidateInput(value, GlobalConstants.DATE_TIME_VALUE_FORMAT))
-                {
-                    throw new ArgumentException(ValidationConstants.TASK_ASSIGNMENT_DATE_INCORRECT_FORMAT_ERROR_MESSAGE);
-                }
-
                 if (Project is not null && Project.AssignmentDate != default)
                 {
                     _startupCompanyManagerValidationContext.SetValidationStrategy(_earlierDateConcreteValidationStrategy);
 
-                    if (_startupCompanyManagerValidationContext.ValidateInput(value, Project.AssignmentDate))
+                    if (!_startupCompanyManagerValidationContext.ValidateInput(value, Project.AssignmentDate))
                     {
                         throw new ArgumentException(
                             string.Format(
@@ -153,24 +100,6 @@ namespace StartupCompanyManager.Models
             get => dueDate;
             set
             {
-                _startupCompanyManagerValidationContext.SetValidationStrategy(_dateTimeIncorrectFormatConcreteValidationStrategy);
-
-                if (!_startupCompanyManagerValidationContext.ValidateInput(value, GlobalConstants.DATE_TIME_VALUE_FORMAT))
-                {
-                    throw new ArgumentException(ValidationConstants.TASK_DUE_DATE_INCORRECT_FORMAT_ERROR_MESSAGE);
-                }
-
-                _startupCompanyManagerValidationContext.SetValidationStrategy(_totalDaysDifferenceConcreteValidationStrategy);
-
-                if (!_startupCompanyManagerValidationContext.ValidateInput(
-                    value.Date, AssignmentDate.Date, TASK_DUE_DATE_MINIMUM_EXECUTION_DAYS
-                ))
-                {
-                    throw new ArgumentException(
-                        string.Format(ValidationConstants.TASK_EXECUTION_DAYS_ERROR_MESSAGE, TASK_DUE_DATE_MINIMUM_EXECUTION_DAYS)
-                    );
-                }
-
                 if (Project is not null && Project.Deadline != default)
                 {
                     _startupCompanyManagerValidationContext.SetValidationStrategy(_earlierDateConcreteValidationStrategy);

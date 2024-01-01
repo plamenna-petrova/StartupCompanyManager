@@ -7,7 +7,10 @@ namespace StartupCompanyManager.Utilities.Strategy.ConcreteStrategies
     {
         public bool ValidateInput(object input, params object[] validationArguments)
         {
-            return Enum.GetNames(Assembly.GetExecutingAssembly().GetType((string)validationArguments[0])!).Contains(input);
+            var executingAssembly = Assembly.GetExecutingAssembly();
+            var assemblyEnumTypes = executingAssembly.GetTypes().Where(t => t.IsEnum);
+            var targetEnumType = assemblyEnumTypes.FirstOrDefault(et => et.Name == (string)validationArguments[0]);
+            return targetEnumType != null && Enum.GetNames(targetEnumType).Contains(input);
         }
     }
 }

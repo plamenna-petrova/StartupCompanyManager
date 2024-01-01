@@ -1,5 +1,7 @@
 ﻿using StartupCompanyManager.Core.Command.Enums;
 using StartupCompanyManager.Core.Facade.SubSystems;
+using StartupCompanyManager.Models.Enums;
+using TaskStatus = StartupCompanyManager.Models.Enums.TaskStatus;
 
 namespace StartupCompanyManager.Core.Facade
 {
@@ -15,12 +17,15 @@ namespace StartupCompanyManager.Core.Facade
 
         private readonly EmployeesSubSystem _employeesSubSystem;
 
+        private readonly TasksSubSystem _tasksSubSystem;    
+
         public StartupCompanyManagerFacade(
             DepartmentsSubSystem departmentSubSystem,
             InvestorsSubSystem investorsSubSystem,
             TeamsSubSystem teamsSubSystem,
             ProjectsSubSystem projectsSubSystem,
-            EmployeesSubSystem employeesSubSystem
+            EmployeesSubSystem employeesSubSystem,
+            TasksSubSystem tasksSubSystem
         )
         {
             _departmentsSubSystem = departmentSubSystem;
@@ -28,6 +33,7 @@ namespace StartupCompanyManager.Core.Facade
             _teamsSubSystem = teamsSubSystem;
             _projectsSubSystem = projectsSubSystem;
             _employeesSubSystem = employeesSubSystem;
+            _tasksSubSystem = tasksSubSystem;   
         }
 
         public void ExecuteDepartmentRelatedOperation(
@@ -188,6 +194,41 @@ namespace StartupCompanyManager.Core.Facade
                     break;
                 case StartupCompanyManagerCommandAction.Remove:
                     _employeesSubSystem.RemoveEmployee((string)employeeRelatedOperationArguments[0]);
+                    break;
+            }
+        }
+
+        public void ExecuteTaskRelatedOperation(
+            StartupCompanyManagerCommandAction startupCompanyManagerCommandAction,
+            params object[] taskRelatedOperationArguments
+        )
+        {
+            switch (startupCompanyManagerCommandAction)
+            {
+                case StartupCompanyManagerCommandAction.Add:
+                    _tasksSubSystem.AddTaskToProject(
+                        (string)taskRelatedOperationArguments[0],
+                        (TaskPriority)taskRelatedOperationArguments[1],
+                        (TaskStatus)taskRelatedOperationArguments[2],
+                        (DateTime)taskRelatedOperationArguments[3],
+                        (DateTime)taskRelatedOperationArguments[4],
+                        (string)taskRelatedOperationArguments[5],
+                        (string)taskRelatedOperationArguments[6]
+                    );
+                    break;
+                case StartupCompanyManagerCommandAction.Change:
+                    _tasksSubSystem.ChangeTaskCharacteristic(
+                        (string)taskRelatedOperationArguments[0],
+                        (string)taskRelatedOperationArguments[1],
+                        (string)taskRelatedOperationArguments[2],
+                        taskRelatedOperationArguments[3]
+                    );
+                    break;
+                case StartupCompanyManagerCommandAction.Remove:
+                    _tasksSubSystem.RemoveTask(
+                        (string)taskRelatedOperationArguments[0], 
+                        (string)taskRelatedOperationArguments[1]
+                    );
                     break;
             }
         }

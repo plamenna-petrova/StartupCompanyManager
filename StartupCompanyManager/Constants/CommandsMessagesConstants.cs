@@ -20,11 +20,11 @@
 
         public const string ADD_TEAM_CONCRETE_COMMAND_ARGUMENTS_PATTERN = "[Name] [Department]";
 
-        public const string CHANGE_TEAM_CONCRETE_COMMAND_ARGUMENTS_PATTERN = "[Name] [Name | Team Lead] [Value]";
+        public const string CHANGE_TEAM_CONCRETE_COMMAND_ARGUMENTS_PATTERN = "[Name] [Name] [Value]";
 
         public const string REMOVE_TEAM_CONCRETE_COMMAND_ARGUMENTS_PATTERN = "[Name]";
 
-        public const string ADD_PROJECT_CONCRETE_COMMAND_ARGUMENTS_PATTERN = "[Name] [Assignment Date] [Deadline] [Team]";
+        public const string ADD_PROJECT_TO_TEAM_CONCRETE_COMMAND_ARGUMENTS_PATTERN = "[Name] [Assignment Date] [Deadline] [Team]";
 
         public const string CHANGE_PROJECT_CONCRETE_COMMAND_ARGUMENTS_PATTERN = "[Name] [Name] [Value]";
 
@@ -43,6 +43,10 @@
         public const string ASSIGN_HEAD_OF_DEPARTMENT_TEAM_LEAD_SUBORDINATE_ARGUMENTS_PATTERN = "[Team Lead Full Name] [Head Of Department Full Name]";
 
         public const string ASSIGN_TEAM_LEAD_EMPLOYEE_SUBORDINATE_ARGUMENTS_PATTERN = "[Employee Full Name] [Team Lead Full Name]";
+
+        public const string ADD_TASK_TO_PROJECT_CONCRETE_COMMAND_ARGUMENTS_PATTERN = "[Name] [Priority] [Status] [Assignment Date] [Due Date] [Assignee] [Project]";
+
+        public const string CHANGE_PROJECT_TASK_CONCRETE_COMMAND_ARGUMENTS_PATTERN = "[Name] [Assignee] [Name] [Value]";
 
         // Success Messages
 
@@ -85,5 +89,9 @@
         public const string ASSIGNED_HEAD_OF_DEPARTMENT_TEAM_LEAD_SUBORDINATE_SUCCESS_MESSAGE = "Successfully added team lead subordinate {0} to head of department {1}.";
 
         public const string ASSIGNED_TEAM_LEAD_EMPLOYEE_SUBORDINATE_SUCCESS_MESSAGE = "Successfully added employee {0} subordinate to team lead {1}.";
+
+        public const string ADDED_TASK_TO_PROJECT_SUCCESS_MESSAGE = "Successfully added task {0} to project \"{1}\".";
+
+        public const string CHANGED_TASK_OF_EMPLOYEE_SUCCESS_MESSAGE = "Successfully changed task's {0} of {1} characteristic {2} to {3}.";
     }
 }

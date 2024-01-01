@@ -27,8 +27,8 @@ namespace StartupCompanyManager.Models.Composite.Leaves
 
         public override string GetHierarchicalLevel(int depthIndicator)
         {
-            return $"{new string(' ', depthIndicator)}{new string('-', depthIndicator)}+ Designer: {FullName}, " +
-                $"Position: [{Position}], Monthly Salary: [${MonthlySalary}], Years of Work Experience: [{YearsOfWorkExperience}], " +
+            return $"{new string('-', depthIndicator)}+ Designer: {FullName}, " +
+                $"Position: {Position}, Monthly Salary: ${MonthlySalary}, Years of Work Experience: {YearsOfWorkExperience}, " +
                 $"Birth Date: {BirthDate.ToString(GlobalConstants.DATE_TIME_VALUE_FORMAT)}, Rating: {Rating}\r\n";
         }
     }

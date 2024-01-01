@@ -26,7 +26,7 @@ namespace StartupCompanyManager.Core.Command.ConcreteCommands
 
         }
 
-        public override string ArgumentsPattern { get; protected set; } = CommandsMessagesConstants.ADD_PROJECT_CONCRETE_COMMAND_ARGUMENTS_PATTERN;
+        public override string ArgumentsPattern { get; protected set; } = CommandsMessagesConstants.ADD_PROJECT_TO_TEAM_CONCRETE_COMMAND_ARGUMENTS_PATTERN;
 
         public override string Execute(params object[] commandExecutionOperationArguments)
         {
