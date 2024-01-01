@@ -12,7 +12,7 @@ namespace StartupCompanyManager.Models
 
         private const int MAXIMUM_DEPARTMENT_NAME_LENGTH = 25;
 
-        private const int EARLIEST_ALLOWED_DEPARTMENT_YEAR_OF_ESTABLISHMENT = 2012;
+        private const int EARLIEST_ALLOWED_DEPARTMENT_YEAR_OF_ESTABLISHMENT = 2018;
 
         private string name = null!;
 
@@ -102,6 +102,11 @@ namespace StartupCompanyManager.Models
 
         public HeadOfDepartment HeadOfDepartment { get; set; } = null!;
 
-        public ICollection<Team> Teams { get; set; } = new HashSet<Team>();    
+        public ICollection<Team> Teams { get; set; } = new HashSet<Team>();
+
+        public override string ToString()
+        {
+            return $"{Name}, established in: {YearOfEstablishment}"; 
+        }
     }
 }

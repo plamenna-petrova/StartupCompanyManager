@@ -4,6 +4,8 @@
     {
         // Concrete Command Patterns
 
+        public const string STARTUP_COMPANY_INFO_CONCRETE_COMMAND_ARGUMENTS_PATTERN = "Startup Company Info";
+
         public const string ADD_DEPARTMENT_CONCRETE_COMMAND_ARGUMENTS_PATTERN = "[Name] [Year Of Establishment]";
 
         public const string ADD_INVESTOR_CONCRETE_COMMAND_ARGUMENTS_PATTERN = "[Name] [Funds]";
@@ -28,11 +30,13 @@
 
         public const string REMOVE_PROJECT_CONCRETE_COMMAND_ARGUMENTS_PATTERN = "[Name]";
 
-        public const string ADD_EMPLOYEE_CONCRETE_COMMAND_ARGUMENTS_PATTERN = "[Head Of Department | Team Lead | Officer | Software Developer | Specialist | Tester] [First Name] [Last Name] [Position] [Monthly Salary] [Years Of Work Experience] [Birth Date] [Rating]";
+        public const string ADD_EMPLOYEE_CONCRETE_COMMAND_ARGUMENTS_PATTERN = "[Head Of Department | Team Lead | Officer | Software Developer | Specialist | Tester | Designer] [First Name] [Last Name] [Position] [Monthly Salary] [Years Of Work Experience] [Birth Date] [Rating]";
 
         public const string CHANGE_EMPLOYEE_CONCRETE_COMMAND_ARGUMENTS_PATTERN = "[Full Name] [First Name | Last Name | Position | Monthly Salary | Years Of Work Experience | Rating] [Value]";
 
         public const string REMOVE_EMPLOYEE_CONCRETE_COMMAND_ARGUMENTS_PATTERN = "[Full Name]";
+
+        public const string ASSIGN_HEAD_OF_DEPARTMENT_CONCRETE_COMMAND_ARGUMENTS_PATTERN = "[Full Name] [Department]";
 
         // Success Messages
 
@@ -50,13 +54,13 @@
 
         public const string REMOVED_INVESTOR_FROM_STARTUP_COMPANY_SUCCESS_MESSAGE = "Successfully removed investor {0} from Startup Company \"{1}\".";
 
-        public const string ADDED_TEAM_TO_DEPARTMENT_SUCCESS_MESSAGE = "Successfully added team {0} to department {1}.";
+        public const string ADDED_TEAM_TO_DEPARTMENT_SUCCESS_MESSAGE = "Successfully added team {0} to department \"{1}\".";
 
         public const string CHANGED_TEAM_OF_STARTUP_COMPANY_SUCCESS_MESSAGE = "Successfully changed team's {0} characteristic {1} to {2}.";
 
         public const string REMOVED_TEAM_FROM_STARTUP_COMPANY_SUCCESS_MESSAGE = "Successfully removed team {0} from Startup Company \"{1}\".";
 
-        public const string ADDED_PROJECT_TO_TEAM_SUCCESS_MESSAGE = "Successfully added project {0} to team {1}.";
+        public const string ADDED_PROJECT_TO_TEAM_SUCCESS_MESSAGE = "Successfully added project {0} to team \"{1}\".";
 
         public const string CHANGED_PROJECT_OF_STARTUP_COMPANY_SUCCESS_MESSAGE = "Successfully changed project's {0} characteristic {1} to {2}.";
 
@@ -67,5 +71,7 @@
         public const string CHANGED_EMPLOYEE_OF_STARTUP_COMPANY_SUCCESS_MESSAGE = "Successfully changed employee's {0} characteristic {1} to {2}.";
 
         public const string REMOVED_EMPLOYEE_FROM_STARTUP_COMPANY_SUCCESS_MESSAGE = "Successfully removed employee {0} from Startup Company \"{1}\".";
+
+        public const string ASSIGNED_HEAD_OF_DEPARTMENT_SUCCESS_MESSAGE = "Successfully added head employee {0} of department {1}";
     }
 }

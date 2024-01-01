@@ -5,11 +5,11 @@ using StartupCompanyManager.Core.Facade;
 
 namespace StartupCompanyManager.Core.Command.ConcreteCommands
 {
-    public class AddTeamConcreteCommand : StartupCompanyManagerCommand
+    public class AddTeamToDepartmentConcreteCommand : StartupCompanyManagerCommand
     {
         private const int ADD_TEAM_CONCRETE_COMMAND_EXPECTED_ARGUMENTS_COUNT = 2;
 
-        public AddTeamConcreteCommand(StartupCompanyManagerFacade startupCompanyManagerFacade)
+        public AddTeamToDepartmentConcreteCommand(StartupCompanyManagerFacade startupCompanyManagerFacade)
             : base(startupCompanyManagerFacade)
         {
 

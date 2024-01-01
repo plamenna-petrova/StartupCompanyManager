@@ -63,5 +63,10 @@ namespace StartupCompanyManager.Models
         public Department Department { get; set; } = null!;
 
         public TeamLead TeamLead { get; set; } = null!;
+
+        public override string ToString()
+        {
+            return $"{Name}";
+        }
     }
 }

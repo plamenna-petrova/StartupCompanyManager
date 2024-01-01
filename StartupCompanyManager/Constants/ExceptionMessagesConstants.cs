@@ -24,9 +24,17 @@
 
         public const string NON_EXISTING_PROJECT_EXCEPTION_MESSAGE = "A project with the following name \"{0}\" could not be found.";
 
-        public const string EXISTING_EMPLOYEE_EXCEPTION_MESSAGE = "An employee with the following data: First Name - \"{0}\", Last Name - \"{1}\", Birthdate - \"{2}\" already exists.";
+        public const string EXISTING_EMPLOYEE_EXCEPTION_MESSAGE = "An employee with the following data: First Name - {0}, Last Name - {1}, Birthdate - {2} already exists.";
 
         public const string NON_EXISTING_EMPLOYEE_EXCEPTION_MESSAGE = "An employee with the following name \"{0}\" could not be found.";
+
+        public const string EXISTING_HEAD_OF_DEPARTMENT_EXCEPTION_MESSAGE = "The department {0} has already head employee - {1}";
+
+        public const string NON_EXISTING_HEAD_OF_DEPARTMENT_EXCEPTION_MESSAGE = "Head of department with the following name \"{0}\" could not be found.";
+
+        public const string EXISTING_TEAM_LEAD_EXCEPTION_MESSAGE = "The team {0} has already lead - {1}";
+
+        public const string NON_EXISTING_TEAM_LEAD_EXCEPTION_MESSAGE = "Team lead with the following name \"{0}\" could not be found.";
 
         // Commands
 

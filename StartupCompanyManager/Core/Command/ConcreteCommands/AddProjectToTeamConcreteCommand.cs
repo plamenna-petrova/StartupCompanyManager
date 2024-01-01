@@ -8,7 +8,7 @@ using StartupCompanyManager.Utilities.Strategy.Context;
 
 namespace StartupCompanyManager.Core.Command.ConcreteCommands
 {
-    public class AddProjectConcreteCommand : StartupCompanyManagerCommand
+    public class AddProjectToTeamConcreteCommand : StartupCompanyManagerCommand
     {
         private const int ADD_PROJECT_CONCRETE_COMMAND_EXPECTED_ARGUMENTS_COUNT = 4;
 
@@ -20,7 +20,7 @@ namespace StartupCompanyManager.Core.Command.ConcreteCommands
 
         private readonly TotalDaysDifferenceConcreteValidationStrategy _totalDaysDifferenceConcreteValidationStrategy = new();
 
-        public AddProjectConcreteCommand(StartupCompanyManagerFacade startupCompanyManagerFacade) 
+        public AddProjectToTeamConcreteCommand(StartupCompanyManagerFacade startupCompanyManagerFacade) 
             : base(startupCompanyManagerFacade)
         {
 

@@ -1,8 +1,10 @@
 ﻿using StartupCompanyManager.Constants;
+using StartupCompanyManager.Infrastructure.Exceptions;
 using StartupCompanyManager.Infrastructure.Extensions;
 using StartupCompanyManager.Infrastructure.Repositories.Contracts;
 using StartupCompanyManager.Models;
 using StartupCompanyManager.Models.Composite.Component;
+using StartupCompanyManager.Models.Composite.Composites;
 using StartupCompanyManager.Models.Singleton;
 
 namespace StartupCompanyManager.Infrastructure.Repositories.Implementation
@@ -14,14 +16,14 @@ namespace StartupCompanyManager.Infrastructure.Repositories.Implementation
             return StartupCompany.Employees.ToList();
         }
 
-        public Employee GetByCondition(Func<Employee, bool> entityFilterDelegate)
+        public Employee GetByCondition(Func<Employee, bool> entityFilterPredicate)
         {
-            return StartupCompany.Employees.FirstOrDefault(entityFilterDelegate)!;
+            return StartupCompany.Employees.FirstOrDefault(entityFilterPredicate)!;
         }
 
-        public ICollection<Employee> GetAllByCondition(Func<Employee, bool> entitiesFilterDelegate)
+        public ICollection<Employee> GetAllByCondition(Func<Employee, bool> entitiesFilterPredicate)
         {
-            return StartupCompany.Employees.Where(entitiesFilterDelegate).ToList();
+            return StartupCompany.Employees.Where(entitiesFilterPredicate).ToList();
         }
 
         public void Add(Employee employee, params object[] entityCreationArguments)
@@ -61,6 +63,73 @@ namespace StartupCompanyManager.Infrastructure.Repositories.Implementation
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine(exception.InnerException.Message);
                 }
+            }
+        }
+
+        public void Assign(Employee employee, string assignmentOption, string filter)
+        {
+            switch (assignmentOption)
+            {
+                case nameof(Department):
+                    var departmentToReceiveHeadEmployeeAssignment = StartupCompany.Departments.FirstOrDefault(d => d.Name == filter)!;
+
+                    if (departmentToReceiveHeadEmployeeAssignment != null)
+                    {
+                        if (departmentToReceiveHeadEmployeeAssignment.HeadOfDepartment == null)
+                        {
+                            departmentToReceiveHeadEmployeeAssignment.HeadOfDepartment = (HeadOfDepartment)employee;
+                        }
+                        else
+                        {
+                            throw new ExistingStartupCompanyManagerEntityException(
+                                string.Format(
+                                    ExceptionMessagesConstants.EXISTING_HEAD_OF_DEPARTMENT_EXCEPTION_MESSAGE,
+                                    departmentToReceiveHeadEmployeeAssignment.Name,
+                                    departmentToReceiveHeadEmployeeAssignment.HeadOfDepartment!.FullName
+                                )
+                            );
+                        }
+                    }
+                    else
+                    {
+                        throw new NonExistingStartupCompanyManagerEntityException(
+                            string.Format(
+                                ExceptionMessagesConstants.NON_EXISTING_DEPARTMENT_EXCEPTION_MESSAGE, filter
+                            )
+                        );
+                    }
+                    break;
+                case nameof(TeamLead):
+                    var teamToReceiveLeadEmployeeAssignment = StartupCompany.Departments
+                        .SelectMany(d => d.Teams)
+                        .FirstOrDefault(t => t.Name == filter)!;
+                    
+                    if (teamToReceiveLeadEmployeeAssignment != null)
+                    {
+                        if (teamToReceiveLeadEmployeeAssignment.TeamLead == null)
+                        {
+                            teamToReceiveLeadEmployeeAssignment.TeamLead = (TeamLead)employee;
+                        }
+                        else
+                        {
+                            throw new ExistingStartupCompanyManagerEntityException(
+                                string.Format(
+                                    ExceptionMessagesConstants.EXISTING_TEAM_LEAD_EXCEPTION_MESSAGE,
+                                    teamToReceiveLeadEmployeeAssignment.Name,
+                                    teamToReceiveLeadEmployeeAssignment.TeamLead.FullName!
+                                )
+                            );
+                        }
+                    }
+                    else
+                    {
+                        throw new NonExistingStartupCompanyManagerEntityException(
+                            string.Format(
+                                ExceptionMessagesConstants.NON_EXISTING_TEAM_EXCEPTION_MESSAGE, filter
+                            )
+                        );
+                    }
+                    break;
             }
         }
 

@@ -4,6 +4,7 @@ using StartupCompanyManager.Models.Abstraction;
 using StartupCompanyManager.Models.Composite.Component;
 using StartupCompanyManager.Utilities.Strategy.ConcreteStrategies;
 using StartupCompanyManager.Utilities.Strategy.Context;
+using System.Text;
 
 namespace StartupCompanyManager.Models.Singleton
 {
@@ -19,6 +20,8 @@ namespace StartupCompanyManager.Models.Singleton
 
         private const decimal MAXIMUM_STARTUP_COMPANY_CAPITAL = 10000000M;
 
+        private const int EARLIEST_ALLOWED_STARTUP_COMPANY_YEAR_OF_ESTABLISHMENT = 2012;
+
         private const int MINIMUM_STARTUP_COMPANY_ADDRESS_LENGTH = 8;
 
         private const int MAXIMUM_STARTUP_COMPANY_ADDRESS_LENGTH = 50;
@@ -30,6 +33,8 @@ namespace StartupCompanyManager.Models.Singleton
         private string name = null!;
 
         private decimal capital = default;
+
+        private int yearOfEstablishment = default!;
 
         private string email = null!;
 
@@ -43,6 +48,10 @@ namespace StartupCompanyManager.Models.Singleton
 
         private readonly StringLengthRangeConcreteValidationStrategy _stringLengthRangeConcreteValidationStrategy = new();
 
+        private readonly IntegerValueIncorrectFormatConcreteValidationStrategy _integerValueIncorrectFormatConcreteValidationStrategy = new();
+
+        private readonly IntegersNumberRangeConcreteValidationStrategy _integersRangeConcreteValidationStrategy = new();
+
         private readonly DecimalValueIncorrectFormatConcreteValidationStrategy _decimalValueIncorrectFormatConcreteValidationStrategy = new();
 
         private readonly DecimalsNumberRangeConcreteValidationStrategy _decimalsNumberRangeConcreteValidationStrategy = new();
@@ -53,10 +62,11 @@ namespace StartupCompanyManager.Models.Singleton
 
         private static readonly object lockObject = new();
 
-        public StartupCompany(string name, decimal capital, string email, string address, string phoneNumber)
+        public StartupCompany(string name, decimal capital, int yearOfEstablishment, string email, string address, string phoneNumber)
         {
             Name = name;
             Capital = capital;
+            YearOfEstablishment = yearOfEstablishment;
             Address = address;
             Email = email;
             PhoneNumber = phoneNumber;
@@ -123,6 +133,39 @@ namespace StartupCompanyManager.Models.Singleton
                 }
 
                 capital = value;
+
+                _startupCompanyManagerValidationContext.SetValidationStrategy(null!);
+            }
+        }
+
+        public int YearOfEstablishment
+        {
+            get => yearOfEstablishment;
+            set
+            {
+                _startupCompanyManagerValidationContext.SetValidationStrategy(_integerValueIncorrectFormatConcreteValidationStrategy);
+
+                if (!_startupCompanyManagerValidationContext.ValidateInput(value))
+                {
+                    throw new ArgumentException(ValidationConstants.STARTUP_COMPANY_YEAR_OF_ESTABLISHMENT_INCORRECT_FORMAT_ERROR_MESSAGE);
+                }
+
+                _startupCompanyManagerValidationContext.SetValidationStrategy(_integersRangeConcreteValidationStrategy);
+
+                if (!_startupCompanyManagerValidationContext.ValidateInput(
+                    value, EARLIEST_ALLOWED_STARTUP_COMPANY_YEAR_OF_ESTABLISHMENT, DateTime.Today.Year
+                ))
+                {
+                    throw new ArgumentException(
+                        string.Format(
+                            ValidationConstants.STARTUP_COMPANY_YEAR_OF_ESTABLISHMENT_NUMBER_RANGE_ERROR_MESSAGE,
+                            EARLIEST_ALLOWED_STARTUP_COMPANY_YEAR_OF_ESTABLISHMENT,
+                            DateTime.Today.Year
+                        )
+                    );
+                }
+
+                yearOfEstablishment = value;
 
                 _startupCompanyManagerValidationContext.SetValidationStrategy(null!);
             }
@@ -213,7 +256,7 @@ namespace StartupCompanyManager.Models.Singleton
         }
 
         public static StartupCompany CreateInstance(
-            string name, decimal capital, string email, string address, string phoneNumber
+            string name, decimal capital, int yearOfEstablishment, string email, string address, string phoneNumber
         )
         {
             if (startupCompanyInstance == null)
@@ -222,7 +265,7 @@ namespace StartupCompanyManager.Models.Singleton
                 {
                     if (startupCompanyInstance == null)
                     {
-                        startupCompanyInstance = new StartupCompany(name, capital, email, address, phoneNumber);
+                        startupCompanyInstance = new StartupCompany(name, capital, yearOfEstablishment, email, address, phoneNumber);
                         return startupCompanyInstance;
                     }
                 }
@@ -253,6 +296,69 @@ namespace StartupCompanyManager.Models.Singleton
                     ExceptionMessagesConstants.NON_EXISTING_STARTUP_COMPANY_EXCEPTION_MESSAGE
                 );
             }
+        }
+
+        public override string ToString()
+        {
+            StringBuilder startupCompanyInfoStringBuilder = new();
+
+            startupCompanyInfoStringBuilder.AppendLine();
+            startupCompanyInfoStringBuilder.AppendLine(string.Format(STARTUP_COMPANY_PRESENTATION_MESSAGE, Name));
+            startupCompanyInfoStringBuilder.AppendLine();
+            startupCompanyInfoStringBuilder.AppendLine("Investors: ");
+
+            if (Investors.Any())
+            {
+                foreach (var investor in Investors)
+                {
+                    startupCompanyInfoStringBuilder.AppendLine($"  {investor.ToString()}");
+                }
+            }
+            else
+            {
+                startupCompanyInfoStringBuilder.AppendLine($"There are currently no investors registered under: \"{Name}\"");
+            }
+
+            startupCompanyInfoStringBuilder.AppendLine("Departments: ");
+
+            if (Departments.Any())
+            {
+                foreach (var department in Departments)
+                {
+                    startupCompanyInfoStringBuilder.AppendLine($"{new string(' ', 2)}{department.ToString()}");
+
+                    if (department.Teams.Any())
+                    {
+                        startupCompanyInfoStringBuilder.AppendLine($"{new string(' ', 4)}Teams: ");
+
+                        foreach (var team in department.Teams)
+                        {
+                            startupCompanyInfoStringBuilder.AppendLine($"{new string(' ', 6)}{team.ToString()}");
+
+                            if (team.Project != null)
+                            {
+                                startupCompanyInfoStringBuilder.AppendLine($"{new string(' ', 8)}Assigned Project: {team.Project.Name}");
+                            }
+                            else
+                            {
+                                startupCompanyInfoStringBuilder.AppendLine($"{new string(' ', 8)}No project assigned");
+                            }
+                        }
+                    }
+                    else
+                    {
+                        startupCompanyInfoStringBuilder.AppendLine($"{new string(' ', 4)}There are currently no teams under department \"{Name}\"");
+                    }
+                }
+            }
+            else
+            {
+                startupCompanyInfoStringBuilder.AppendLine($"There are currently no departments registered under: \"{Name}\"");
+            }
+
+            startupCompanyInfoStringBuilder.AppendLine();
+
+            return startupCompanyInfoStringBuilder.ToString();
         }
     }
 }

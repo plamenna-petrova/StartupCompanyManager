@@ -11,7 +11,7 @@ namespace StartupCompanyManager.Models
 
         private const int MAXIMUM_INVESTOR_NAME_LENGTH = 35;
 
-        private const decimal MINIMUM_INVESTOR_FUNDS = 5.000M;
+        private const decimal MINIMUM_INVESTOR_FUNDS = 5000.00M;
 
         private string name = null!;
 
@@ -94,6 +94,11 @@ namespace StartupCompanyManager.Models
 
                 _startupCompanyManagerValidationContext.SetValidationStrategy(null!);
             }
+        }
+
+        public override string ToString()
+        {
+            return $"{Name}, recent funding contribution: {Funds}";
         }
     }
 }

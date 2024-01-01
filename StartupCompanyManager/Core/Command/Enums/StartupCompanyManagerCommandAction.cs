@@ -4,6 +4,7 @@
     {
         Add,
         Change,
+        Assign,
         Increase,
         Decrease,
         Remove

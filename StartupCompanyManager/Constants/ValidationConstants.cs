@@ -14,6 +14,10 @@
 
         public const string STARTUP_COMPANY_CAPITAL_NUMBER_RANGE_ERROR_MESSAGE = "The startup company's capital must be between ${0} and ${1}.";
 
+        public const string STARTUP_COMPANY_YEAR_OF_ESTABLISHMENT_INCORRECT_FORMAT_ERROR_MESSAGE = "The startup company's year of establishment is not in the correct format.";
+
+        public const string STARTUP_COMPANY_YEAR_OF_ESTABLISHMENT_NUMBER_RANGE_ERROR_MESSAGE = "The startup company's year of establishment must be between {0} and {1}.";
+
         public const string STARTUP_COMPANY_ADDRESS_STRING_LENGTH_RANGE_ERROR_MESSAGE = "The startup company's address must be between {0} and {1} characters long.";
 
         public const string STARTUP_COMPANY_PHONE_NUMBER_REGEX_PATTERN_ERROR_MESSAGE = "The startup company's phone number is not in the correct format.";
@@ -98,7 +102,7 @@
 
         public const string EMPLOYEE_YEARS_OF_WORK_EXPERIENCE_INCORRECT_FORMAT_ERROR_MESSAGE = "The employee's years of work experience are not in the correct format.";
 
-        public const string EMPLOYEE_YEARS_OF_WORK_EXPERIENCE_MINIMUM_VALUE_ERROR_MESSAGE = "The investor's funds must be at least {0}.";
+        public const string EMPLOYEE_YEARS_OF_WORK_EXPERIENCE_MINIMUM_VALUE_ERROR_MESSAGE = "The employee's years of work experience must be at least {0}.";
 
         public const string EMPLOYEE_RATING_INCORRECT_FORMAT_ERROR_MESSAGE = "The employee's rating is not in the correct format.";
 

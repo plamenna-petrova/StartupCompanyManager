@@ -47,7 +47,7 @@ namespace StartupCompanyManager.Core.Command.ConcreteCommands
                 operationsInfoStringBuilder.AppendLine(
                     $"{string.Concat(Enumerable.Repeat("=> ", 3))} " +
                     $"{GenerateCommandName(startupCompanyManagerCommandType.Name)} " +
-                    $"{startupCompanyManagerCommandType.GetProperty("ArgumentsPattern")!.GetValue(startupCompanyManagerCommandInstance, null)}"
+                    $"{startupCompanyManagerCommandType.GetProperty(nameof(ArgumentsPattern))!.GetValue(startupCompanyManagerCommandInstance, null)}"
                 );
             }
 
@@ -60,14 +60,16 @@ namespace StartupCompanyManager.Core.Command.ConcreteCommands
         {
             Regex commandGenerationPattern = CommandNameGenerationRegex();
 
-            List<string> listOfCommandArguments = commandGenerationPattern.Replace(commandTypeName, " ")
-                .Split(" ", StringSplitOptions.RemoveEmptyEntries)
-                .Take(2)
+            List<string> commandEntries = commandGenerationPattern.Replace(commandTypeName, " ")
+                .Split(" ", StringSplitOptions.RemoveEmptyEntries).ToList();
+
+            var commandEntriesWithoutSuffix = commandEntries
+                .TakeWhile((entry, index) => index != commandEntries.Count() - 2)
                 .ToList();
 
-            listOfCommandArguments[0] = listOfCommandArguments[0].ToUpper();
+            commandEntriesWithoutSuffix[0] = commandEntriesWithoutSuffix[0].ToUpper();
 
-            string generatedCommandName = string.Join(" ", listOfCommandArguments);
+            string generatedCommandName = string.Join(" ", commandEntriesWithoutSuffix);
 
             return generatedCommandName;
         }

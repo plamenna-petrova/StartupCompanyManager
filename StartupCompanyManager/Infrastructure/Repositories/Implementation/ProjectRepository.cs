@@ -17,22 +17,22 @@ namespace StartupCompanyManager.Infrastructure.Repositories.Implementation
                 .ToList();
         }
 
-        public Project GetByCondition(Func<Project, bool> entityFilterDelegate)
+        public Project GetByCondition(Func<Project, bool> entityFilterPredicate)
         {
             return StartupCompany.Departments
                 .SelectMany(d => d.Teams)
                 .Where(t => t.Project is not null)
                 .Select(t => t.Project)
-                .FirstOrDefault(entityFilterDelegate)!;
+                .FirstOrDefault(entityFilterPredicate)!;
         }
 
-        public ICollection<Project> GetAllByCondition(Func<Project, bool> entitiesFilterDelegate)
+        public ICollection<Project> GetAllByCondition(Func<Project, bool> entitiesFilterPredicate)
         {
             return StartupCompany.Departments
                 .SelectMany(d => d.Teams)
                 .Where(t => t.Project is not null)
                 .Select(t => t.Project)
-                .Where(entitiesFilterDelegate)
+                .Where(entitiesFilterPredicate)
                 .ToList();
         }
 

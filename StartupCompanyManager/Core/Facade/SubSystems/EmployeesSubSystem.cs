@@ -2,7 +2,9 @@
 using StartupCompanyManager.Core.Command.Abstraction;
 using StartupCompanyManager.Infrastructure.Exceptions;
 using StartupCompanyManager.Infrastructure.Repositories.Contracts;
+using StartupCompanyManager.Models;
 using StartupCompanyManager.Models.Composite.Component;
+using StartupCompanyManager.Models.Composite.Composites;
 using System.Reflection;
 
 namespace StartupCompanyManager.Core.Facade.SubSystems
@@ -55,20 +57,54 @@ namespace StartupCompanyManager.Core.Facade.SubSystems
             return employeeToAdd;
         }
 
-        public void ChangeEmployeeCharacteristic(string name, string characteristic, object value)
+        public void ChangeEmployeeCharacteristic(string fullName, string characteristic, object value)
         {
-            Employee employeeToUpdate = _employeeRepository.GetByCondition(e => e.FullName == name);
+            Employee employeeToUpdate = _employeeRepository.GetByCondition(e => e.FullName == fullName);
 
             if (employeeToUpdate == null)
             {
                 string nonExistingEmployeeExceptionMessage = string.Format(
-                    ExceptionMessagesConstants.NON_EXISTING_EMPLOYEE_EXCEPTION_MESSAGE, name
+                    ExceptionMessagesConstants.NON_EXISTING_EMPLOYEE_EXCEPTION_MESSAGE, fullName
                 );
 
                 throw new NonExistingStartupCompanyManagerEntityException(nonExistingEmployeeExceptionMessage);
             }
 
             _employeeRepository.Update(employeeToUpdate, characteristic, value);
+        }
+
+        public void AssignEmployeeAsHeadOfDepartment(string fullName, string departmentName)
+        {
+            Employee employeeToAssignAsHeadOfDepartment = _employeeRepository
+                .GetByCondition(e => e is HeadOfDepartment && e.FullName == fullName);
+
+            if (employeeToAssignAsHeadOfDepartment == null)
+            {
+                string nonExistingHeadOfDepartmentExceptionMessage = string.Format(
+                    ExceptionMessagesConstants.NON_EXISTING_HEAD_OF_DEPARTMENT_EXCEPTION_MESSAGE, fullName
+                );
+
+                throw new NonExistingStartupCompanyManagerEntityException(nonExistingHeadOfDepartmentExceptionMessage);
+            }
+
+            _employeeRepository.Assign(employeeToAssignAsHeadOfDepartment, nameof(Department), departmentName);
+        }
+
+        public void AssignEmployeeAsTeamLead(string fullName, string teamName)
+        {
+            Employee employeeToAssignAsTeamLead = _employeeRepository
+                .GetByCondition(e => e is TeamLead && e.FullName == fullName);
+
+            if (employeeToAssignAsTeamLead == null)
+            {
+                string nonExistingTeamLeadExceptionMessage = string.Format(
+                    ExceptionMessagesConstants.NON_EXISTING_TEAM_LEAD_EXCEPTION_MESSAGE, fullName
+                );
+
+                throw new NonExistingStartupCompanyManagerEntityException(nonExistingTeamLeadExceptionMessage);
+            }
+
+            _employeeRepository.Assign(employeeToAssignAsTeamLead, nameof(TeamLead), teamName);
         }
 
         public void RemoveEmployee(string name)

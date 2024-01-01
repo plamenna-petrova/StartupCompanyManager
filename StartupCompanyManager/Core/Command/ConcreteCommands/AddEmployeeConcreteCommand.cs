@@ -64,7 +64,7 @@ namespace StartupCompanyManager.Core.Command.ConcreteCommands
             );
 
             string addEmployeeConcreteCommandSuccessMessage = string.Format(
-                CommandsMessagesConstants.ADDED_DEPARTMENT_TO_STARTUP_COMPANY_SUCCESS_MESSAGE,
+                CommandsMessagesConstants.ADDED_EMPLOYEE_TO_STARTUP_COMPANY_SUCCESS_MESSAGE,
                 $"{commandExecutionOperationArguments[1]} {commandExecutionOperationArguments[2]}",
                 StartupCompany.StartupCompanyInstance.Name
             );

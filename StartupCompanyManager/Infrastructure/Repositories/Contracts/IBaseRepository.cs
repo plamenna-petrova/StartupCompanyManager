@@ -6,7 +6,7 @@
 
         TEntity GetByCondition(Func<TEntity, bool> entityFilterDelegate);
 
-        ICollection<TEntity> GetAllByCondition(Func<TEntity, bool> entitiesFilterDelegate);
+        ICollection<TEntity> GetAllByCondition(Func<TEntity, bool> entitiesFilterPredicate);
 
         void Add(TEntity entity, params object[] entityCreationArguments);
 

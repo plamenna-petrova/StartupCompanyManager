@@ -12,14 +12,14 @@ namespace StartupCompanyManager.Infrastructure.Repositories.Implementation
             return StartupCompany.Investors.ToList();
         }
 
-        public Investor GetByCondition(Func<Investor, bool> entityFilterDelegate)
+        public Investor GetByCondition(Func<Investor, bool> entityFilterPredicate)
         {
-            return StartupCompany.Investors.FirstOrDefault(entityFilterDelegate)!;
+            return StartupCompany.Investors.FirstOrDefault(entityFilterPredicate)!;
         }
 
-        public ICollection<Investor> GetAllByCondition(Func<Investor, bool> entitiesFilterDelegate)
+        public ICollection<Investor> GetAllByCondition(Func<Investor, bool> entitiesFilterPredicate)
         {
-            return StartupCompany.Investors.Where(entitiesFilterDelegate).ToList();
+            return StartupCompany.Investors.Where(entitiesFilterPredicate).ToList();
         }
 
         public void Add(Investor investor, params object[] entityCreationArguments)
