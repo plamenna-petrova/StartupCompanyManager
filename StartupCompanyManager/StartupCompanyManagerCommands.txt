@@ -52,3 +52,5 @@ ADD Project To Team [External Negotiations] [1.1.2024] [31.12.2024] [The Strateg
 Startup Company Info
 ADD Employee [Head Of Department] [Collin] [O'Neal] [Software Architect] [6000.00] [8] [12.12.1992] [10]
 ASSIGN Head Of Department [Collin O'Neal] [IT Department]
+ADD Employee [Team Lead] [Jason] [White] [Senior Full-Stack Developer] [5700.00] [7] [15.9.1995] [10]
+ASSIGN Team Lead [Jason White] [Clear Focus]

@@ -38,6 +38,8 @@
 
         public const string ASSIGN_HEAD_OF_DEPARTMENT_CONCRETE_COMMAND_ARGUMENTS_PATTERN = "[Full Name] [Department]";
 
+        public const string ASSIGN_TEAM_LEAD_CONCRETE_COMMAND_ARGUMENTS_PATTERN = "[Full Name] [Team]";
+
         // Success Messages
 
         public const string ADDED_DEPARTMENT_TO_STARTUP_COMPANY_SUCCESS_MESSAGE = "Successfully added department {0} to Startup Company \"{1}\".";
@@ -72,6 +74,8 @@
 
         public const string REMOVED_EMPLOYEE_FROM_STARTUP_COMPANY_SUCCESS_MESSAGE = "Successfully removed employee {0} from Startup Company \"{1}\".";
 
-        public const string ASSIGNED_HEAD_OF_DEPARTMENT_SUCCESS_MESSAGE = "Successfully added head employee {0} of department {1}";
+        public const string ASSIGNED_HEAD_OF_DEPARTMENT_SUCCESS_MESSAGE = "Successfully added head employee {0} to department {1}.";
+
+        public const string ASSIGNED_TEAM_LEAD_SUCCESS_MESSAGE = "Successfully added team lead {0} to team {1}.";
     }
 }
