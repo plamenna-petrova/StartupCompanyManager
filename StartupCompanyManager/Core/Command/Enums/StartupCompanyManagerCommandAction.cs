@@ -4,9 +4,8 @@
     {
         Add,
         Change,
-        Assign,
-        Increase,
-        Decrease,
+        AssignSuperior,
+        AssignSubordinate,
         Remove
     }
 }

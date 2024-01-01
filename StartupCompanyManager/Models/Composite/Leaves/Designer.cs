@@ -25,9 +25,11 @@ namespace StartupCompanyManager.Models.Composite.Leaves
             );
         }
 
-        public override void GetHierarchicalLevel(int depthIndicator)
+        public override string GetHierarchicalLevel(int depthIndicator)
         {
-            Console.WriteLine($"{new string('-', depthIndicator)} {FullName} [{GetType().Name}] [${MonthlySalary}]");
+            return $"{new string(' ', depthIndicator)}{new string('-', depthIndicator)}+ Designer: {FullName}, " +
+                $"Position: [{Position}], Monthly Salary: [${MonthlySalary}], Years of Work Experience: [{YearsOfWorkExperience}], " +
+                $"Birth Date: {BirthDate.ToString(GlobalConstants.DATE_TIME_VALUE_FORMAT)}, Rating: {Rating}\r\n";
         }
     }
 }

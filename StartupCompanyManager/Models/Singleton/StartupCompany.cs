@@ -30,6 +30,18 @@ namespace StartupCompanyManager.Models.Singleton
 
         private const string STARTUP_COMPANY_EMAIL_ADDRESS_REGEX_PATTERN = @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$";
 
+        private const string STARTUP_COMPANY_INVESTORS_DETAILS = "Investors: ";
+
+        private const string NO_STARTUP_COMPANY_INVESTORS_DETAILS = "There are currently no investors registered under: \"{0}\"";
+
+        private const string STARTUP_COMPANY_DEPARTMENTS_DETAILS = "Departments: ";
+
+        private const string NO_ASSIGNED_HEAD_OF_DEPARTMENT_DETAILS = "No head of department assigned";
+
+        private const string DEPARTMENT_EMPLOYEES_DETAILS = "Employees: ";
+
+        private const string NO_STARTUP_COMPANY_DEPARTMENTS_DETAILS = "There are currently no departments registered under: \"{0}\"";
+
         private string name = null!;
 
         private decimal capital = default;
@@ -305,21 +317,21 @@ namespace StartupCompanyManager.Models.Singleton
             startupCompanyInfoStringBuilder.AppendLine();
             startupCompanyInfoStringBuilder.AppendLine(string.Format(STARTUP_COMPANY_PRESENTATION_MESSAGE, Name));
             startupCompanyInfoStringBuilder.AppendLine();
-            startupCompanyInfoStringBuilder.AppendLine("Investors: ");
+            startupCompanyInfoStringBuilder.AppendLine(STARTUP_COMPANY_INVESTORS_DETAILS);
 
             if (Investors.Any())
             {
                 foreach (var investor in Investors)
                 {
-                    startupCompanyInfoStringBuilder.AppendLine($"  {investor.ToString()}");
+                    startupCompanyInfoStringBuilder.AppendLine($"{new string(' ', 2)}{investor.ToString()}");
                 }
             }
             else
             {
-                startupCompanyInfoStringBuilder.AppendLine($"There are currently no investors registered under: \"{Name}\"");
+                startupCompanyInfoStringBuilder.AppendLine(string.Format(NO_STARTUP_COMPANY_INVESTORS_DETAILS, Name));
             }
 
-            startupCompanyInfoStringBuilder.AppendLine("Departments: ");
+            startupCompanyInfoStringBuilder.AppendLine(STARTUP_COMPANY_DEPARTMENTS_DETAILS);
 
             if (Departments.Any())
             {
@@ -327,33 +339,20 @@ namespace StartupCompanyManager.Models.Singleton
                 {
                     startupCompanyInfoStringBuilder.AppendLine($"{new string(' ', 2)}{department.ToString()}");
 
-                    if (department.Teams.Any())
+                    if (department.HeadOfDepartment != null)
                     {
-                        startupCompanyInfoStringBuilder.AppendLine($"{new string(' ', 4)}Teams: ");
-
-                        foreach (var team in department.Teams)
-                        {
-                            startupCompanyInfoStringBuilder.AppendLine($"{new string(' ', 6)}{team.ToString()}");
-
-                            if (team.Project != null)
-                            {
-                                startupCompanyInfoStringBuilder.AppendLine($"{new string(' ', 8)}Assigned Project: {team.Project.Name}");
-                            }
-                            else
-                            {
-                                startupCompanyInfoStringBuilder.AppendLine($"{new string(' ', 8)}No project assigned");
-                            }
-                        }
+                        startupCompanyInfoStringBuilder.AppendLine(DEPARTMENT_EMPLOYEES_DETAILS);
+                        startupCompanyInfoStringBuilder.AppendLine($"{new string(' ', 4)}{department.HeadOfDepartment.GetHierarchicalLevel(2)}");
                     }
                     else
                     {
-                        startupCompanyInfoStringBuilder.AppendLine($"{new string(' ', 4)}There are currently no teams under department \"{Name}\"");
+                        startupCompanyInfoStringBuilder.AppendLine($"{new string(' ', 2)}{NO_ASSIGNED_HEAD_OF_DEPARTMENT_DETAILS}");
                     }
                 }
             }
             else
             {
-                startupCompanyInfoStringBuilder.AppendLine($"There are currently no departments registered under: \"{Name}\"");
+                startupCompanyInfoStringBuilder.AppendLine($"{string.Format(NO_STARTUP_COMPANY_DEPARTMENTS_DETAILS, Name)}");
             }
 
             startupCompanyInfoStringBuilder.AppendLine();

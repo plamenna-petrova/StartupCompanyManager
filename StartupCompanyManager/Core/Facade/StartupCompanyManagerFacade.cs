@@ -50,8 +50,14 @@ namespace StartupCompanyManager.Core.Facade
                         departmentRelatedOperationArguments[2]
                     );
                     break;
-                case StartupCompanyManagerCommandAction.Assign:
+                case StartupCompanyManagerCommandAction.AssignSuperior:
                     _employeesSubSystem.AssignEmployeeAsHeadOfDepartment(
+                        (string)departmentRelatedOperationArguments[0],
+                        (string)departmentRelatedOperationArguments[1]
+                    );
+                    break;
+                case StartupCompanyManagerCommandAction.AssignSubordinate:
+                    _employeesSubSystem.AssignTeamLeadAsHeadOfDepartmentSubordinate(
                         (string)departmentRelatedOperationArguments[0],
                         (string)departmentRelatedOperationArguments[1]
                     );
@@ -108,8 +114,14 @@ namespace StartupCompanyManager.Core.Facade
                         teamRelatedOperationArguments[2]
                     );
                     break;
-                case StartupCompanyManagerCommandAction.Assign:
+                case StartupCompanyManagerCommandAction.AssignSuperior:
                     _employeesSubSystem.AssignEmployeeAsTeamLead(
+                        (string)teamRelatedOperationArguments[0],
+                        (string)teamRelatedOperationArguments[1]
+                    );
+                    break;
+                case StartupCompanyManagerCommandAction.AssignSubordinate:
+                    _employeesSubSystem.AssignEmployeeAsTeamLeadSubordinate(
                         (string)teamRelatedOperationArguments[0],
                         (string)teamRelatedOperationArguments[1]
                     );

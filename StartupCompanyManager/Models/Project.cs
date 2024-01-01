@@ -70,5 +70,11 @@ namespace StartupCompanyManager.Models
         public Team Team { get; set; } = null!;
 
         public ICollection<Task> Tasks { get; set; } = new HashSet<Task>();
+
+        public override string ToString()
+        {
+            return $"{Name}, Assignment Date: {AssignmentDate.ToString(GlobalConstants.DATE_TIME_VALUE_FORMAT)}, " +
+                $"Deadline: {Deadline.ToString(GlobalConstants.DATE_TIME_VALUE_FORMAT)}";
+        }
     }
 }

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace StartupCompanyManager.Core.Command.ConcreteCommands
 {
-    public class AssignHeadOfDepartmentConcreteCommand : StartupCompanyInfoConcreteCommand
+    public class AssignHeadOfDepartmentConcreteCommand : InfoConcreteCommand
     {
         private const int ASSIGN_HEAD_OF_DEPARTMENT_CONCRETE_COMMAND_EXPECTED_ARGUMENTS_COUNT = 2;
 
@@ -36,7 +36,7 @@ namespace StartupCompanyManager.Core.Command.ConcreteCommands
             }
 
             StartupCompanyManagerFacade.ExecuteDepartmentRelatedOperation(
-                StartupCompanyManagerCommandAction.Assign, commandExecutionOperationArguments
+                StartupCompanyManagerCommandAction.AssignSuperior, commandExecutionOperationArguments
             );
 
             string assignHeadOfDepartmentConcreteCommandSuccessMessage = string.Format(

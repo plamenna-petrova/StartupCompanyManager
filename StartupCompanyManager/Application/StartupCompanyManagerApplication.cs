@@ -57,7 +57,7 @@ namespace StartupCompanyManager.Application
 
                     if (!string.IsNullOrEmpty(startupCompanyManagerOperationsContext.Output))
                     {
-                        if (consoleInputCommand == "Startup Company Info")
+                        if (consoleInputCommand.ToLower() == GlobalConstants.INFO_OPERATION.ToLower())
                         {
                             Console.ForegroundColor = ConsoleColor.Blue;
                         }

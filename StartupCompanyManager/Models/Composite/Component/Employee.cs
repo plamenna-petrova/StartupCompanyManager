@@ -277,6 +277,6 @@ namespace StartupCompanyManager.Models.Composite.Component
 
         public abstract void Remove(Employee employee);
 
-        public abstract void GetHierarchicalLevel(int depthIndicator);
+        public abstract string GetHierarchicalLevel(int depthIndicator);
     }
 }

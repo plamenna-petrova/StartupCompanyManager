@@ -4,7 +4,7 @@ using StartupCompanyManager.Core.Facade;
 
 namespace StartupCompanyManager.Core.Command.ConcreteCommands
 {
-    public class AssignTeamLeadConcreteCommand : StartupCompanyInfoConcreteCommand
+    public class AssignTeamLeadConcreteCommand : InfoConcreteCommand
     {
         private const int ASSIGN_TEAM_LEAD_CONCRETE_COMMAND_EXPECTED_ARGUMENTS_COUNT = 2;
 
@@ -30,7 +30,7 @@ namespace StartupCompanyManager.Core.Command.ConcreteCommands
             }
 
             StartupCompanyManagerFacade.ExecuteTeamRelatedOperation(
-                StartupCompanyManagerCommandAction.Assign, commandExecutionOperationArguments
+                StartupCompanyManagerCommandAction.AssignSuperior, commandExecutionOperationArguments
             );
 
             string assignHeadOfDepartmentConcreteCommandSuccessMessage = string.Format(

@@ -99,15 +99,59 @@ namespace StartupCompanyManager.Infrastructure.Repositories.Implementation
                         );
                     }
                     break;
-                case nameof(TeamLead):
+                case nameof(HeadOfDepartment):
+                    if (GetByCondition(e => e is HeadOfDepartment && e.FullName == filter) is HeadOfDepartment headOfDepartmentToFind)
+                    {
+                        var departmentOfHeadEmployee = StartupCompany.Departments
+                            .FirstOrDefault(d => d.HeadOfDepartment.FullName == headOfDepartmentToFind.FullName)!;
+
+                        if (departmentOfHeadEmployee.Teams.Contains(employee.Team))
+                        {
+                            if (!headOfDepartmentToFind.Employees.Contains(employee))
+                            {
+                                headOfDepartmentToFind.Add(employee);
+                            }
+                            else
+                            {
+                                throw new ExistingStartupCompanyManagerEntityException(
+                                    string.Format(
+                                        ExceptionMessagesConstants.EXISTING_HEAD_OF_DEPARTMENT_TEAM_LEAD_SUBORDINATE_EXCEPTION_MESSAGE,
+                                        headOfDepartmentToFind.FullName,
+                                        employee.FullName
+                                    )
+                                );
+                            }
+                        }
+                        else
+                        {
+                            throw new InvalidOperationException(
+                                string.Format(
+                                    ExceptionMessagesConstants.DEPARTMENT_AND_TEAM_LEAD_TEAMS_MISMATCH_EXCEPTION_MESSAGE,
+                                    departmentOfHeadEmployee.Name,
+                                    employee.Team
+                                )
+                            );
+                        }
+                    }
+                    else
+                    {
+                        string nonExistingHeadOfDepartmentExceptionMessage = string.Format(
+                            ExceptionMessagesConstants.NON_EXISTING_HEAD_OF_DEPARTMENT_EXCEPTION_MESSAGE, filter
+                        );
+
+                        throw new NonExistingStartupCompanyManagerEntityException(nonExistingHeadOfDepartmentExceptionMessage);
+                    }
+                    break;
+                case nameof(Team):
                     var teamToReceiveLeadEmployeeAssignment = StartupCompany.Departments
-                        .SelectMany(d => d.Teams)
-                        .FirstOrDefault(t => t.Name == filter)!;
-                    
+                           .SelectMany(d => d.Teams)
+                           .FirstOrDefault(t => t.Name == filter)!;
+
                     if (teamToReceiveLeadEmployeeAssignment != null)
                     {
                         if (teamToReceiveLeadEmployeeAssignment.TeamLead == null)
                         {
+                            ((TeamLead)employee).Team = teamToReceiveLeadEmployeeAssignment!;
                             teamToReceiveLeadEmployeeAssignment.TeamLead = (TeamLead)employee;
                         }
                         else
@@ -128,6 +172,64 @@ namespace StartupCompanyManager.Infrastructure.Repositories.Implementation
                                 ExceptionMessagesConstants.NON_EXISTING_TEAM_EXCEPTION_MESSAGE, filter
                             )
                         );
+                    }
+                    break;
+                case nameof(TeamLead):
+                    if (GetByCondition(e => e is TeamLead && e.FullName == filter) is TeamLead teamLeadToFind)
+                    {
+                        if (teamLeadToFind.Team != null)
+                        {
+                            var otherStartupCompanyTeamLeads = GetAllByCondition(e => e is TeamLead && e != teamLeadToFind);
+
+                            var otherStartupCompanyTeamLeadsSubordinateEmployees = otherStartupCompanyTeamLeads
+                                .SelectMany(tl => ((TeamLead)tl).Employees)
+                                .ToList();
+
+                            var existingTeamLeadOfEmployees = otherStartupCompanyTeamLeads
+                                .Where(tl => ((TeamLead)tl).Employees.Contains(employee))
+                                .FirstOrDefault()!;
+
+                            if (existingTeamLeadOfEmployees != null)
+                            {
+                                throw new InvalidOperationException(
+                                    string.Format(
+                                        ExceptionMessagesConstants.EMPLOYEE_ALREADY_SUBORDINATE_OF_OTHER_TEAM_LEAD_EXCEPTION_MESAGE,
+                                        employee.FullName,
+                                        existingTeamLeadOfEmployees.FullName
+                                    )
+                                 );
+                            }
+                            else
+                            {
+                                if (!teamLeadToFind.Employees.Contains(employee))
+                                {
+                                    teamLeadToFind.Add(employee);
+                                    employee.Team = teamLeadToFind.Team;
+                                }
+                                else
+                                {
+                                    throw new ExistingStartupCompanyManagerEntityException(
+                                        string.Format(
+                                            ExceptionMessagesConstants.EXISTING_TEAM_LEAD_EMPLOYEE_SUBORDINATE_EXCEPTION_MESSAGE,
+                                            teamLeadToFind.FullName,
+                                            employee.FullName
+                                        )
+                                    );
+                                }
+                            }
+                        }
+                        else
+                        {
+                            throw new InvalidOperationException(ExceptionMessagesConstants.TEAM_LEAD_NOT_ASSIGNED_TEAM_EXCEPTION_MESSAGE);
+                        }
+                    }
+                    else
+                    {
+                        string nonExistingTeamLeadExceptionMessage = string.Format(
+                            ExceptionMessagesConstants.NON_EXISTING_TEAM_LEAD_EXCEPTION_MESSAGE, filter
+                        );
+
+                        throw new NonExistingStartupCompanyManagerEntityException(nonExistingTeamLeadExceptionMessage);
                     }
                     break;
             }

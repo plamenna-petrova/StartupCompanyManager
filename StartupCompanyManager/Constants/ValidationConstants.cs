@@ -68,17 +68,17 @@
 
         public const string TASK_ASSIGNMENT_DATE_INCORRECT_FORMAT_ERROR_MESSAGE = "The task's assignment date is not in the correct format.";
 
-        public const string TASK_ASSIGNMENT_DATE_EARLIER_THAN_PROJECT_START_ERROR_MESSAGE = "The task's assignment date is set earlier than project's start {0}";
+        public const string TASK_ASSIGNMENT_DATE_EARLIER_THAN_PROJECT_START_ERROR_MESSAGE = "The task's assignment date is set earlier than project's start {0}.";
 
         public const string TASK_DUE_DATE_INCORRECT_FORMAT_ERROR_MESSAGE = "The task's due date is not in the correct format.";
 
-        public const string TASK_DUE_DATE_AFTER_PROJECT_END_ERROR_MESSAGE = "The task's due date is set after the project's end {0}";
+        public const string TASK_DUE_DATE_AFTER_PROJECT_END_ERROR_MESSAGE = "The task's due date is set after the project's end {0}.";
 
         public const string TASK_EXECUTION_DAYS_ERROR_MESSAGE = "The task's due date must be set at least {0} days from its assignment date.";
 
         // Team
 
-        public const string NULL_OR_WHITE_SPACE_TEAM_NAME_ERROR_MESSAGE = "The team's name cannot be empty or consisting only of whitespaces";
+        public const string NULL_OR_WHITE_SPACE_TEAM_NAME_ERROR_MESSAGE = "The team's name cannot be empty or consisting only of whitespaces.";
 
         public const string TEAM_NAME_STRING_LENGTH_RANGE_ERROR_MESSAGE = "The team's name must be between {0} and {1} characters long.";
 

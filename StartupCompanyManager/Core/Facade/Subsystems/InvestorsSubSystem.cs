@@ -1,7 +1,6 @@
 ﻿using StartupCompanyManager.Constants;
 using StartupCompanyManager.Infrastructure.Exceptions;
 using StartupCompanyManager.Infrastructure.Repositories.Contracts;
-using StartupCompanyManager.Infrastructure.Repositories.Implementation;
 using StartupCompanyManager.Models;
 
 namespace StartupCompanyManager.Core.Facade.SubSystems
