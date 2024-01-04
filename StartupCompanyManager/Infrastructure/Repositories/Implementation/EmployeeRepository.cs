@@ -1,6 +1,5 @@
 ﻿using StartupCompanyManager.Constants;
 using StartupCompanyManager.Infrastructure.Exceptions;
-using StartupCompanyManager.Infrastructure.Extensions;
 using StartupCompanyManager.Infrastructure.Repositories.Contracts;
 using StartupCompanyManager.Models;
 using StartupCompanyManager.Models.Composite.Component;
@@ -45,6 +44,15 @@ namespace StartupCompanyManager.Infrastructure.Repositories.Implementation
                 {
                     var convertedEmployeePropertyValueToSet = Convert.ChangeType(propertyValueToSet, employeePropertyConversionType);
                     employee.GetType().GetProperty(formattedEmployeePropertyName)!.SetValue(employee, convertedEmployeePropertyValueToSet);
+
+                    Console.ForegroundColor = ConsoleColor.Green;
+
+                    Console.WriteLine(string.Format(
+                        CommandsMessagesConstants.CHANGED_EMPLOYEE_OF_STARTUP_COMPANY_SUCCESS_MESSAGE,
+                        employee.FullName,
+                        propertyName,
+                        convertedEmployeePropertyValueToSet
+                    ));
                 }
                 else
                 {
@@ -66,12 +74,12 @@ namespace StartupCompanyManager.Infrastructure.Repositories.Implementation
             }
         }
 
-        public void Assign(Employee employee, string assignmentOption, string filter)
+        public void Assign(Employee employee, string assignmentOption, string filterTerm)
         {
             switch (assignmentOption)
             {
                 case nameof(Department):
-                    var departmentToReceiveHeadEmployeeAssignment = StartupCompany.Departments.FirstOrDefault(d => d.Name == filter)!;
+                    var departmentToReceiveHeadEmployeeAssignment = StartupCompany.Departments.FirstOrDefault(d => d.Name == filterTerm)!;
 
                     if (departmentToReceiveHeadEmployeeAssignment != null)
                     {
@@ -94,13 +102,13 @@ namespace StartupCompanyManager.Infrastructure.Repositories.Implementation
                     {
                         throw new NonExistingStartupCompanyManagerEntityException(
                             string.Format(
-                                ExceptionMessagesConstants.NON_EXISTING_DEPARTMENT_EXCEPTION_MESSAGE, filter
+                                ExceptionMessagesConstants.NON_EXISTING_DEPARTMENT_EXCEPTION_MESSAGE, filterTerm
                             )
                         );
                     }
                     break;
                 case nameof(HeadOfDepartment):
-                    if (GetByCondition(e => e is HeadOfDepartment && e.FullName == filter) is HeadOfDepartment headOfDepartmentToFind)
+                    if (GetByCondition(e => e is HeadOfDepartment && e.FullName == filterTerm) is HeadOfDepartment headOfDepartmentToFind)
                     {
                         var departmentOfHeadEmployee = StartupCompany.Departments
                             .FirstOrDefault(d => d.HeadOfDepartment.FullName == headOfDepartmentToFind.FullName)!;
@@ -136,7 +144,7 @@ namespace StartupCompanyManager.Infrastructure.Repositories.Implementation
                     else
                     {
                         string nonExistingHeadOfDepartmentExceptionMessage = string.Format(
-                            ExceptionMessagesConstants.NON_EXISTING_HEAD_OF_DEPARTMENT_EXCEPTION_MESSAGE, filter
+                            ExceptionMessagesConstants.NON_EXISTING_HEAD_OF_DEPARTMENT_EXCEPTION_MESSAGE, filterTerm
                         );
 
                         throw new NonExistingStartupCompanyManagerEntityException(nonExistingHeadOfDepartmentExceptionMessage);
@@ -145,7 +153,7 @@ namespace StartupCompanyManager.Infrastructure.Repositories.Implementation
                 case nameof(Team):
                     var teamToReceiveLeadEmployeeAssignment = StartupCompany.Departments
                            .SelectMany(d => d.Teams)
-                           .FirstOrDefault(t => t.Name == filter)!;
+                           .FirstOrDefault(t => t.Name == filterTerm)!;
 
                     if (teamToReceiveLeadEmployeeAssignment != null)
                     {
@@ -169,13 +177,13 @@ namespace StartupCompanyManager.Infrastructure.Repositories.Implementation
                     {
                         throw new NonExistingStartupCompanyManagerEntityException(
                             string.Format(
-                                ExceptionMessagesConstants.NON_EXISTING_TEAM_EXCEPTION_MESSAGE, filter
+                                ExceptionMessagesConstants.NON_EXISTING_TEAM_EXCEPTION_MESSAGE, filterTerm
                             )
                         );
                     }
                     break;
                 case nameof(TeamLead):
-                    if (GetByCondition(e => e is TeamLead && e.FullName == filter) is TeamLead teamLeadToFind)
+                    if (GetByCondition(e => e is TeamLead && e.FullName == filterTerm) is TeamLead teamLeadToFind)
                     {
                         if (teamLeadToFind.Team != null)
                         {
@@ -185,17 +193,17 @@ namespace StartupCompanyManager.Infrastructure.Repositories.Implementation
                                 .SelectMany(tl => ((TeamLead)tl).Employees)
                                 .ToList();
 
-                            var existingTeamLeadOfEmployees = otherStartupCompanyTeamLeads
+                            var existingTeamLeadOfEmployee = otherStartupCompanyTeamLeads
                                 .Where(tl => ((TeamLead)tl).Employees.Contains(employee))
                                 .FirstOrDefault()!;
 
-                            if (existingTeamLeadOfEmployees != null)
+                            if (existingTeamLeadOfEmployee != null)
                             {
                                 throw new InvalidOperationException(
                                     string.Format(
                                         ExceptionMessagesConstants.EMPLOYEE_ALREADY_SUBORDINATE_OF_OTHER_TEAM_LEAD_EXCEPTION_MESAGE,
                                         employee.FullName,
-                                        existingTeamLeadOfEmployees.FullName
+                                        existingTeamLeadOfEmployee.FullName
                                     )
                                  );
                             }
@@ -226,7 +234,7 @@ namespace StartupCompanyManager.Infrastructure.Repositories.Implementation
                     else
                     {
                         string nonExistingTeamLeadExceptionMessage = string.Format(
-                            ExceptionMessagesConstants.NON_EXISTING_TEAM_LEAD_EXCEPTION_MESSAGE, filter
+                            ExceptionMessagesConstants.NON_EXISTING_TEAM_LEAD_EXCEPTION_MESSAGE, filterTerm
                         );
 
                         throw new NonExistingStartupCompanyManagerEntityException(nonExistingTeamLeadExceptionMessage);
@@ -237,6 +245,39 @@ namespace StartupCompanyManager.Infrastructure.Repositories.Implementation
 
         public void Remove(Employee employee, params object[] entityRemovalArguments)
         {
+            if (employee is HeadOfDepartment)
+            {
+                var departmentOfHeadEmployee = StartupCompany.Departments.FirstOrDefault(d => d.HeadOfDepartment == employee);
+
+                if (departmentOfHeadEmployee != null)
+                {
+                    departmentOfHeadEmployee.HeadOfDepartment = null!;
+                }
+            }
+            else if (employee is TeamLead)
+            {
+                var teamOfLeadEmployee = StartupCompany.Departments.SelectMany(d => d.Teams).FirstOrDefault(t => t.TeamLead == employee);
+
+                var headOfDepartmentSuperiorOfTeamLead = StartupCompany.Departments
+                    .Select(d => d.HeadOfDepartment)
+                    .FirstOrDefault(hod => hod.Employees.Contains(employee));
+
+                if (teamOfLeadEmployee != null)
+                {
+                    teamOfLeadEmployee.TeamLead = null!;
+                } 
+
+                headOfDepartmentSuperiorOfTeamLead?.Employees.Remove(employee);
+            }
+            else
+            {
+                var teamLeadSuperiorOfEmployee = StartupCompany.Departments
+                    .SelectMany(d => d.Teams).Select(t => t.TeamLead)
+                    .FirstOrDefault(tl => tl.Employees.Contains(employee));
+
+                teamLeadSuperiorOfEmployee?.Employees.Remove(employee);
+            }
+
             StartupCompany.Employees.Remove(employee);
         }
 

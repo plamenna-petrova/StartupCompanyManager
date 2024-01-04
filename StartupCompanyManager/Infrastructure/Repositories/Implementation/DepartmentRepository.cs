@@ -41,6 +41,15 @@ namespace StartupCompanyManager.Infrastructure.Repositories.Implementation
                 {
                     var convertedDepartmentPropertyValueToSet = Convert.ChangeType(propertyValueToSet, departmentPropertyConversionType);
                     department.GetType().GetProperty(formattedDepartmentPropertyName)!.SetValue(department, convertedDepartmentPropertyValueToSet);
+
+                    Console.ForegroundColor = ConsoleColor.Green;
+
+                    Console.WriteLine(string.Format(
+                        CommandsMessagesConstants.CHANGED_DEPARTMENT_OF_STARTUP_COMPANY_SUCCESS_MESSAGE,
+                        department.Name,
+                        propertyName,
+                        convertedDepartmentPropertyValueToSet
+                    ));
                 }
                 else
                 {

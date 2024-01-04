@@ -66,6 +66,15 @@ namespace StartupCompanyManager.Infrastructure.Repositories.Implementation
                 {
                     var convertedTeamPropertyValueToSet = Convert.ChangeType(propertyValueToSet, teamPropertyConversionType);
                     team.GetType().GetProperty(formattedTeamPropertyName)!.SetValue(team, convertedTeamPropertyValueToSet);
+
+                    Console.ForegroundColor = ConsoleColor.Green;
+
+                    Console.WriteLine(string.Format(
+                        CommandsMessagesConstants.CHANGED_TEAM_OF_STARTUP_COMPANY_SUCCESS_MESSAGE,
+                        team.Name,
+                        propertyName,
+                        propertyValueToSet
+                    ));
                 }
                 else
                 {

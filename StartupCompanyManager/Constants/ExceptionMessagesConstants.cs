@@ -44,7 +44,7 @@
 
         public const string EXISTING_TASK_EXCEPTION_MESSAGE = "A task with the following name \"{0}\" and assignee \"{1}\" already exists.";
 
-        public const string NON_EXISTING_TASK_EXCEPTION_MESSAGE = "A project with the following name \"{0}\" and assignee \"{1}\" could not be found.";
+        public const string NON_EXISTING_TASK_EXCEPTION_MESSAGE = "A project with the following task \"{0}\" and assignee \"{1}\" could not be found.";
 
         // Commands
 
@@ -58,6 +58,8 @@
 
         // Composite
 
+        public const string ONLY_HEAD_OF_DEPARTMENT_SUBORDINATES_ALLOWED_FOR_MANAGING_DIRECTOR_EXCEPTION_MESSAGE = "Cannot add a subordinate to managing director other than a head of department.";
+
         public const string ONLY_TEAM_LEADS_SUBORDINATES_ALLOWED_FOR_HEAD_OF_DEPARTMENT_EXCEPTION_MESSAGE = "Cannot add a subordinate to head of department other than a team lead.";
 
         public const string HEAD_OF_DEPARTMENT_OR_TEAM_LEADS_NOT_ALOWED_FOR_TEAM_LEAD_SUBORDINATES_EXCEPTION_MESSAGE = "Cannot add a subordinate to team lead who is either head of department or team lead.";
@@ -69,5 +71,9 @@
         public const string DEPARTMENT_AND_TEAM_LEAD_TEAMS_MISMATCH_EXCEPTION_MESSAGE = "The department of the head employee {0} either doesn't have a team that matches the team of the lead employee {1} or the team is not-existent.";
 
         public const string TEAM_LEAD_NOT_ASSIGNED_TEAM_EXCEPTION_MESSAGE = "The team lead doesn't have an assigned team.";
+
+        public const string NOT_ASSIGNED_PROJECT_TEAM_LEAD_EMPLOYEE = "The following project's {0} team {1} still hasn't assigned team lead.";
+
+        public const string CANNOT_ASSIGN_TASK_TO_EMPLOYEE_SUBORDINATION_NOT_MET = "Cannot assign task to the employee {0}, who is not subordinate of {1}.";
     }
 }

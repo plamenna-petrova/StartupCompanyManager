@@ -6,6 +6,8 @@
 
         public const string STARTUP_COMPANY_INFO_CONCRETE_COMMAND_ARGUMENTS_PATTERN = "Startup Company Info";
 
+        public const string CREATE_STARTUP_COMPANY_CONCRETE_COMMAND_ARGUMENTS_PATTERN = "[Name] [Capital] [Year Of Establishment] [Email] [Address] [Phone Number]";
+
         public const string ADD_DEPARTMENT_CONCRETE_COMMAND_ARGUMENTS_PATTERN = "[Name] [Year Of Establishment]";
 
         public const string ADD_INVESTOR_CONCRETE_COMMAND_ARGUMENTS_PATTERN = "[Name] [Funds]";
@@ -30,7 +32,7 @@
 
         public const string REMOVE_PROJECT_CONCRETE_COMMAND_ARGUMENTS_PATTERN = "[Name]";
 
-        public const string ADD_EMPLOYEE_CONCRETE_COMMAND_ARGUMENTS_PATTERN = "[Head Of Department | Team Lead | Officer | Software Developer | Specialist | Tester | Designer] [First Name] [Last Name] [Position] [Monthly Salary] [Years Of Work Experience] [Birth Date] [Rating]";
+        public const string ADD_EMPLOYEE_CONCRETE_COMMAND_ARGUMENTS_PATTERN = "[Employee Type: Head Of Department | Team Lead | Officer | Software Developer | Specialist | Tester | Designer] [First Name] [Last Name] [Position] [Monthly Salary] [Years Of Work Experience] [Birth Date] [Rating]";
 
         public const string CHANGE_EMPLOYEE_CONCRETE_COMMAND_ARGUMENTS_PATTERN = "[Full Name] [First Name | Last Name | Position | Monthly Salary | Years Of Work Experience | Rating] [Value]";
 
@@ -44,11 +46,15 @@
 
         public const string ASSIGN_TEAM_LEAD_EMPLOYEE_SUBORDINATE_ARGUMENTS_PATTERN = "[Employee Full Name] [Team Lead Full Name]";
 
-        public const string ADD_TASK_TO_PROJECT_CONCRETE_COMMAND_ARGUMENTS_PATTERN = "[Name] [Priority] [Status] [Assignment Date] [Due Date] [Assignee] [Project]";
+        public const string ADD_TASK_TO_PROJECT_CONCRETE_COMMAND_ARGUMENTS_PATTERN = "[Name] [Priority: Low | Medium | High | Urgent] [Status: To Do | In Progress | Pending | Rejected] [Assignment Date] [Due Date] [Assignee] [Project]";
 
-        public const string CHANGE_PROJECT_TASK_CONCRETE_COMMAND_ARGUMENTS_PATTERN = "[Name] [Assignee] [Name] [Value]";
+        public const string CHANGE_PROJECT_TASK_CONCRETE_COMMAND_ARGUMENTS_PATTERN = "[Name] [Assignee] [Name | Priority: Low | Medium | High | Urgent | Status: To Do | In Progress | Pending | Rejected | Assignment Date | Due Date] [Value]";
+
+        public const string REMOVE_PROJECT_TASK_CONCRETE_COMMAND_ARGUMENTS_PATTERN = "[Name] [Assignee]";
 
         // Success Messages
+
+        public const string CREATED_STARTUP_COMPANY_SUCCESS_MESSAGE = "Successfully created startup company {0}";
 
         public const string ADDED_DEPARTMENT_TO_STARTUP_COMPANY_SUCCESS_MESSAGE = "Successfully added department {0} to Startup Company \"{1}\".";
 
@@ -90,8 +96,10 @@
 
         public const string ASSIGNED_TEAM_LEAD_EMPLOYEE_SUBORDINATE_SUCCESS_MESSAGE = "Successfully added employee {0} subordinate to team lead {1}.";
 
-        public const string ADDED_TASK_TO_PROJECT_SUCCESS_MESSAGE = "Successfully added task {0} to project \"{1}\".";
+        public const string ADDED_TASK_TO_PROJECT_SUCCESS_MESSAGE = "Successfully added task \"{0}\" with assignee {1} to project \"{2}\".";
 
-        public const string CHANGED_TASK_OF_EMPLOYEE_SUCCESS_MESSAGE = "Successfully changed task's {0} of {1} characteristic {2} to {3}.";
+        public const string CHANGED_PROJECT_TASK_OF_EMPLOYEE_SUCCESS_MESSAGE = "Successfully changed {1}'s task \"{0}\" characteristic {2} to {3}.";
+
+        public const string REMOVED_PROJECT_TASK_SUCCESS_MESSAGE = "Successfully removed task \"{0}\" with assignee {1}.";
     }
 }

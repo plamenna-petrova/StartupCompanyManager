@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,8 @@ namespace StartupCompanyManager.Infrastructure.Extensions
 {
     public static class SystemMethodsExtensions
     {
+        public static CultureInfo enUSCulture = CultureInfo.CreateSpecificCulture("en-US");
+
         public static decimal ParseDecimal(this string stringToParse)
         {
             return decimal.Parse(stringToParse.ReplaceCommasWithDots(), NumberStyles.Any, CultureInfo.InvariantCulture);
@@ -52,6 +55,74 @@ namespace StartupCompanyManager.Infrastructure.Extensions
                 DateTimeStyles.None,
                 out exactlyParseDateTime
             );
+        }
+
+        public static bool TryChangeType(this object value, Type type)
+        {
+            try
+            {
+                var response = ChangeType(value, type);
+                return true;
+            }
+            catch (Exception exception)
+            {
+                Debug.WriteLine(exception.Message);
+                return false;
+            }
+        }
+
+        public static object ChangeType(object value, Type type)
+        {
+            var conversionType = type;
+
+            if (conversionType.IsGenericType && type.GetGenericTypeDefinition().Equals(typeof(Nullable<>)))
+            {
+                if (value == null)
+                {
+                    return null!;
+                }
+
+                conversionType = Nullable.GetUnderlyingType(type)!;
+            }
+
+            return conversionType == typeof(decimal) ? ParseDecimalWithDot(value) : Convert.ChangeType(value, conversionType);
+        }
+
+        public static bool TryParseEnum<T>(this string stringToConvertToEnumValue, bool caseSensitive, out T enumValue) where T : struct
+        {
+            if (!typeof(T).IsEnum)
+            {
+                throw new ArgumentException("Type parameter must be an enum.");
+            }
+
+            var enumNames = Enum.GetNames(typeof(T));
+
+            enumValue = (Enum.GetValues(typeof(T)) as T[])![0]; 
+
+            foreach (var enumName in enumNames)
+            {
+                if (string.Equals(enumName, stringToConvertToEnumValue, caseSensitive ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase))
+                {
+                    enumValue = (T)Enum.Parse(typeof(T), enumName);
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public static decimal ParseDecimalWithDot(object value)
+        {
+            const string separator = ".";
+
+            var numberFormat = new NumberFormatInfo
+            {
+                NumberDecimalSeparator = separator
+            };
+
+            var convertedValue = value.ToString()!.ParseDecimal().ToString(enUSCulture);
+
+            return decimal.Parse(convertedValue, NumberStyles.AllowDecimalPoint, numberFormat);
         }
 
         public static string ReplaceCommasWithDots(this string replacementString)

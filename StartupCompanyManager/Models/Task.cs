@@ -78,14 +78,27 @@ namespace StartupCompanyManager.Models
                 {
                     _startupCompanyManagerValidationContext.SetValidationStrategy(_earlierDateConcreteValidationStrategy);
 
-                    if (!_startupCompanyManagerValidationContext.ValidateInput(value, Project.AssignmentDate))
+                    if (_startupCompanyManagerValidationContext.ValidateInput(value, Project.AssignmentDate))
                     {
                         throw new ArgumentException(
                             string.Format(
                                 ValidationConstants.TASK_ASSIGNMENT_DATE_EARLIER_THAN_PROJECT_START_ERROR_MESSAGE,
-                                Project.AssignmentDate.ToString()
+                                Project.AssignmentDate.ToString(GlobalConstants.DATE_TIME_VALUE_FORMAT)
                             )
                         );
+                    }
+
+                    if (DueDate != default)
+                    {
+                        if (!_startupCompanyManagerValidationContext.ValidateInput(value, DueDate))
+                        {
+                            throw new ArgumentException(
+                                string.Format(
+                                    ValidationConstants.TASK_ASSIGNMENT_DATE_AFTER_DUE_DATE_ERROR_MESSAGE,
+                                    DueDate.ToString(GlobalConstants.DATE_TIME_VALUE_FORMAT)
+                                )
+                            );
+                        }
                     }
                 }
 
@@ -113,6 +126,19 @@ namespace StartupCompanyManager.Models
                             )
                         );
                     }
+
+                    if (AssignmentDate != default)
+                    {
+                        if (_startupCompanyManagerValidationContext.ValidateInput(value, AssignmentDate))
+                        {
+                            throw new ArgumentException(
+                                string.Format(
+                                    ValidationConstants.TASK_DUE_DATE_EARLIER_THAN_ASSSIGNMENT_DATE_ERROR_MESSAGE,
+                                    AssignmentDate.ToString(GlobalConstants.DATE_TIME_VALUE_FORMAT)
+                                )
+                            );
+                        }
+                    }
                 }
 
                 dueDate = value;
@@ -124,5 +150,12 @@ namespace StartupCompanyManager.Models
         public Project Project { get; set; } = null!;
 
         public Employee Assignee { get; set; } = null!;
+
+        public override string ToString()
+        {
+            return $"{Name}, Assignee: {Assignee.FullName}, Priority: {Priority}, Status: {Status}, " +
+                $"Assignment Date: {AssignmentDate.ToString(GlobalConstants.DATE_TIME_VALUE_FORMAT)}, " +
+                $"Due Date: {GlobalConstants.DATE_TIME_VALUE_FORMAT}";
+        }
     }
 }

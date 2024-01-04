@@ -37,7 +37,7 @@ namespace StartupCompanyManager.Models.Composite.Composites
             string teamLeadHierarchicalLevelInfo = $"{new string('-', depthIndicator)}+ Team Lead: {FullName}, " +
                 $"Position: {Position}, Monthly Salary: ${MonthlySalary}, Years of Work Experience: {YearsOfWorkExperience}, " +
                 $"Birth Date: {BirthDate.ToString(GlobalConstants.DATE_TIME_VALUE_FORMAT)}, Rating: {Rating} " +
-                $"Team: {(Team != null ? $"{Team.Name}, {(Team.Project != null ? $"Project: {Team.Project.Name}" : "No project")}" : "No team")} \r\n";
+                $"Team: {(Team != null ? $"{Team.Name}, {(Team.Project != null ? $"Project: {Team.Project.Name},\r\nTasks: {(Team.Project.Tasks.Any() ? $"{string.Join("\r\n", Team.Project.Tasks.Select(t => t.ToString()))}" : "No assigned tasks for project")}" : "No project")}" : "No team")} \r\n";
 
             foreach (var employee in Employees)
             {

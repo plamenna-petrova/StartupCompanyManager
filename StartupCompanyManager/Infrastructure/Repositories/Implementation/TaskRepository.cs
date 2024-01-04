@@ -1,8 +1,10 @@
 ﻿using StartupCompanyManager.Constants;
 using StartupCompanyManager.Infrastructure.Exceptions;
+using StartupCompanyManager.Infrastructure.Extensions;
 using StartupCompanyManager.Infrastructure.Repositories.Contracts;
-using StartupCompanyManager.Models;
+using StartupCompanyManager.Models.Enums;
 using Task = StartupCompanyManager.Models.Task;
+using TaskStatus = StartupCompanyManager.Models.Enums.TaskStatus;
 
 namespace StartupCompanyManager.Infrastructure.Repositories.Implementation
 {
@@ -46,24 +48,49 @@ namespace StartupCompanyManager.Infrastructure.Repositories.Implementation
             var targetProjectOfTask = StartupCompany.Departments
                 .SelectMany(d => d.Teams)
                 .Select(t => t.Project)
-                .FirstOrDefault(p => p.Name == projectName);
+                .FirstOrDefault(p => p.Name == projectName) 
+                    ?? throw new NonExistingStartupCompanyManagerEntityException(
+                        string.Format(
+                            ExceptionMessagesConstants.NON_EXISTING_PROJECT_EXCEPTION_MESSAGE, projectName
+                        )
+                    );
 
-            if (targetProjectOfTask == null)
+            if (targetProjectOfTask.Team.TeamLead == null)
             {
-                throw new NonExistingStartupCompanyManagerEntityException(
+                throw new InvalidOperationException(
                     string.Format(
-                        ExceptionMessagesConstants.NON_EXISTING_PROJECT_EXCEPTION_MESSAGE, projectName
+                        ExceptionMessagesConstants.NOT_ASSIGNED_PROJECT_TEAM_LEAD_EMPLOYEE,
+                        targetProjectOfTask.Name,
+                        targetProjectOfTask.Team.Name
                     )
                 );
             }
-            else
+
+            var targetTaskAssignee = StartupCompany.Employees
+                .FirstOrDefault(e => e.FullName.ToLower() == ((string)entityCreationArguments[2]).ToLower())! 
+                    ?? throw new NonExistingStartupCompanyManagerEntityException(
+                        string.Format(
+                            ExceptionMessagesConstants.NON_EXISTING_EMPLOYEE_EXCEPTION_MESSAGE, 
+                            (string)entityCreationArguments[2]
+                        )
+                    );
+
+            if (!targetProjectOfTask.Team.TeamLead.Employees.Contains(targetTaskAssignee))
             {
-                task.Project = targetProjectOfTask;
-                task.AssignmentDate = (DateTime)entityCreationArguments[0];
-                task.DueDate = (DateTime)entityCreationArguments[1];
-                task.Assignee = StartupCompany.Employees.FirstOrDefault(e => e.FullName.ToLower() == (string)entityCreationArguments[2])!;
-                targetProjectOfTask.Tasks.Add(task);
+                throw new InvalidOperationException(
+                    string.Format(
+                        ExceptionMessagesConstants.CANNOT_ASSIGN_TASK_TO_EMPLOYEE_SUBORDINATION_NOT_MET,
+                        targetTaskAssignee.FullName,
+                        targetProjectOfTask.Team.TeamLead.FullName
+                    )
+                );
             }
+
+            task.Project = targetProjectOfTask;
+            task.AssignmentDate = (DateTime)entityCreationArguments[0];
+            task.DueDate = (DateTime)entityCreationArguments[1];
+            task.Assignee = targetTaskAssignee;
+            targetProjectOfTask.Tasks.Add(task);
         }
 
         public void Update(Task task, string propertyName, object propertyValueToSet)
@@ -74,25 +101,78 @@ namespace StartupCompanyManager.Infrastructure.Repositories.Implementation
                 var taskPropertyInfo = task.GetType().GetProperty(formattedTaskPropertyName);
                 var taskPropertyConversionType = taskPropertyInfo!.PropertyType;
 
-                if (taskPropertyConversionType.IsPrimitive || taskPropertyConversionType == typeof(decimal) ||
-                    taskPropertyConversionType == typeof(string)
-                )
+                if (taskPropertyConversionType.BaseType == typeof(Enum))
                 {
-                    var convertedTaskPropertyValueToSet = Convert.ChangeType(propertyValueToSet, taskPropertyConversionType);
-                    task.GetType().GetProperty(formattedTaskPropertyName)!.SetValue(task, convertedTaskPropertyValueToSet);
+                    if (taskPropertyConversionType == typeof(TaskPriority))
+                    {
+                        if (propertyValueToSet.ToString()!.TryParseEnum(caseSensitive: false, out TaskPriority taskPriorityToSet))
+                        {
+                            task.Priority = taskPriorityToSet;
+                        }
+                        else
+                        {
+                            throw new ArgumentException(
+                                string.Format(
+                                    ExceptionMessagesConstants.INPUT_INCORRECT_CHARACTERISTIC_TYPE_EXCEPTION_MESSAGE,
+                                    CommandsMessagesConstants.CHANGE_PROJECT_TASK_CONCRETE_COMMAND_ARGUMENTS_PATTERN
+                                )
+                            );
+                        }
+                    }
+
+                    if (taskPropertyConversionType == typeof(TaskStatus))
+                    {
+                        if (propertyValueToSet.ToString()!.TryParseEnum(caseSensitive: false, out TaskStatus taskStatusToSet))
+                        {
+                            task.Status = taskStatusToSet;
+                        }
+                        else
+                        {
+                            throw new ArgumentException(
+                                string.Format(
+                                    ExceptionMessagesConstants.INPUT_INCORRECT_CHARACTERISTIC_TYPE_EXCEPTION_MESSAGE,
+                                    CommandsMessagesConstants.CHANGE_PROJECT_TASK_CONCRETE_COMMAND_ARGUMENTS_PATTERN
+                                )
+                            );
+                        }
+                    }
                 }
                 else
                 {
-                    throw new ArgumentException(
-                        string.Format(
-                            ExceptionMessagesConstants.INPUT_INCORRECT_CHARACTERISTIC_TYPE_EXCEPTION_MESSAGE,
-                            CommandsMessagesConstants.CHANGE_PROJECT_TASK_CONCRETE_COMMAND_ARGUMENTS_PATTERN
-                        )
-                    );
+                    if (propertyValueToSet.TryChangeType(taskPropertyConversionType))
+                    {
+                        var convertedTaskPropertyValueToSet = Convert.ChangeType(propertyValueToSet, taskPropertyConversionType);
+                        task.GetType().GetProperty(formattedTaskPropertyName)!.SetValue(task, convertedTaskPropertyValueToSet);
+
+                        Console.ForegroundColor = ConsoleColor.Green;
+
+                        Console.WriteLine(string.Format(
+                            CommandsMessagesConstants.CHANGED_PROJECT_TASK_OF_EMPLOYEE_SUCCESS_MESSAGE,
+                            task.Name,
+                            task.Assignee.FullName,
+                            propertyName,
+                            convertedTaskPropertyValueToSet
+                        ));
+                    }
+                    else
+                    {
+                        throw new ArgumentException(
+                            string.Format(
+                                ExceptionMessagesConstants.INPUT_INCORRECT_CHARACTERISTIC_TYPE_EXCEPTION_MESSAGE,
+                                CommandsMessagesConstants.CHANGE_PROJECT_TASK_CONCRETE_COMMAND_ARGUMENTS_PATTERN
+                            )
+                        );
+                    }
                 }
             }
             catch (Exception exception)
             {
+                if (exception is ArgumentException argumentException) 
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine(argumentException.Message);
+                }
+
                 if (exception.InnerException != null)
                 {
                     Console.ForegroundColor = ConsoleColor.Red;

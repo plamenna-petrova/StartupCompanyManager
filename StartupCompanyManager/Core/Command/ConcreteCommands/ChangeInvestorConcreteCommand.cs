@@ -32,39 +32,11 @@ namespace StartupCompanyManager.Core.Command.ConcreteCommands
                 );
             }
 
-            decimal oldStartupCompanyCapital = StartupCompany.StartupCompanyInstance.Capital;
-
             StartupCompanyManagerFacade.ExecuteInvestorRelatedOperation(
                 StartupCompanyManagerCommandAction.Change, commandExecutionOperationArguments
             );
 
-            string changeInvestorConcreteCommandSuccessMessage = string.Format(
-                CommandsMessagesConstants.CHANGED_INVESTOR_OF_STARTUP_COMPANY_SUCCESS_MESSAGE,
-                commandExecutionOperationArguments[0],
-                commandExecutionOperationArguments[1],
-                commandExecutionOperationArguments[2]
-            );
-
-            if (((string)commandExecutionOperationArguments[1]) == nameof(Investor.Funds))
-            {
-                if (oldStartupCompanyCapital == StartupCompany.StartupCompanyInstance.Capital) 
-                {
-                    changeInvestorConcreteCommandSuccessMessage = null!;
-                }
-                else
-                {
-                    string companyCapitalIncreaseAfterInvestorFundsChangeMessage = string.Format(
-                        CommandsMessagesConstants.INCREASED_STARTUP_COMPANY_CAPITAL_AFTER_INVESTOR_FUNDS_CHANGE,
-                        StartupCompany.StartupCompanyInstance.Name,
-                        oldStartupCompanyCapital,
-                        StartupCompany.StartupCompanyInstance.Capital
-                    );
-
-                    changeInvestorConcreteCommandSuccessMessage += $"\n{companyCapitalIncreaseAfterInvestorFundsChangeMessage}";
-                }
-            }
-
-            return changeInvestorConcreteCommandSuccessMessage!;
+            return null!;
         }
     }
 }

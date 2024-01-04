@@ -27,7 +27,7 @@ namespace StartupCompanyManager.Application
             );
 
             Console.ForegroundColor = ConsoleColor.Blue;
-            Console.WriteLine($"{GlobalConstants.OPERATIONS_INFO} \n");
+            Console.WriteLine($"{GlobalConstants.OPERATIONS_INFO}\n");
 
             string[] splitOperationsInfoConstant = GlobalConstants.OPERATIONS_INFO.Split(" ").ToArray();
 
@@ -59,7 +59,7 @@ namespace StartupCompanyManager.Application
                     {
                         if (consoleInputCommand.ToLower() == GlobalConstants.INFO_OPERATION.ToLower())
                         {
-                            Console.ForegroundColor = ConsoleColor.Blue;
+                            Console.ForegroundColor = ConsoleColor.DarkCyan;
                         }
                         else
                         {

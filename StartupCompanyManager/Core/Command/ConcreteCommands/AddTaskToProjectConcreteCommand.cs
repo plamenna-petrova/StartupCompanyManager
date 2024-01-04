@@ -127,6 +127,7 @@ namespace StartupCompanyManager.Core.Command.ConcreteCommands
             string addProjectToTeamConcreteCommandSuccessMessage = string.Format(
                 CommandsMessagesConstants.ADDED_TASK_TO_PROJECT_SUCCESS_MESSAGE,
                 commandExecutionOperationArguments[0],
+                commandExecutionOperationArguments[5],
                 commandExecutionOperationArguments[6]
             );
 

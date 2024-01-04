@@ -34,14 +34,7 @@ namespace StartupCompanyManager.Core.Command.ConcreteCommands
                 StartupCompanyManagerCommandAction.Change, commandExecutionOperationArguments
             );
 
-            string changeEmployeeConcreteCommandSuccessMessage = string.Format(
-                CommandsMessagesConstants.CHANGED_EMPLOYEE_OF_STARTUP_COMPANY_SUCCESS_MESSAGE,
-                commandExecutionOperationArguments[0],
-                commandExecutionOperationArguments[1],
-                commandExecutionOperationArguments[2]
-            );
-
-            return changeEmployeeConcreteCommandSuccessMessage;
+            return null!;
         }
     }
 }

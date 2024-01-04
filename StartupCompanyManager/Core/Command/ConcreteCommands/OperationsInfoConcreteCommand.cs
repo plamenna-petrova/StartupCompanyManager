@@ -64,7 +64,7 @@ namespace StartupCompanyManager.Core.Command.ConcreteCommands
                 .Split(" ", StringSplitOptions.RemoveEmptyEntries).ToList();
 
             var commandEntriesWithoutSuffix = commandEntries
-                .TakeWhile((entry, index) => index != commandEntries.Count() - 2)
+                .TakeWhile((entry, index) => index != commandEntries.Count - 2)
                 .ToList();
 
             commandEntriesWithoutSuffix[0] = commandEntriesWithoutSuffix[0].ToUpper();

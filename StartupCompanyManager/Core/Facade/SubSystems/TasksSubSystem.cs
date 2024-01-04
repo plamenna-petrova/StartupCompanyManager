@@ -48,12 +48,12 @@ namespace StartupCompanyManager.Core.Facade.SubSystems
 
         public void ChangeTaskCharacteristic(string name, string assigneeFullName, string characteristic, object value)
         {
-            Task taskToUpdate = _taskRepository.GetByCondition(t => t.Name == name && t.Assignee.FullName.ToLower() == assigneeFullName);
+            Task taskToUpdate = _taskRepository.GetByCondition(t => t.Name == name && t.Assignee.FullName.ToLower() == assigneeFullName.ToLower());
 
             if (taskToUpdate == null)
             {
                 string nonExistingTaskExceptionMessage = string.Format(
-                    ExceptionMessagesConstants.NON_EXISTING_TASK_EXCEPTION_MESSAGE, name
+                    ExceptionMessagesConstants.NON_EXISTING_TASK_EXCEPTION_MESSAGE, name, assigneeFullName
                 );
 
                 throw new NonExistingStartupCompanyManagerEntityException(nonExistingTaskExceptionMessage);
@@ -64,12 +64,12 @@ namespace StartupCompanyManager.Core.Facade.SubSystems
 
         public void RemoveTask(string name, string assigneeFullName)
         {
-            Task taskToRemove = _taskRepository.GetByCondition(t => t.Name == name && t.Assignee.FullName.ToLower() == assigneeFullName);
+            Task taskToRemove = _taskRepository.GetByCondition(t => t.Name == name && t.Assignee.FullName.ToLower() == assigneeFullName.ToLower());
 
             if (taskToRemove == null)
             {
                 string nonExistingTaskExceptionMessage = string.Format(
-                    ExceptionMessagesConstants.NON_EXISTING_TASK_EXCEPTION_MESSAGE, name
+                    ExceptionMessagesConstants.NON_EXISTING_TASK_EXCEPTION_MESSAGE, name, assigneeFullName
                 );
 
                 throw new NonExistingStartupCompanyManagerEntityException(nonExistingTaskExceptionMessage);

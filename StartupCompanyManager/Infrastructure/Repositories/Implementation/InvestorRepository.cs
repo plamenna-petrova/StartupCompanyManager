@@ -42,9 +42,43 @@ namespace StartupCompanyManager.Infrastructure.Repositories.Implementation
                     var convertedInvestorPropertyValueToSet = Convert.ChangeType(propertyValueToSet, investorPropertyConversionType);
                     investor.GetType().GetProperty(propertyName)!.SetValue(investor, convertedInvestorPropertyValueToSet);
 
+                    decimal oldStartupCompanyCapital = StartupCompany.StartupCompanyInstance.Capital;
+
                     if (propertyName == nameof(investor.Funds))
                     {
                         StartupCompany.Capital += (decimal)convertedInvestorPropertyValueToSet;
+                    }
+
+                    string updateInvestorSuccessMessage = string.Format(
+                        CommandsMessagesConstants.CHANGED_INVESTOR_OF_STARTUP_COMPANY_SUCCESS_MESSAGE,
+                        investor.Name,
+                        propertyName,
+                        convertedInvestorPropertyValueToSet
+                    );
+
+                    if (propertyName == nameof(Investor.Funds))
+                    {
+                        if (oldStartupCompanyCapital == StartupCompany.StartupCompanyInstance.Capital)
+                        {
+                            updateInvestorSuccessMessage = null!;
+                        }
+                        else
+                        {
+                            string companyCapitalIncreaseAfterInvestorFundsChangeMessage = string.Format(
+                                CommandsMessagesConstants.INCREASED_STARTUP_COMPANY_CAPITAL_AFTER_INVESTOR_FUNDS_CHANGE,
+                                StartupCompany.StartupCompanyInstance.Name,
+                                oldStartupCompanyCapital,
+                                StartupCompany.StartupCompanyInstance.Capital
+                            );
+
+                            updateInvestorSuccessMessage += $"\n{companyCapitalIncreaseAfterInvestorFundsChangeMessage}";
+                        }
+                    }
+
+                    if (updateInvestorSuccessMessage != null)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine(updateInvestorSuccessMessage);
                     }
                 }
                 else

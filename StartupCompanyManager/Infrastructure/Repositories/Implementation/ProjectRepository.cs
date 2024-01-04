@@ -42,21 +42,14 @@ namespace StartupCompanyManager.Infrastructure.Repositories.Implementation
 
             var targetTeamOfProject = StartupCompany.Departments
                 .SelectMany(d => d.Teams)
-                .FirstOrDefault(t => t.Name == teamName);
-
-            if (targetTeamOfProject == null)
-            {
-                throw new NonExistingStartupCompanyManagerEntityException(
+                .FirstOrDefault(t => t.Name == teamName) ?? throw new NonExistingStartupCompanyManagerEntityException(
                     string.Format(
                         ExceptionMessagesConstants.NON_EXISTING_TEAM_EXCEPTION_MESSAGE, teamName
                     )
                 );
-            }
-            else
-            {
-                project.Team = targetTeamOfProject;
-                targetTeamOfProject.Project = project;
-            }
+
+            project.Team = targetTeamOfProject;
+            targetTeamOfProject.Project = project;
         }
 
         public void Update(Project project, string propertyName, object propertyValueToSet)
@@ -73,6 +66,15 @@ namespace StartupCompanyManager.Infrastructure.Repositories.Implementation
                 {
                     var convertedProjectPropertyValueToSet = Convert.ChangeType(propertyValueToSet, projectPropertyConversionType);
                     project.GetType().GetProperty(formattedProjectPropertyName)!.SetValue(project, convertedProjectPropertyValueToSet);
+
+                    Console.ForegroundColor = ConsoleColor.Green;
+
+                    Console.WriteLine(string.Format(
+                        CommandsMessagesConstants.CHANGED_PROJECT_OF_STARTUP_COMPANY_SUCCESS_MESSAGE,
+                        project.Name,
+                        propertyName,
+                        convertedProjectPropertyValueToSet
+                    ));
                 }
                 else
                 {

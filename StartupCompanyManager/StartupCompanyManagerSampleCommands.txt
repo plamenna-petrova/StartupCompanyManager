@@ -76,4 +76,19 @@ ASSIGN Team Lead Employee Subordinate [Drew Baker] [Jacob Reynolds]
 ASSIGN Team Lead Employee Subordinate [David Austin] [Jacob Reynolds]
 ASSIGN Head Of Department Team Lead Subordinate [Jacob Reynolds] [Collin O'Neal]
 INFO
-ADD Task To Project [Settle Stocks] [High] [In Progress] [4.5.2023] [10.5.2023] [Dustin Ernst] [Stocks Analysis System]
+ADD Task To Project [Read Open API Documentations] [High] [In Progress] [4.5.2024] [10.5.2024] [Dustin Ernst] [Stocks Analysis System]
+ADD Task To Project [Create Database Diagram] [High] [To Do] [4.5.2024] [10.5.2024] [Dustin Ernst] [Stocks Analysis System]
+ADD Task To Project [Create Database Diagram] [High] [To Do] [4.5.2024] [10.5.2024] [James Landry] [Stocks Analysis System]
+CHANGE Project Task [Create Database Diagram] [Dustin Ernst] [Name] [Establish Database Connection]
+CHANGE Project Task [Establish Database Connection] [Dustin Ernst] [Due Date] [12.5.2024]
+CHANGE Project Task [Establish Database Connection] [Dustin Ernst] [Assignment Date] [5.1.2024]
+CHANGE Project Task [Establish Database Connection] [Dustin Ernst] [Assignment Date] [14.5.2024]
+CHANGE Project Task [Establish Database Connection] [Dustin Ernst] [Priority] [Mediumm]
+INFO
+REMOVE Project Task [Establish Database Connection] [Susan Mavris]
+REMOVE Project Task [Establish Database Connection] [Dustin Ernst]
+REMOVE Employee [Jason White]
+INFO
+REMOVE Employee [David Austin]
+INFO
+REMOVE Employee [Collin O'Neal]
