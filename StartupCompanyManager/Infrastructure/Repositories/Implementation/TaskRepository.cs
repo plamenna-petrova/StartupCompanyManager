@@ -97,8 +97,16 @@ namespace StartupCompanyManager.Infrastructure.Repositories.Implementation
         {
             try
             {
+                string updateTaskArgumentExceptionMessage = string.Format(
+                    ExceptionMessagesConstants.INPUT_INCORRECT_CHARACTERISTIC_TYPE_EXCEPTION_MESSAGE,
+                    CommandsMessagesConstants.CHANGE_PROJECT_TASK_CONCRETE_COMMAND_ARGUMENTS_PATTERN
+                );
+
                 string formattedTaskPropertyName = string.Join(string.Empty, propertyName.Split(" "));
-                var taskPropertyInfo = task.GetType().GetProperty(formattedTaskPropertyName);
+
+                var taskPropertyInfo = task.GetType().GetProperty(formattedTaskPropertyName)
+                    ?? throw new ArgumentException(updateTaskArgumentExceptionMessage);
+
                 var taskPropertyConversionType = taskPropertyInfo!.PropertyType;
 
                 if (taskPropertyConversionType.BaseType == typeof(Enum))
@@ -111,12 +119,7 @@ namespace StartupCompanyManager.Infrastructure.Repositories.Implementation
                         }
                         else
                         {
-                            throw new ArgumentException(
-                                string.Format(
-                                    ExceptionMessagesConstants.INPUT_INCORRECT_CHARACTERISTIC_TYPE_EXCEPTION_MESSAGE,
-                                    CommandsMessagesConstants.CHANGE_PROJECT_TASK_CONCRETE_COMMAND_ARGUMENTS_PATTERN
-                                )
-                            );
+                            throw new ArgumentException(updateTaskArgumentExceptionMessage);
                         }
                     }
 
@@ -128,12 +131,7 @@ namespace StartupCompanyManager.Infrastructure.Repositories.Implementation
                         }
                         else
                         {
-                            throw new ArgumentException(
-                                string.Format(
-                                    ExceptionMessagesConstants.INPUT_INCORRECT_CHARACTERISTIC_TYPE_EXCEPTION_MESSAGE,
-                                    CommandsMessagesConstants.CHANGE_PROJECT_TASK_CONCRETE_COMMAND_ARGUMENTS_PATTERN
-                                )
-                            );
+                            throw new ArgumentException(updateTaskArgumentExceptionMessage);
                         }
                     }
                 }
@@ -156,12 +154,7 @@ namespace StartupCompanyManager.Infrastructure.Repositories.Implementation
                     }
                     else
                     {
-                        throw new ArgumentException(
-                            string.Format(
-                                ExceptionMessagesConstants.INPUT_INCORRECT_CHARACTERISTIC_TYPE_EXCEPTION_MESSAGE,
-                                CommandsMessagesConstants.CHANGE_PROJECT_TASK_CONCRETE_COMMAND_ARGUMENTS_PATTERN
-                            )
-                        );
+                        throw new ArgumentException(updateTaskArgumentExceptionMessage);
                     }
                 }
             }

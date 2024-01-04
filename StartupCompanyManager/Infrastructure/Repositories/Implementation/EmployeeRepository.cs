@@ -34,8 +34,16 @@ namespace StartupCompanyManager.Infrastructure.Repositories.Implementation
         {
             try
             {
+                string updateEmployeeArgumentExceptionMessage = string.Format(
+                    ExceptionMessagesConstants.INPUT_INCORRECT_CHARACTERISTIC_TYPE_EXCEPTION_MESSAGE,
+                    CommandsMessagesConstants.CHANGE_EMPLOYEE_CONCRETE_COMMAND_ARGUMENTS_PATTERN
+                );
+
                 string formattedEmployeePropertyName = string.Join(string.Empty, propertyName.Split(" "));
-                var employeePropertyInfo = employee.GetType().GetProperty(formattedEmployeePropertyName);
+
+                var employeePropertyInfo = employee.GetType().GetProperty(formattedEmployeePropertyName) 
+                    ?? throw new ArgumentException(updateEmployeeArgumentExceptionMessage);
+
                 var employeePropertyConversionType = employeePropertyInfo!.PropertyType;
 
                 if (employeePropertyConversionType.IsPrimitive || employeePropertyConversionType == typeof(decimal) ||
@@ -56,16 +64,17 @@ namespace StartupCompanyManager.Infrastructure.Repositories.Implementation
                 }
                 else
                 {
-                    throw new ArgumentException(
-                        string.Format(
-                            ExceptionMessagesConstants.INPUT_INCORRECT_CHARACTERISTIC_TYPE_EXCEPTION_MESSAGE,
-                            CommandsMessagesConstants.CHANGE_EMPLOYEE_CONCRETE_COMMAND_ARGUMENTS_PATTERN
-                        )
-                    );
+                    throw new ArgumentException(updateEmployeeArgumentExceptionMessage);
                 }
             }
             catch (Exception exception)
             {
+                if (exception is ArgumentException argumentException)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine(argumentException.Message);
+                }
+
                 if (exception.InnerException != null)
                 {
                     Console.ForegroundColor = ConsoleColor.Red;

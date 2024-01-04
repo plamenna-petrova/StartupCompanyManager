@@ -31,8 +31,16 @@ namespace StartupCompanyManager.Infrastructure.Repositories.Implementation
         {
             try
             {
+                string updateDepartmentArgumentExceptionMessage = string.Format(
+                    ExceptionMessagesConstants.INPUT_INCORRECT_CHARACTERISTIC_TYPE_EXCEPTION_MESSAGE,
+                    CommandsMessagesConstants.CHANGE_DEPARTMENT_CONCRETE_COMMAND_ARGUMENTS_PATTERN
+                );
+
                 string formattedDepartmentPropertyName = string.Join(string.Empty, propertyName.Split(" "));
-                var departmentPropertyInfo = department.GetType().GetProperty(formattedDepartmentPropertyName);
+
+                var departmentPropertyInfo = department.GetType().GetProperty(formattedDepartmentPropertyName) 
+                    ?? throw new ArgumentException(updateDepartmentArgumentExceptionMessage);
+
                 var departmentPropertyConversionType = departmentPropertyInfo!.PropertyType;
 
                 if (departmentPropertyConversionType.IsPrimitive || departmentPropertyConversionType == typeof(decimal) ||
@@ -53,16 +61,17 @@ namespace StartupCompanyManager.Infrastructure.Repositories.Implementation
                 }
                 else
                 {
-                    throw new ArgumentException(
-                        string.Format(
-                            ExceptionMessagesConstants.INPUT_INCORRECT_CHARACTERISTIC_TYPE_EXCEPTION_MESSAGE,
-                            CommandsMessagesConstants.CHANGE_DEPARTMENT_CONCRETE_COMMAND_ARGUMENTS_PATTERN
-                        )
-                    );
+                    throw new ArgumentException(updateDepartmentArgumentExceptionMessage);
                 }
             }
             catch (Exception exception)
             {
+                if (exception is ArgumentException argumentException)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine(argumentException.Message);
+                }
+
                 if (exception.InnerException != null)
                 {
                     Console.ForegroundColor = ConsoleColor.Red;

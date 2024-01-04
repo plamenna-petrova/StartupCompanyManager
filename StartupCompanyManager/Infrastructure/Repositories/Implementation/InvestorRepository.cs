@@ -32,7 +32,14 @@ namespace StartupCompanyManager.Infrastructure.Repositories.Implementation
         {
             try
             {
-                var investorPropertyInfo = investor.GetType().GetProperty(propertyName);
+                string updateInvestorArgumentExceptionMessage = string.Format(
+                    ExceptionMessagesConstants.INPUT_INCORRECT_CHARACTERISTIC_TYPE_EXCEPTION_MESSAGE,
+                    CommandsMessagesConstants.CHANGE_INVESTOR_CONCRETE_COMMAND_ARGUMENTS_PATTERN
+                );
+
+                var investorPropertyInfo = investor.GetType().GetProperty(propertyName) 
+                    ?? throw new ArgumentException(updateInvestorArgumentExceptionMessage);
+
                 var investorPropertyConversionType = investorPropertyInfo!.PropertyType;
 
                 if (investorPropertyConversionType.IsPrimitive || investorPropertyConversionType == typeof(decimal) ||
@@ -83,16 +90,17 @@ namespace StartupCompanyManager.Infrastructure.Repositories.Implementation
                 }
                 else
                 {
-                    throw new ArgumentException(
-                        string.Format(
-                            ExceptionMessagesConstants.INPUT_INCORRECT_CHARACTERISTIC_TYPE_EXCEPTION_MESSAGE,
-                            CommandsMessagesConstants.CHANGE_INVESTOR_CONCRETE_COMMAND_ARGUMENTS_PATTERN
-                        )
-                    );
+                    throw new ArgumentException(updateInvestorArgumentExceptionMessage);
                 }
             }
             catch (Exception exception)
             {
+                if (exception is ArgumentException argumentException)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine(argumentException.Message);
+                }
+
                 if (exception.InnerException != null)
                 {
                     Console.ForegroundColor = ConsoleColor.Red;

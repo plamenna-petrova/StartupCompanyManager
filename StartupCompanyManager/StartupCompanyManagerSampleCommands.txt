@@ -15,6 +15,7 @@ ADD Employee [Software Developer] [Donald] [O'Connell] [Full Stack .NET Develope
 CHANGE EMPLOYEE [Donald O'Connell] [Position] [Senior Full Stack .NET Developer]
 CHANGE EMPLOYEE [Donald O'Connell] [Monthly Salary] [5000.00]
 CHANGE EMPLOYEE [Donald O'Connell] [Years Of Work Experience] [5]
+CHANGE EMPLOYEE [Donald O'Connell] [Yearsss Of Work Experience] [5]
 CHANGE EMPLOYEE [Donald O'Connell] [Rating] [5]
 ADD Employee [Software Developer] [Susan] [Mavris] [Front-End Developer] [2500.00] [3] [3.8.1996] [10]
 ADD Employee [Software Developer] [Susan] [Mavris] [Front-End Developer] [2500.00] [3] [3.8.1996] [10]
@@ -92,3 +93,4 @@ INFO
 REMOVE Employee [David Austin]
 INFO
 REMOVE Employee [Collin O'Neal]
+INFO

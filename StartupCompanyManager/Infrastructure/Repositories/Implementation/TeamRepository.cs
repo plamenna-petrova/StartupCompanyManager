@@ -56,8 +56,16 @@ namespace StartupCompanyManager.Infrastructure.Repositories.Implementation
         {
             try
             {
+                string updateTeamArgumentExceptionMessage = string.Format(
+                    ExceptionMessagesConstants.INPUT_INCORRECT_CHARACTERISTIC_TYPE_EXCEPTION_MESSAGE,
+                    CommandsMessagesConstants.CHANGE_TEAM_CONCRETE_COMMAND_ARGUMENTS_PATTERN
+                );
+
                 string formattedTeamPropertyName = string.Join(string.Empty, propertyName.Split(" "));
-                var teamPropertyInfo = team.GetType().GetProperty(formattedTeamPropertyName);
+
+                var teamPropertyInfo = team.GetType().GetProperty(formattedTeamPropertyName)
+                    ?? throw new ArgumentException(updateTeamArgumentExceptionMessage);
+
                 var teamPropertyConversionType = teamPropertyInfo!.PropertyType;
 
                 if (teamPropertyConversionType.IsPrimitive || teamPropertyConversionType == typeof(decimal) ||
@@ -78,16 +86,17 @@ namespace StartupCompanyManager.Infrastructure.Repositories.Implementation
                 }
                 else
                 {
-                    throw new ArgumentException(
-                        string.Format(
-                            ExceptionMessagesConstants.INPUT_INCORRECT_CHARACTERISTIC_TYPE_EXCEPTION_MESSAGE,
-                            CommandsMessagesConstants.CHANGE_TEAM_CONCRETE_COMMAND_ARGUMENTS_PATTERN
-                        )
-                    );
+                    throw new ArgumentException(updateTeamArgumentExceptionMessage);
                 }
             }
             catch (Exception exception)
             {
+                if (exception is ArgumentException argumentException)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine(argumentException.Message);
+                }
+
                 if (exception.InnerException != null)
                 {
                     Console.ForegroundColor = ConsoleColor.Red;

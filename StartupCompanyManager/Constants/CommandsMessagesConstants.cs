@@ -34,7 +34,7 @@
 
         public const string ADD_EMPLOYEE_CONCRETE_COMMAND_ARGUMENTS_PATTERN = "[Employee Type: Head Of Department | Team Lead | Officer | Software Developer | Specialist | Tester | Designer] [First Name] [Last Name] [Position] [Monthly Salary] [Years Of Work Experience] [Birth Date] [Rating]";
 
-        public const string CHANGE_EMPLOYEE_CONCRETE_COMMAND_ARGUMENTS_PATTERN = "[Full Name] [First Name | Last Name | Position | Monthly Salary | Years Of Work Experience | Rating] [Value]";
+        public const string CHANGE_EMPLOYEE_CONCRETE_COMMAND_ARGUMENTS_PATTERN = "[Full Name] [First Name | Last Name | Position | Monthly Salary | Years Of Work Experience | Birth Date | Rating] [Value]";
 
         public const string REMOVE_EMPLOYEE_CONCRETE_COMMAND_ARGUMENTS_PATTERN = "[Full Name]";
 
