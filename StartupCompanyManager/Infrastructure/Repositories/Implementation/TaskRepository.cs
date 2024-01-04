@@ -46,6 +46,7 @@ namespace StartupCompanyManager.Infrastructure.Repositories.Implementation
             string projectName = (string)entityCreationArguments[3];
 
             var targetProjectOfTask = StartupCompany.Departments
+                .Where(d => d.Teams.Any())
                 .SelectMany(d => d.Teams)
                 .Select(t => t.Project)
                 .FirstOrDefault(p => p.Name == projectName) 
@@ -177,6 +178,7 @@ namespace StartupCompanyManager.Infrastructure.Repositories.Implementation
         public void Remove(Task task, params object[] entityRemovalArguments)
         {
             var projectOfTask = StartupCompany.Departments
+                .Where(d => d.Teams.Any())
                 .SelectMany(d => d.Teams)
                 .Select(t => t.Project)
                 .FirstOrDefault(p => p.Tasks.Contains(task));
@@ -189,6 +191,7 @@ namespace StartupCompanyManager.Infrastructure.Repositories.Implementation
             string projectName = (string)entityExistenceArguments[0];
 
             var projectOfTask = StartupCompany.Departments
+                .Where(d => d.Teams.Any())
                 .SelectMany(d => d.Teams)
                 .Select(t => t.Project)
                 .FirstOrDefault(p => p.Name == projectName);

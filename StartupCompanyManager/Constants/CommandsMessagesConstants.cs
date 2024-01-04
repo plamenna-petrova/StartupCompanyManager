@@ -101,5 +101,7 @@
         public const string CHANGED_PROJECT_TASK_OF_EMPLOYEE_SUCCESS_MESSAGE = "Successfully changed {1}'s task \"{0}\" characteristic {2} to {3}.";
 
         public const string REMOVED_PROJECT_TASK_SUCCESS_MESSAGE = "Successfully removed task \"{0}\" with assignee {1}.";
+
+        public const string SAVED_STARTUP_COMPANY_DATA_TO_XML_FILE_SUCCESS_MESSAGE = "Successfully saved the startup company's data to a XML file.";
     }
 }

@@ -11,6 +11,8 @@ namespace StartupCompanyManager.Models.Composite.Leaves
 
         }
 
+        public override ICollection<Employee> Employees { get; set; } = null!;
+
         public override void Add(Employee employee)
         {
             throw new InvalidOperationException(

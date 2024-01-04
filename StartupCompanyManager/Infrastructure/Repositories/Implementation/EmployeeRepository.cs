@@ -274,7 +274,7 @@ namespace StartupCompanyManager.Infrastructure.Repositories.Implementation
                 if (teamOfLeadEmployee != null)
                 {
                     teamOfLeadEmployee.TeamLead = null!;
-                } 
+                }
 
                 headOfDepartmentSuperiorOfTeamLead?.Employees.Remove(employee);
             }
@@ -285,6 +285,24 @@ namespace StartupCompanyManager.Infrastructure.Repositories.Implementation
                     .FirstOrDefault(tl => tl.Employees.Contains(employee));
 
                 teamLeadSuperiorOfEmployee?.Employees.Remove(employee);
+            }
+
+            var tasksOfEmployee = StartupCompany.Departments
+                .SelectMany(d => d.Teams)
+                .Where(t => t.Project is not null)
+                .Select(t => t.Project)
+                .Where(p => p.Tasks.Any())
+                .SelectMany(p => p.Tasks)
+                .Where(t => t.Assignee == employee)
+                .ToList();
+
+            if (tasksOfEmployee.Any())
+            {
+                foreach (var taskOfEmployee in tasksOfEmployee)
+                {
+                    var project = taskOfEmployee.Project;
+                    project.Tasks.Remove(taskOfEmployee);
+                }
             }
 
             StartupCompany.Employees.Remove(employee);

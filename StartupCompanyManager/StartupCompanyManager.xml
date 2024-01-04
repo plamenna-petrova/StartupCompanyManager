@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<StartupCompany>
+  <Name>DiligentSys</Name>
+  <Capital>290000.00</Capital>
+  <YearOfEstablishment>2018</YearOfEstablishment>
+  <Email>cutting_edge_tech_focus@gmail.com</Email>
+  <Address>9th Street. 47 W 15th St, New York, NY 10011</Address>
+  <PhoneNumber>+1 (646) 555-3890</PhoneNumber>
+  <Investor>
+    <Name>George Sorros</Name>
+    <Funds>130000.00</Funds>
+  </Investor>
+  <Department>
+    <Name>IT Department</Name>
+    <YearOfEstablishment>2020</YearOfEstablishment>
+    <HeadOfDepartment>
+      <FirstName>Collin</FirstName>
+      <LastName>O'Neal</LastName>
+      <Position>Software Architect</Position>
+      <MonthlySalary>6000.00</MonthlySalary>
+      <YearsOfWorkExperience>8</YearsOfWorkExperience>
+      <BirthDate>12.12.1992</BirthDate>
+      <Rating>10</Rating>
+      <TeamLead>
+        <FirstName>Jason</FirstName>
+        <LastName>White</LastName>
+        <Position>Senior Full-Stack Developer</Position>
+        <MonthlySalary>5700.00</MonthlySalary>
+        <YearsOfWorkExperience>7</YearsOfWorkExperience>
+        <BirthDate>15.09.1995</BirthDate>
+        <Rating>10</Rating>
+        <SoftwareDeveloper>
+          <FirstName>Donald</FirstName>
+          <LastName>O'Connell</LastName>
+          <Position>Senior Full Stack .NET Developer</Position>
+          <MonthlySalary>5000.00</MonthlySalary>
+          <YearsOfWorkExperience>5</YearsOfWorkExperience>
+          <BirthDate>21.06.1982</BirthDate>
+          <Rating>5</Rating>
+        </SoftwareDeveloper>
+        <SoftwareDeveloper>
+          <FirstName>Susan</FirstName>
+          <LastName>Mavris</LastName>
+          <Position>Front-End Developer</Position>
+          <MonthlySalary>2500.00</MonthlySalary>
+          <YearsOfWorkExperience>3</YearsOfWorkExperience>
+          <BirthDate>03.08.1996</BirthDate>
+          <Rating>10</Rating>
+        </SoftwareDeveloper>
+        <SoftwareDeveloper>
+          <FirstName>Hermann</FirstName>
+          <LastName>Baer</LastName>
+          <Position>Full Stack .NET Developer</Position>
+          <MonthlySalary>3000.00</MonthlySalary>
+          <YearsOfWorkExperience>5</YearsOfWorkExperience>
+          <BirthDate>05.12.1990</BirthDate>
+          <Rating>7</Rating>
+        </SoftwareDeveloper>
+        <SoftwareDeveloper>
+          <FirstName>Nancy</FirstName>
+          <LastName>Greenberg</LastName>
+          <Position>.NET Backend Developer</Position>
+          <MonthlySalary>2700.00</MonthlySalary>
+          <YearsOfWorkExperience>3</YearsOfWorkExperience>
+          <BirthDate>04.07.1998</BirthDate>
+          <Rating>5</Rating>
+        </SoftwareDeveloper>
+      </TeamLead>
+      <TeamLead>
+        <FirstName>Jacob</FirstName>
+        <LastName>Reynolds</LastName>
+        <Position>Senior Full-Stack Developer</Position>
+        <MonthlySalary>5700.00</MonthlySalary>
+        <YearsOfWorkExperience>6</YearsOfWorkExperience>
+        <BirthDate>10.09.1993</BirthDate>
+        <Rating>10</Rating>
+        <SoftwareDeveloper>
+          <FirstName>Dustin</FirstName>
+          <LastName>Ernst</LastName>
+          <Position>Full Stack .NET Developer</Position>
+          <MonthlySalary>3000.00</MonthlySalary>
+          <YearsOfWorkExperience>4</YearsOfWorkExperience>
+          <BirthDate>26.05.1987</BirthDate>
+          <Rating>9</Rating>
+        </SoftwareDeveloper>
+        <Designer>
+          <FirstName>Drew</FirstName>
+          <LastName>Baker</LastName>
+          <Position>UX / UI Designer</Position>
+          <MonthlySalary>1500.00</MonthlySalary>
+          <YearsOfWorkExperience>5</YearsOfWorkExperience>
+          <BirthDate>02.09.1996</BirthDate>
+          <Rating>10</Rating>
+        </Designer>
+        <Tester>
+          <FirstName>David</FirstName>
+          <LastName>Austin</LastName>
+          <Position>QA Automation Specialist</Position>
+          <MonthlySalary>1800.00</MonthlySalary>
+          <YearsOfWorkExperience>6</YearsOfWorkExperience>
+          <BirthDate>05.01.1994</BirthDate>
+          <Rating>6</Rating>
+        </Tester>
+      </TeamLead>
+    </HeadOfDepartment>
+  </Department>
+  <Department>
+    <Name>Business Department</Name>
+    <YearOfEstablishment>2020</YearOfEstablishment>
+  </Department>
+  <Department>
+    <Name>Marketing Department</Name>
+    <YearOfEstablishment>2021</YearOfEstablishment>
+  </Department>
+</StartupCompany>

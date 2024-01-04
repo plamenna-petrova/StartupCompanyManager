@@ -273,6 +273,8 @@ namespace StartupCompanyManager.Models.Composite.Component
 
         public ICollection<Task> Tasks { get; set; } = new HashSet<Task>();
 
+        public abstract ICollection<Employee> Employees { get; set; }
+
         public abstract void Add(Employee employee);
 
         public abstract void Remove(Employee employee);

@@ -11,7 +11,7 @@ namespace StartupCompanyManager.Models.Composite.Composites
 
         }
 
-        public ICollection<Employee> Employees { get; set; } = new HashSet<Employee>();
+        public override ICollection<Employee> Employees { get; set; } = new HashSet<Employee>();
 
         public override void Add(Employee employee)
         {

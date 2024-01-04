@@ -88,6 +88,7 @@ CHANGE Project Task [Establish Database Connection] [Dustin Ernst] [Priority] [M
 INFO
 REMOVE Project Task [Establish Database Connection] [Susan Mavris]
 REMOVE Project Task [Establish Database Connection] [Dustin Ernst]
+Save To XML
 REMOVE Employee [Jason White]
 INFO
 REMOVE Employee [David Austin]
