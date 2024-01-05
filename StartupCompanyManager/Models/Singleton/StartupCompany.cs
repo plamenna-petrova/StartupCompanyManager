@@ -8,7 +8,7 @@ using System.Text;
 
 namespace StartupCompanyManager.Models.Singleton
 {
-    public class StartupCompany : BaseModel
+    public sealed class StartupCompany : BaseModel
     {
         private const string STARTUP_COMPANY_PRESENTATION_MESSAGE = "Hereby the startup company \"{0}\" is presented...";
 
@@ -72,9 +72,9 @@ namespace StartupCompanyManager.Models.Singleton
 
         private static StartupCompany? startupCompanyInstance;
 
-        private static readonly object lockObject = new();
+        private static readonly object lockCheckObject = new();
 
-        public StartupCompany(string name, decimal capital, int yearOfEstablishment, string email, string address, string phoneNumber)
+        private StartupCompany(string name, decimal capital, int yearOfEstablishment, string email, string address, string phoneNumber)
         {
             Name = name;
             Capital = capital;
@@ -273,7 +273,7 @@ namespace StartupCompanyManager.Models.Singleton
         {
             if (startupCompanyInstance == null)
             {
-                lock (lockObject)
+                lock (lockCheckObject)
                 {
                     if (startupCompanyInstance == null)
                     {

@@ -1,6 +1,4 @@
-﻿using System.Xml.Linq;
-
-namespace StartupCompanyManager.Core.Adapter.Interfaces
+﻿namespace StartupCompanyManager.Core.Adapter.Interfaces
 {
     public interface IStartupCompanyDataConverterTarget
     {
