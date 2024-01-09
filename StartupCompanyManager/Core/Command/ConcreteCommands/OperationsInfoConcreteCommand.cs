@@ -39,7 +39,7 @@ namespace StartupCompanyManager.Core.Command.ConcreteCommands
                     .ToArray();
 
                 var injectedServices = foundCommandTypeConstructorParameterTypes
-                    .Select(cpt => _serviceProvider.GetService(cpt))
+                    .Select(ctorpt => _serviceProvider.GetService(ctorpt))
                     .ToArray();
 
                 var startupCompanyManagerCommandInstance = Activator.CreateInstance(startupCompanyManagerCommandType, injectedServices)!;

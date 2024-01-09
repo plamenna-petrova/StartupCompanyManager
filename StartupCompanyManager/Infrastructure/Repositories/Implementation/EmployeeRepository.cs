@@ -74,11 +74,13 @@ namespace StartupCompanyManager.Infrastructure.Repositories.Implementation
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine(argumentException.Message);
                 }
-
-                if (exception.InnerException != null)
+                else
                 {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine(exception.InnerException.Message);
+                    if (exception.InnerException != null)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine(exception.InnerException.Message);
+                    }
                 }
             }
         }

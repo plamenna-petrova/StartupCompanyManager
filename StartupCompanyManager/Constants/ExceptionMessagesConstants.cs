@@ -58,8 +58,6 @@
 
         // Composite
 
-        public const string ONLY_HEAD_OF_DEPARTMENT_SUBORDINATES_ALLOWED_FOR_MANAGING_DIRECTOR_EXCEPTION_MESSAGE = "Cannot add a subordinate to managing director other than a head of department.";
-
         public const string ONLY_TEAM_LEADS_SUBORDINATES_ALLOWED_FOR_HEAD_OF_DEPARTMENT_EXCEPTION_MESSAGE = "Cannot add a subordinate to head of department other than a team lead.";
 
         public const string HEAD_OF_DEPARTMENT_OR_TEAM_LEADS_NOT_ALOWED_FOR_TEAM_LEAD_SUBORDINATES_EXCEPTION_MESSAGE = "Cannot add a subordinate to team lead who is either head of department or team lead.";
