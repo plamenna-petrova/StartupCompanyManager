@@ -11,5 +11,7 @@ namespace StartupCompanyManager.Models.Composite.Leaves
         {
 
         }
+
+        public override string Designation { get; set; } = $"Software Developer";
     }
 }

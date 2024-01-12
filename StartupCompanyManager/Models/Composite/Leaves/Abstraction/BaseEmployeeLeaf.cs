@@ -29,7 +29,7 @@ namespace StartupCompanyManager.Models.Composite.Leaves.Abstraction
 
         public override string GetHierarchicalLevel(int depthIndicator)
         {
-            return $"{new string('-', depthIndicator)}+ {GetType().Name}: {FullName}, " +
+            return $"{new string('-', depthIndicator)}+ {Designation}: {FullName}, " +
                 $"Position: {Position}, Monthly Salary: ${MonthlySalary}, Years of Work Experience: {YearsOfWorkExperience}, " +
                 $"Birth Date: {BirthDate.ToString(GlobalConstants.DATE_TIME_VALUE_FORMAT)}, Rating: {Rating}\r\n";
         }

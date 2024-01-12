@@ -11,6 +11,8 @@ namespace StartupCompanyManager.Models.Composite.Composites
 
         }
 
+        public override string Designation { get; set; } = "Head Of Department";
+
         public override ICollection<Employee> Employees { get; set; } = new HashSet<Employee>();
 
         public override void Add(Employee employee)
@@ -35,7 +37,7 @@ namespace StartupCompanyManager.Models.Composite.Composites
         public override string GetHierarchicalLevel(int depthIndicator)
         {
             string headOfDepartmentHierarchicalInfo = $"{new string('-', depthIndicator)}+ " +
-                $"Head Of Department: {FullName}, Position: {Position}, Monthly Salary: ${MonthlySalary}, " +
+                $"{Designation}: {FullName}, Position: {Position}, Monthly Salary: ${MonthlySalary}, " +
                 $"Years of Work Experience: {YearsOfWorkExperience}, Birth Date: {BirthDate.ToString(GlobalConstants.DATE_TIME_VALUE_FORMAT)}, " +
                 $"Rating: {Rating}\r\n";
 

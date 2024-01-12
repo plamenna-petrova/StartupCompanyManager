@@ -269,6 +269,8 @@ namespace StartupCompanyManager.Models.Composite.Component
             }
         }
 
+        public virtual string Designation { get; set; }
+
         public Team Team { get; set; } = null!;
 
         public ICollection<Task> Tasks { get; set; } = new HashSet<Task>();
