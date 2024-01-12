@@ -61,7 +61,7 @@ namespace StartupCompanyManager.Infrastructure.Extensions
         {
             try
             {
-                var response = ChangeType(value, type);
+                _ = ChangeType(value, type);
                 return true;
             }
             catch (Exception exception)
