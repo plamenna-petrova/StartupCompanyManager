@@ -11,8 +11,6 @@ namespace StartupCompanyManager.Models.Composite.Composites
 
         }
 
-        public override string Designation { get; set; } = "Team Lead";
-
         public override ICollection<Employee> Employees { get; set; } = new HashSet<Employee>();
 
         public override void Add(Employee employee)
@@ -36,7 +34,7 @@ namespace StartupCompanyManager.Models.Composite.Composites
 
         public override string GetHierarchicalLevel(int depthIndicator)
         {
-            string teamLeadHierarchicalLevelInfo = $"{new string('-', depthIndicator)}+ {Designation}: {FullName}, " +
+            string teamLeadHierarchicalLevelInfo = $"{new string('-', depthIndicator)}+ Team Lead: {FullName}, " +
                 $"Position: {Position}, Monthly Salary: ${MonthlySalary}, Years of Work Experience: {YearsOfWorkExperience}, " +
                 $"Birth Date: {BirthDate.ToString(GlobalConstants.DATE_TIME_VALUE_FORMAT)}, Rating: {Rating} " +
                 $"Team: {(Team != null ? $"{Team.Name}, {(Team.Project != null ? $"Project: {Team.Project.Name},\r\nTasks: {(Team.Project.Tasks.Any() ? $"{string.Join("\r\n", Team.Project.Tasks.Select(t => t.ToString()))}" : "No assigned tasks for project")}" : "No project")}" : "No team")} \r\n";

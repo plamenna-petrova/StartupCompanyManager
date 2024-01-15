@@ -87,6 +87,7 @@ namespace StartupCompanyManager.Application
                 }
 
                 Console.ForegroundColor = ConsoleColor.White;
+
                 consoleInputCommand = Console.ReadLine()!;
             }
         }
